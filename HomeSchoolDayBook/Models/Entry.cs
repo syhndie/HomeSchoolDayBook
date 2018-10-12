@@ -15,7 +15,7 @@ namespace HomeSchoolDayBook.Models
 
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
-
+        public string Description { get; set; }
         public int? MinutesSpent { get; set; }
 
         public int? ComputesHours
@@ -46,8 +46,6 @@ namespace HomeSchoolDayBook.Models
                 return hours == "" || minutes == "" ? $"{hours} {minutes}" : $"{hours}, {minutes}";
             }
         }
-
-        public string Description { get; set; }
 
         public ICollection<Enrollment> Enrollments { get; set; }
         public ICollection<SubjectAssignment> SubjectAssignments { get; set; }
