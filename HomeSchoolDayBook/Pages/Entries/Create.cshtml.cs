@@ -34,10 +34,19 @@ namespace HomeSchoolDayBook.Pages.Entries
                 return Page();
             }
 
-            _context.Entries.Add(Entry);
-            await _context.SaveChangesAsync();
+            var emptyEntry = new Entry();
 
-            return RedirectToPage("./Index");
-        }
+            if (await TryUpdateModelAsync<Entry>(
+                emptyEntry,
+                "entry",
+                e => e.Title, e => e.Date, e => e.Description, e => e.MinutesSpent))
+            {
+                _context.Entries.Add(emptyEntry);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+
+            return null;
+        }       
     }
 }
