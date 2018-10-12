@@ -40,11 +40,26 @@
         </dt>
         <dd>
             <table class="table">
-                @foreach(var item in Model.Entry.Enrollments)
+                @foreach (var item in Model.Entry.Enrollments)
                 {
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.Student.Name)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+        <dt>
+            Subjects
+        </dt>
+        <dd>
+            <table class="table">
+                @foreach (var item in Model.Entry.SubjectAssignments)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Subject.Name)
                         </td>
                     </tr>
                 }

@@ -30,7 +30,9 @@ namespace HomeSchoolDayBook.Pages.Entries
 
             Entry = await _context.Entries
                 .Include(ent => ent.Enrollments)
-                .ThenInclude(enr => enr.Student)
+                    .ThenInclude(enr => enr.Student)
+                .Include(ent => ent.SubjectAssignments)
+                    .ThenInclude(sa => sa.Subject)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.ID == id);
 
