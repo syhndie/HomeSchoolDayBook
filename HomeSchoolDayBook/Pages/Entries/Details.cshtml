@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id:int?}"
 @model HomeSchoolDayBook.Pages.Entries.DetailsModel
 
 @{
@@ -34,6 +34,21 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Entry.Description)
+        </dd>
+        <dt>
+            Students
+        </dt>
+        <dd>
+            <table class="table">
+                @foreach(var item in Model.Entry.Enrollments)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Student.Name)
+                        </td>
+                    </tr>
+                }
+            </table>
         </dd>
     </dl>
 </div>

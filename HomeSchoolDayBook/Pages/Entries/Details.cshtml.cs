@@ -28,7 +28,11 @@ namespace HomeSchoolDayBook.Pages.Entries
                 return NotFound();
             }
 
-            Entry = await _context.Entries.FirstOrDefaultAsync(m => m.ID == id);
+            Entry = await _context.Entries
+                .Include(ent => ent.Enrollments)
+                .ThenInclude(enr => enr.Student)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.ID == id);
 
             if (Entry == null)
             {
