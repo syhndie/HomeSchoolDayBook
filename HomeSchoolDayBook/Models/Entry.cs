@@ -9,14 +9,16 @@ namespace HomeSchoolDayBook.Models
     public class Entry
     {
         public int ID { get; set; }
+
+        [Required]
         public string Title { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
 
-        public int MinutesSpent { get; set; }
+        public int? MinutesSpent { get; set; }
 
-        public int ComputesHours
+        public int? ComputesHours
         {
             get
             {
@@ -24,7 +26,7 @@ namespace HomeSchoolDayBook.Models
             }
         }
 
-        public int ComputedMinutes
+        public int? ComputedMinutes
         {
             get
             {
