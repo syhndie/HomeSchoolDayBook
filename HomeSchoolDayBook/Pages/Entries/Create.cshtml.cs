@@ -25,7 +25,7 @@ namespace HomeSchoolDayBook.Pages.Entries
         }
 
         [BindProperty]
-        public Models.ViewModels.EntryVM EntryVM { get; set; }
+        public Models.Entry Entry { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -34,10 +34,22 @@ namespace HomeSchoolDayBook.Pages.Entries
                 return Page();
             }
 
-            var entry = _context.Add(new Entry());
-            entry.CurrentValues.SetValues(EntryVM);
-            await _context.SaveChangesAsync();
-            return RedirectToPage("./Index");
+            var emptyEntry = new Entry();
+
+            if (await TryUpdateModelAsync<Entry>(
+                emptyEntry,
+                "entry",
+                e => e.Date,
+                e => e.Title,
+                e => e.MinutesSpent,
+                e => e.Description))
+            {
+                _context.Entries.Add(emptyEntry);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+
+            return null;
         }       
     }
 }
