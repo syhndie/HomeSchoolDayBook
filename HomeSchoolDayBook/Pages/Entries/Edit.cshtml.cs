@@ -30,7 +30,7 @@ namespace HomeSchoolDayBook.Pages.Entries
                 return NotFound();
             }
 
-            Entry = await _context.Entries.FirstOrDefaultAsync(m => m.ID == id);
+            Entry = await _context.Entries.FindAsync(id);
 
             if (Entry == null)
             {
@@ -39,37 +39,28 @@ namespace HomeSchoolDayBook.Pages.Entries
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            _context.Attach(Entry).State = EntityState.Modified;
+            var entryToUpdate = await _context.Entries.FindAsync(id);
 
-            try
+            if (await TryUpdateModelAsync<Entry>(
+                entryToUpdate,
+                "entry",
+                e => e.Date,
+                e => e.Title,
+                e => e.MinutesSpent,
+                e => e.Description))
             {
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EntryExists(Entry.ID))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return RedirectToPage("./Index");
             }
 
-            return RedirectToPage("./Index");
-        }
-
-        private bool EntryExists(int id)
-        {
-            return _context.Entries.Any(e => e.ID == id);
+            return Page();
         }
     }
 }
