@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace HomeSchoolDayBook.Pages.Entries
 {
+    [BindProperties]
     public class EditModel : PageModel
     {
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
@@ -19,9 +21,20 @@ namespace HomeSchoolDayBook.Pages.Entries
         {
             _context = context;
         }
+        
+        public int ID { get; set; }
 
-        [BindProperty]
-        public Entry Entry { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime Date { get; set; }
+
+        public string Title { get; set; }
+        public int? MinutesSpent { get; set; }
+        public string Description { get; set; }
+
+        [Display(Name = "Time Spent" )]
+        public int? EnteredHours { get; set; }
+
+        public int? EnteredMinutes { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,9 +43,16 @@ namespace HomeSchoolDayBook.Pages.Entries
                 return NotFound();
             }
 
-            Entry = await _context.Entries.FindAsync(id);
+            Entry entry = await _context.Entries.FindAsync(id);
 
-            if (Entry == null)
+            Date = entry.Date;
+            Title = entry.Title;            
+            Description = entry.Description;
+
+            EnteredHours = entry.ComputedHours;
+            EnteredMinutes = entry.ComputedMinutes;
+
+            if (entry == null)
             {
                 return NotFound();
             }
@@ -48,13 +68,9 @@ namespace HomeSchoolDayBook.Pages.Entries
 
             var entryToUpdate = await _context.Entries.FindAsync(id);
 
-            if (await TryUpdateModelAsync<Entry>(
-                entryToUpdate,
-                "entry",
-                e => e.Date,
-                e => e.Title,
-                e => e.MinutesSpent,
-                e => e.Description))
+            entryToUpdate.MinutesSpent = (EnteredHours * 60) + EnteredMinutes;
+
+            if (await TryUpdateModelAsync<Entry>(entryToUpdate))
             {
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
