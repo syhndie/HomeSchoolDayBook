@@ -1,0 +1,1 @@
+﻿Need to add switch case or if logic to entry edit.cshtml.cs for EnteredHours and EnteredMinutes being one or the other or both null

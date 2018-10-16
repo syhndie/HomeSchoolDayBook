@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Models;
+using HomeSchoolDayBook.Models.ViewModels;
 
 namespace HomeSchoolDayBook.Pages.Entries
 {
@@ -25,7 +26,7 @@ namespace HomeSchoolDayBook.Pages.Entries
         }
 
         [BindProperty]
-        public Models.Entry Entry { get; set; }
+        public EntryVM EntryVM { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -35,14 +36,9 @@ namespace HomeSchoolDayBook.Pages.Entries
             }
 
             var emptyEntry = new Entry();
+            emptyEntry.MinutesSpent = EntryVM.EnteredTotalMinutes;
 
-            if (await TryUpdateModelAsync<Entry>(
-                emptyEntry,
-                "entry",
-                e => e.Date,
-                e => e.Title,
-                e => e.MinutesSpent,
-                e => e.Description))
+            if (await TryUpdateModelAsync<Entry>(emptyEntry, "entryvm"))
             {
                 _context.Entries.Add(emptyEntry);
                 await _context.SaveChangesAsync();

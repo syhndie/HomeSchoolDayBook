@@ -14,24 +14,26 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Entry.Title" class="control-label"></label>
-                <input asp-for="Entry.Title" class="form-control" />
-                <span asp-validation-for="Entry.Title" class="text-danger"></span>
+                <label asp-for="EntryVM.Title" class="control-label"></label>
+                <input asp-for="EntryVM.Title" class="form-control" />
+                <span asp-validation-for="EntryVM.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Entry.Date" class="control-label"></label>
-                <input asp-for="Entry.Date" class="form-control" />
-                <span asp-validation-for="Entry.Date" class="text-danger"></span>
+                <label asp-for="EntryVM.Date" class="control-label"></label>
+                <input asp-for="EntryVM.Date" class="form-control" />
+                <span asp-validation-for="EntryVM.Date" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Entry.MinutesSpent" class="control-label"></label>
-                <input asp-for="Entry.MinutesSpent" class="form-control" />
-                <span asp-validation-for="Entry.MinutesSpent" class="text-danger"></span>
+                <label asp-for="EntryVM.EnteredHours" class="control-label"></label>
+                <input asp-for="EntryVM.EnteredHours" class="form-control" /> hours
+                <span asp-validation-for="EntryVM.EnteredHours" class="text-danger"></span>
+                <input asp-for="EntryVM.EnteredMinutes" class="form-control" /> hours
+                <span asp-validation-for="EntryVM.EnteredMinutes" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Entry.Description" class="control-label"></label>
-                <input asp-for="Entry.Description" class="form-control" />
-                <span asp-validation-for="Entry.Description" class="text-danger"></span>
+                <label asp-for="EntryVM.Description" class="control-label"></label>
+                <input asp-for="EntryVM.Description" class="form-control" />
+                <span asp-validation-for="EntryVM.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
