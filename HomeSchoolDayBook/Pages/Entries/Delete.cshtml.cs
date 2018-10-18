@@ -21,19 +21,31 @@ namespace HomeSchoolDayBook.Pages.Entries
 
         [BindProperty]
         public Entry Entry { get; set; }
+        public string ErrorMessage { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id, bool? saveChangesError = false)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            Entry = await _context.Entries.FirstOrDefaultAsync(m => m.ID == id);
+            Entry = await _context.Entries
+                .Include(ent => ent.Enrollments)
+                    .ThenInclude(enr => enr.Student)
+                .Include(ent => ent.SubjectAssignments)
+                    .ThenInclude(sa => sa.Subject)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.ID == id);
 
             if (Entry == null)
             {
                 return NotFound();
+            }
+
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ErrorMessage = "Delete failed. Try again.";
             }
             return Page();
         }
@@ -45,15 +57,30 @@ namespace HomeSchoolDayBook.Pages.Entries
                 return NotFound();
             }
 
-            Entry = await _context.Entries.FindAsync(id);
+            Entry = await _context.Entries
+                .AsNoTracking()
+                .FirstOrDefaultAsync(e => e.ID == id);
 
-            if (Entry != null)
+            if (Entry == null)
+            {
+                return NotFound();
+            }
+
+            try
             {
                 _context.Entries.Remove(Entry);
                 await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+            catch (DbUpdateException)
+            {
+                return RedirectToAction("./Delete",
+                                        new { id, saveChangesError = true });
             }
 
-            return RedirectToPage("./Index");
+
+
+            
         }
     }
 }

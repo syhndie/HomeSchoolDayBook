@@ -7,6 +7,8 @@
 
 <h2>Delete</h2>
 
+<p class="text-danger">@Model.ErrorMessage</p>
+
 <h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>Entry</h4>
@@ -35,6 +37,36 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Entry.Description)
+        </dd>
+        <dt>
+            Students
+        </dt>
+        <dd>
+            <table class="table">
+                @foreach (var item in Model.Entry.Enrollments)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Student.Name)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+        <dt>
+            Subjects
+        </dt>
+        <dd>
+            <table class="table">
+                @foreach (var item in Model.Entry.SubjectAssignments)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Subject.Name)
+                        </td>
+                    </tr>
+                }
+            </table>
         </dd>
     </dl>
     
