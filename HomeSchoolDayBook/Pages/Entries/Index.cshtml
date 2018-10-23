@@ -26,23 +26,40 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Entries) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ComputedTimeSpent)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Entries)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ComputedTimeSpent)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<script>src = "~/lib/datatables/datatables.min.js"</script>
+<link rel="stylesheet" href="~/lib/datatables/datatables.min.css" />
+
+<script>
+    $(document).ready(function () {
+        $('#entryindex').DataTable({
+            columns: [
+                { data: "title" },
+                { data: "date", type: "date" },
+                { data: "timespent" },
+                { data: "links", "orderable": false }
+            ]
+        });
+    });
+</script>
