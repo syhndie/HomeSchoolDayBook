@@ -14,36 +14,52 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Entries[0].Title)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Entries[0].Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Entries[0].ComputedTimeSpent)
+                @Html.DisplayNameFor(model => model.Entries[0].Title)
+            </th>
+            <th>
+                Students
+            </th>
+            <th>
+                Subjects
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Entries)
+        @foreach (var entry in Model.Entries)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ComputedTimeSpent)
-                </td>
-                <td>
-                    <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => entry.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => entry.Title)
+            </td>
+            <td>
+                @foreach (var enr in entry.Enrollments)
+                {
+                    <p>
+                        @enr.Student.Name
+                    </p>
+                }
+            </td>
+            <td>
+                @foreach (var sa in entry.SubjectAssignments)
+                {
+                    <p>
+                        @sa.Subject.Name
+                    </p>
+                }
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@entry.ID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@entry.ID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@entry.ID">Delete</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
@@ -55,9 +71,10 @@
     $(document).ready(function () {
         $('#entryindex').DataTable({
             columns: [
-                { data: "title" },
                 { data: "date", type: "date" },
-                { data: "timespent" },
+                { data: "title" },
+                { data: "students", "orderable": false },
+                { data: "subjects", "orderable": false },
                 { data: "links", "orderable": false }
             ]
         });

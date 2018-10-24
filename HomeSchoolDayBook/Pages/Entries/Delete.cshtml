@@ -42,31 +42,23 @@
             Students
         </dt>
         <dd>
-            <table class="table">
-                @foreach (var item in Model.Entry.Enrollments)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Student.Name)
-                        </td>
-                    </tr>
-                }
-            </table>
+            @foreach (var enr in Model.Entry.Enrollments)
+            {
+                <p>
+                    @enr.Student.Name
+                </p>
+            }
         </dd>
         <dt>
             Subjects
         </dt>
         <dd>
-            <table class="table">
-                @foreach (var item in Model.Entry.SubjectAssignments)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Subject.Name)
-                        </td>
-                    </tr>
-                }
-            </table>
+            @foreach (var sa in Model.Entry.SubjectAssignments)
+            {
+                <p>
+                    @sa.Subject.Name
+                </p>
+            }
         </dd>
     </dl>
     

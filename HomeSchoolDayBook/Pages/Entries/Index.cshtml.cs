@@ -23,7 +23,13 @@ namespace HomeSchoolDayBook.Pages.Entries
 
         public async Task OnGetAsync()
         {
-            Entries = await _context.Entries.ToListAsync();
+            Entries = await _context.Entries
+                .Include(ent => ent.Enrollments)
+                    .ThenInclude(enr => enr.Student)
+                .Include(ent => ent.SubjectAssignments)
+                    .ThenInclude(sa => sa.Subject)
+                .AsNoTracking()
+                .ToListAsync();
         }
     }
 }
