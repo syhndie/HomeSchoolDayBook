@@ -32,21 +32,21 @@ namespace HomeSchoolDayBook.Pages.Entries
                 return NotFound();
             }
 
-            Entry entry = await _context.Entries.FindAsync(id);
-            EntryVM = new EntryVM
-            {
-                ID = entry.ID,
-                Date = entry.Date,
-                Title = entry.Title,
-                Description = entry.Description,
-                EnteredHours = entry.ComputedHours,
-                EnteredMinutes = entry.ComputedMinutes
-            };
+            Entry entry = await _context.Entries
+                .Include(ent => ent.SubjectAssignments)
+                    .ThenInclude(sa => sa.Subject)
+                .Include(ent => ent.Enrollments)
+                    .ThenInclude(enr => enr.Student)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(ent => ent.ID == id);
+
+            EntryVM = new EntryVM(entry, _context);
 
             if (entry == null)
             {
                 return NotFound();
             }
+
             return Page();
         }
 

@@ -1,1 +1,10 @@
-﻿Need to add switch case or if logic to entry edit.cshtml.cs for EnteredHours and EnteredMinutes being one or the other or both null
+﻿Research view components for entry edit and create pages
+
+add multi-userness
+
+add students and subject check boxes to entry create and edit pages
+
+
+
+
+
