@@ -60,7 +60,7 @@ namespace HomeSchoolDayBook.Pages.Entries
             var entryToUpdate = await _context.Entries.FindAsync(id);
 
             entryToUpdate.MinutesSpent = EntryVM.EnteredTotalMinutes;
-
+            
             if (await TryUpdateModelAsync<Entry>(entryToUpdate, "entryvm"))
             {
                 await _context.SaveChangesAsync();

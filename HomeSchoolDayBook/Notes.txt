@@ -4,7 +4,7 @@ add multi-userness
 
 add students and subject check boxes to entry create and edit pages
 
-
+add boolean to subject and student models to identify active/inactive subjects and students
 
 
 

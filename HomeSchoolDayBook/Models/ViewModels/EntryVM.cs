@@ -54,22 +54,26 @@ namespace HomeSchoolDayBook.Models.ViewModels
             EnteredMinutes = entry.ComputedMinutes;
 
             HashSet<Subject> allSubjects = context.Subjects.ToHashSet();
+
             HashSet<int> entrySubjectIDs = entry
                 .SubjectAssignments
                 .Select(sa => sa.SubjectID)
                 .ToHashSet();
 
             SubjectCheckBoxes = allSubjects
-                .Select(s => new CheckBoxVM(s.ID, s.Name, entrySubjectIDs.Contains(s.ID))).ToList();
+                .Select(s => new CheckBoxVM(s.ID, s.Name, entrySubjectIDs.Contains(s.ID)))
+                .ToList();
 
             HashSet<Student> allStudents = context.Students.ToHashSet();
+
             HashSet<int> entryStudentIDs = entry
                 .Enrollments
                 .Select(enr => enr.StudentID)
                 .ToHashSet();
 
             StudentCheckBoxes = allStudents
-                .Select(st => new CheckBoxVM(st.ID, st.Name, entryStudentIDs.Contains(st.ID))).ToList();
+                .Select(st => new CheckBoxVM(st.ID, st.Name, entryStudentIDs.Contains(st.ID)))
+                .ToList();
         }
     }
 }
