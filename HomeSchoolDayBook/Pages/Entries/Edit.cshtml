@@ -38,15 +38,30 @@
             </div>
             <div class="form-group">
                 <label asp-for="EntryVM.SubjectCheckBoxes" class="control-label"></label>
+                <table>
+                    <tr>
+                        @{
+                            int cnt = 0;
 
-                @foreach (var checkbox in Model.EntryVM.SubjectCheckBoxes)
-                {
-                    string isChecked = checkbox.Assigned ? "checked" : "";
-                    <input type="checkbox" name="@checkbox.Name" value="@checkbox.ID" @isChecked />
-                    @checkbox.Name
+                            foreach (var checkbox in Model.EntryVM.SubjectCheckBoxes)
+                            {
+                                string isChecked = checkbox.Assigned ? "checked" : "";
+                                if (cnt++ %2 == 0)
+                                {
+                                    @:</tr><tr>
+                                }
+                                @:<td>
+                                    <input type="checkbox" 
+                                           name="@checkbox.Name" 
+                                           value="@checkbox.ID" 
+                                           @isChecked />
+                                           @checkbox.Name
+                                @:</td>
+                            }
 
-                             
-                }
+                        }
+                    </tr>
+                </table>             
             </div>
             <div class="form-group">
                 <label asp-for="EntryVM.StudentCheckBoxes" class="control-label"></label>
