@@ -44,6 +44,11 @@ namespace HomeSchoolDayBook.Models.ViewModels
         [Display(Name = "Students")]
         public List<CheckBoxVM> StudentCheckBoxes { get; set; }
 
+        public EntryVM()
+        {
+
+        }
+
         public EntryVM (Entry entry, ApplicationDbContext context)
         {
             ID = entry.ID;

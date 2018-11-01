@@ -21,6 +21,7 @@ namespace HomeSchoolDayBook.Pages.Entries
         public EditModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
             _context = context;
+            
         }
         
         public EntryVM EntryVM { get; set; }
@@ -50,16 +51,35 @@ namespace HomeSchoolDayBook.Pages.Entries
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync(int? id, string[] selectedSubjects)
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            var entryToUpdate = await _context.Entries.FindAsync(id);
+            var entryToUpdate = await _context.Entries
+                .Include(ent => ent.SubjectAssignments)
+                    .ThenInclude(sa => sa.Subject)
+                .Include(ent => ent.Enrollments)
+                    .ThenInclude(enr => enr.Student)
+                .FirstOrDefaultAsync(ent => ent.ID == id);
 
             entryToUpdate.MinutesSpent = EntryVM.EnteredTotalMinutes;
+
+            entryToUpdate.SubjectAssignments = new List<SubjectAssignment>();
+            
+            foreach (Subject subject in _context.Subjects)
+            {
+                if (selectedSubjects.Contains(subject.ID.ToString()))
+                {
+                    entryToUpdate.SubjectAssignments.Add(new SubjectAssignment
+                    {
+                        SubjectID = subject.ID,
+                        EntryID = entryToUpdate.ID
+                    });
+                }
+            }
             
             if (await TryUpdateModelAsync<Entry>(entryToUpdate, "entryvm"))
             {
