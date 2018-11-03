@@ -49,6 +49,14 @@ namespace HomeSchoolDayBook.Models.ViewModels
 
         }
 
+        public EntryVM (ApplicationDbContext context)
+        {
+            SubjectCheckBoxes = context
+                .Subjects
+                .Select(s => new CheckBoxVM(s.ID, s.Name, false ))
+                .ToList();
+        }
+
         public EntryVM (Entry entry, ApplicationDbContext context)
         {
             ID = entry.ID;

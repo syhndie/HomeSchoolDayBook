@@ -11,9 +11,13 @@ using HomeSchoolDayBook.Models.ViewModels;
 
 namespace HomeSchoolDayBook.Pages.Entries
 {
+
     public class CreateModel : PageModel
     {
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
+
+        [BindProperty]
+        public EntryVM EntryVM { get; set; }
 
         public CreateModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
@@ -22,13 +26,12 @@ namespace HomeSchoolDayBook.Pages.Entries
 
         public IActionResult OnGet()
         {
+            EntryVM = new EntryVM(_context);
+
             return Page();
         }
 
-        [BindProperty]
-        public EntryVM EntryVM { get; set; }
-
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string[] selectedSubjects)
         {
             if (!ModelState.IsValid)
             {
@@ -36,7 +39,22 @@ namespace HomeSchoolDayBook.Pages.Entries
             }
 
             var emptyEntry = new Entry();
+
             emptyEntry.MinutesSpent = EntryVM.EnteredTotalMinutes;
+
+            emptyEntry.SubjectAssignments = new List<SubjectAssignment>();
+
+            foreach (Subject subject in _context.Subjects)
+            {
+                if (selectedSubjects.Contains(subject.ID.ToString()))
+                {
+                    emptyEntry.SubjectAssignments.Add(new SubjectAssignment
+                    {
+                        SubjectID = subject.ID,
+                        EntryID = emptyEntry.ID
+                    });
+                }
+            }
 
             if (await TryUpdateModelAsync<Entry>(emptyEntry, "entryvm"))
             {
