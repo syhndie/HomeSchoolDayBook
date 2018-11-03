@@ -41,12 +41,12 @@
                 <table>
                     <tr>
                         @{
-                            int cnt = 0;
+                            int subjectCount = 0;
 
                             foreach (var checkbox in Model.EntryVM.SubjectCheckBoxes)
                             {
                                 string isChecked = checkbox.Assigned ? "checked" : "";
-                                if (cnt++ %2 == 0)
+                                if (subjectCount++ %2 == 0)
                                 {
                                     @:</tr><tr>
                                 }
@@ -58,22 +58,36 @@
                                            @checkbox.Name
                                 @:</td>
                             }
-
                         }
                     </tr>
                 </table>             
             </div>
             <div class="form-group">
                 <label asp-for="EntryVM.StudentCheckBoxes" class="control-label"></label>
+                <table>
+                    <tr>
+                        @{ 
+                            int studentCount = 0;
 
-                @foreach (var checkbox in Model.EntryVM.StudentCheckBoxes)
-                {
-                    <p>
-                        @checkbox.Name, @checkbox.Assigned
-                    </p>
-                }
+                            foreach (var checkbox in Model.EntryVM.StudentCheckBoxes)
+                            {
+                                string isChecked = checkbox.Assigned ? "checked" : "";
+                                if (studentCount++ %2 == 0)
+                                {
+                                    @:</tr><tr>
+                                }
+                                @:<td>
+                                    <input type="checkbox"
+                                           name="selectedStudents"
+                                           value="@checkbox.ID"
+                                           @isChecked />
+                                           @checkbox.Name
+                                @:</td>
+                            }
+                        }
+                    </tr>
+                </table>
             </div>
-
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>

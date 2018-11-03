@@ -51,7 +51,7 @@ namespace HomeSchoolDayBook.Pages.Entries
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id, string[] selectedSubjects)
+        public async Task<IActionResult> OnPostAsync(int? id, string[] selectedSubjects, string[] selectedStudents)
         {
             if (!ModelState.IsValid)
             {
@@ -76,6 +76,20 @@ namespace HomeSchoolDayBook.Pages.Entries
                     entryToUpdate.SubjectAssignments.Add(new SubjectAssignment
                     {
                         SubjectID = subject.ID,
+                        EntryID = entryToUpdate.ID
+                    });
+                }
+            }
+
+            entryToUpdate.Enrollments = new List<Enrollment>();
+
+            foreach (Student student in _context.Students)
+            {
+                if (selectedStudents.Contains(student.ID.ToString()))
+                {
+                    entryToUpdate.Enrollments.Add(new Enrollment
+                    {
+                        StudentID = student.ID,
                         EntryID = entryToUpdate.ID
                     });
                 }

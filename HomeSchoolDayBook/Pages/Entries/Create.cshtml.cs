@@ -11,12 +11,11 @@ using HomeSchoolDayBook.Models.ViewModels;
 
 namespace HomeSchoolDayBook.Pages.Entries
 {
-
+    [BindProperties]
     public class CreateModel : PageModel
     {
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
 
-        [BindProperty]
         public EntryVM EntryVM { get; set; }
 
         public CreateModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
