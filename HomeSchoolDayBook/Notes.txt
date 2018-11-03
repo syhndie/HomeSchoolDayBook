@@ -2,9 +2,18 @@
 
 add multi-userness
 
-add students and subject check boxes to entry create and edit pages
-
 add boolean to subject and student models to identify active/inactive subjects and students
 
+fix formatting for Entry Edit and Create pages, mostly for checkboxes
+
+add abiility to add a new subject or a new student from the Entry Edit and Create pages
+
+make default date on Entry Edit and Create pages be today's date
+
+make Entry Index default sort by date descending, then title ascending
+
+change order of columns on Entry Index page
+
+change order of fields on Entry Create and Edit pages
 
 
