@@ -16,4 +16,6 @@ change order of columns on Entry Index page
 
 change order of fields on Entry Create and Edit pages
 
+use eternicode datepicker to entry model date
 
+double check all Model Properties for yes or no nullable, and any default values
