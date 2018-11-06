@@ -53,11 +53,13 @@ namespace HomeSchoolDayBook.Models.ViewModels
         {
             SubjectCheckBoxes = context
                 .Subjects
+                .Where(s => s.IsActive)
                 .Select(s => new CheckBoxVM(s.ID, s.Name, false ))
                 .ToList();
 
             StudentCheckBoxes = context
                 .Students
+                .Where(st => st.IsActive)
                 .Select(st => new CheckBoxVM(st.ID, st.Name, false))
                 .ToList();
         }
@@ -78,6 +80,7 @@ namespace HomeSchoolDayBook.Models.ViewModels
 
             SubjectCheckBoxes = context
                 .Subjects
+                .Where(s => s.IsActive || entrySubjectIDs.Contains(s.ID))
                 .Select(s => new CheckBoxVM(s.ID, s.Name, entrySubjectIDs.Contains(s.ID)))
                 .ToList();
 
@@ -88,6 +91,7 @@ namespace HomeSchoolDayBook.Models.ViewModels
 
             StudentCheckBoxes = context
                 .Students
+                .Where(st => st.IsActive || entryStudentIDs.Contains(st.ID))
                 .Select(st => new CheckBoxVM(st.ID, st.Name, entryStudentIDs.Contains(st.ID)))
                 .ToList();
         }

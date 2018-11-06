@@ -2,8 +2,6 @@
 
 add multi-userness
 
-modify Student and Subject checkboxes on Entry Edit and Create pages to only display active Students and Subjects
-
 fix formatting for Entry Edit and Create pages, mostly for checkboxes
 
 add abiility to add a new subject or a new student from the Entry Edit and Create pages
