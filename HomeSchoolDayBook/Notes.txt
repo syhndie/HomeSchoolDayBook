@@ -2,7 +2,9 @@
 
 add multi-userness
 
-add boolean to subject and student models to identify active/inactive subjects and students
+include IsActive field to Creat and Edit pages for Students and Subjects
+
+modify Student and Subject checkboxes on Entry Edit and Create pages to only display active Students and Subjects
 
 fix formatting for Entry Edit and Create pages, mostly for checkboxes
 
@@ -10,12 +12,18 @@ add abiility to add a new subject or a new student from the Entry Edit and Creat
 
 make default date on Entry Edit and Create pages be today's date
 
+make default value for Student and Subject IsActive properties be true
+
+make Student and Subject default sort by IsActive (yes, then no), then name ascending
+
 make Entry Index default sort by date descending, then title ascending
 
 change order of columns on Entry Index page
 
 change order of fields on Entry Create and Edit pages
 
-use eternicode datepicker to entry model date
+use eternicode datepicker for Entry date
 
 double check all Model Properties for yes or no nullable, and any default values
+
+add validation to all create and edit pages - unique names, valid dates, non negative minutes and hours
