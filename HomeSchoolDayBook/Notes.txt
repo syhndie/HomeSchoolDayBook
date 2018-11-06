@@ -2,8 +2,6 @@
 
 add multi-userness
 
-include IsActive field to Creat and Edit pages for Students and Subjects
-
 modify Student and Subject checkboxes on Entry Edit and Create pages to only display active Students and Subjects
 
 fix formatting for Entry Edit and Create pages, mostly for checkboxes
@@ -27,3 +25,5 @@ use eternicode datepicker for Entry date
 double check all Model Properties for yes or no nullable, and any default values
 
 add validation to all create and edit pages - unique names, valid dates, non negative minutes and hours
+
+make index tables show 100 entries by default
