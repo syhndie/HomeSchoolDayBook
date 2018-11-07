@@ -1,6 +1,4 @@
-﻿make Entry Index default sort by date descending, then title ascending
-
-make Student and Subject default sort by IsActive (yes, then no), then name ascending
+﻿make Student and Subject default sort by IsActive (yes, then no), then name ascending
 
 change order of columns on Entry Index page
 

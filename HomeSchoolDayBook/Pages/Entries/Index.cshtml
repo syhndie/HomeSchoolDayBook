@@ -39,7 +39,7 @@
                     @Html.DisplayFor(modelItem => entry.Title)
                 </td>
                 <td>
-                    @foreach (var enr in entry.Enrollments)
+                    @foreach (var enr in entry.Enrollments.OrderBy(enr => enr.Student.Name))
                     {
                         <p>
                             @enr.Student.Name
@@ -70,6 +70,7 @@
 <script>
     $(document).ready(function () {
         $('#entryindex').DataTable({
+            "order": [[0, "desc"], [1, "asc"]],
             columns: [
                 { data: "date", type: "date" },
                 { data: "title" },
