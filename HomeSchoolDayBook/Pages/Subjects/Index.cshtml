@@ -2,13 +2,13 @@
 @model HomeSchoolDayBook.Pages.Subjects.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "My Subjects";
 }
 
-<h2>Index</h2>
+<h2>@ViewData["Title"]</h2>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">Create New Subject</a>
 </p>
 <table class="table" id="subjectindex">
     <thead>
@@ -48,12 +48,14 @@
 <script>
     $(document).ready(function () {
         $('#subjectindex').DataTable({
+            "language": {
+                "lengthMenu": "Show _MENU_ subjects"
+            },
             columns: [
                 { data: "name" },
-                { data: "isactive"},
+                { data: "isactive" },
                 { data: "links", "orderable": false }
             ]
         });
     });
 </script>
-

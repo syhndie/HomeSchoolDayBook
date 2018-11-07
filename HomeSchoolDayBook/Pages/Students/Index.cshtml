@@ -2,13 +2,13 @@
 @model HomeSchoolDayBook.Pages.Students.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "My Students";
 }
 
-<h2>Index</h2>
+<h2>@ViewData["Title"]</h2>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">Create New Student</a>
 </p>
 <table class="table" id="studentindex">
     <thead>
@@ -48,6 +48,9 @@
 <script>
     $(document).ready(function () {
         $('#studentindex').DataTable({
+            "language": {
+                "lengthMenu": "Show _MENU_ students"
+            },
             columns: [
                 { data: "name" },
                 { data: "isactive"},

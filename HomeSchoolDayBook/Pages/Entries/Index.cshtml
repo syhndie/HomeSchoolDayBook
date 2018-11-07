@@ -2,13 +2,13 @@
 @model HomeSchoolDayBook.Pages.Entries.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "My Entries";
 }
 
-<h2>Index</h2>
+<h2>@ViewData["Title"]</h2>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">Create New Entry</a>
 </p>
 <table class="table" id="entryindex">
     <thead>
@@ -31,35 +31,35 @@
     <tbody>
         @foreach (var entry in Model.Entries)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => entry.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => entry.Title)
-            </td>
-            <td>
-                @foreach (var enr in entry.Enrollments)
-                {
-                    <p>
-                        @enr.Student.Name
-                    </p>
-                }
-            </td>
-            <td>
-                @foreach (var sa in entry.SubjectAssignments)
-                {
-                    <p>
-                        @sa.Subject.Name
-                    </p>
-                }
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@entry.ID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@entry.ID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@entry.ID">Delete</a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => entry.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => entry.Title)
+                </td>
+                <td>
+                    @foreach (var enr in entry.Enrollments)
+                    {
+                        <p>
+                            @enr.Student.Name
+                        </p>
+                    }
+                </td>
+                <td>
+                    @foreach (var sa in entry.SubjectAssignments)
+                    {
+                        <p>
+                            @sa.Subject.Name
+                        </p>
+                    }
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@entry.ID">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@entry.ID">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@entry.ID">Delete</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>

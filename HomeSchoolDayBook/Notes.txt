@@ -1,22 +1,16 @@
-﻿Research view components for entry edit and create pages
-
-add multi-userness
-
-fix formatting for Entry Edit and Create pages, mostly for checkboxes
-
-add abiility to add a new subject or a new student from the Entry Edit and Create pages
-
-make default date on Entry Edit and Create pages be today's date
-
-make default value for Student and Subject IsActive properties be true
+﻿make Entry Index default sort by date descending, then title ascending
 
 make Student and Subject default sort by IsActive (yes, then no), then name ascending
-
-make Entry Index default sort by date descending, then title ascending
 
 change order of columns on Entry Index page
 
 change order of fields on Entry Create and Edit pages
+
+fix formatting for Entry Edit and Create pages, mostly for checkboxes
+
+add ability to add a new subject or a new student from the Entry Edit and Create pages
+
+make default date on Entry Edit and Create pages be today's date
 
 use eternicode datepicker for Entry date
 
@@ -24,4 +18,14 @@ double check all Model Properties for yes or no nullable, and any default values
 
 add validation to all create and edit pages - unique names, valid dates, non negative minutes and hours
 
-make index tables show 100 entries by default
+add multi-userness
+
+Reports
+
+Research view components for entry edit and create pages
+
+
+
+
+
+
