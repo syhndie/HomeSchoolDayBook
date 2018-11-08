@@ -14,52 +14,14 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="EntryVM.Title" class="control-label"></label>
-                <input asp-for="EntryVM.Title" class="form-control" />
-                <span asp-validation-for="EntryVM.Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="EntryVM.Date" class="control-label"></label>
                 <input asp-for="EntryVM.Date" class="form-control" />
                 <span asp-validation-for="EntryVM.Date" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EntryVM.EnteredHours" class="control-label"></label>
-                <input asp-for="EntryVM.EnteredHours" class="form-control" /> hours
-                <span asp-validation-for="EntryVM.EnteredHours" class="text-danger"></span>
-                <input asp-for="EntryVM.EnteredMinutes" class="form-control" /> hours
-                <span asp-validation-for="EntryVM.EnteredMinutes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EntryVM.Description" class="control-label"></label>
-                <input asp-for="EntryVM.Description" class="form-control" />
-                <span asp-validation-for="EntryVM.Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EntryVM.SubjectCheckBoxes" class="control-label"></label>
-                <table>
-                    <tr>
-                        @{
-                            int subjectCount = 0;
-
-                            foreach (var checkbox in Model.EntryVM.SubjectCheckBoxes)
-                            {
-                                string isChecked = checkbox.Assigned ? "checked" : "";
-                                if (subjectCount++ % 2 == 0)
-                                {
-                                @:</tr><tr>
-                                }
-                                @:<td>
-                                    <input type="checkbox"
-                                           name="selectedSubjects"
-                                           value="@checkbox.ID"
-                                           @isChecked />
-                                    @checkbox.Name
-                                @:</td>
-                            }
-                        }
-                    </tr>
-                </table>
+                <label asp-for="EntryVM.Title" class="control-label"></label>
+                <input asp-for="EntryVM.Title" class="form-control" />
+                <span asp-validation-for="EntryVM.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="EntryVM.StudentCheckBoxes" class="control-label"></label>
@@ -71,13 +33,53 @@
                             foreach (var checkbox in Model.EntryVM.StudentCheckBoxes)
                             {
                                 string isChecked = checkbox.Assigned ? "checked" : "";
-                                if (studentCount++ % 2 == 0)
+                                if (studentCount++ % 3 == 0)
                                 {
-                                @:</tr><tr>
+                                    @:</tr><tr>
                                 }
+
                                 @:<td>
                                     <input type="checkbox"
                                            name="selectedStudents"
+                                           value="@checkbox.ID"
+                                           @isChecked />
+                                    @checkbox.Name
+                                @:</td>
+                            }
+                        }
+                    </tr>
+                </table>
+            </div>
+            <div class="form-group">
+                <label asp-for="EntryVM.Description" class="control-label"></label>
+                <textarea asp-for="EntryVM.Description" class="form-control"></textarea>
+                <span asp-validation-for="EntryVM.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EntryVM.EnteredHours" class="control-label"></label>
+                <input asp-for="EntryVM.EnteredHours" class="form-control" /> hours
+                <span asp-validation-for="EntryVM.EnteredHours" class="text-danger"></span>
+                <input asp-for="EntryVM.EnteredMinutes" class="form-control" /> minutes
+                <span asp-validation-for="EntryVM.EnteredMinutes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EntryVM.SubjectCheckBoxes" class="control-label"></label>
+                <table>
+                    <tr>
+                        @{
+                            int subjectCount = 0;
+
+                            foreach (var checkbox in Model.EntryVM.SubjectCheckBoxes)
+                            {
+                                string isChecked = checkbox.Assigned ? "checked" : "";
+                                if (subjectCount++ % 3 == 0)
+                                {
+                                    @:</tr><tr>
+                                }
+
+                                @:<td>
+                                    <input type="checkbox"
+                                           name="selectedSubjects"
                                            value="@checkbox.ID"
                                            @isChecked />
                                     @checkbox.Name
@@ -93,7 +95,6 @@
         </form>
     </div>
 </div>
-
 <div>
     <a asp-page="Index">Back to List</a>
 </div>

@@ -1,8 +1,4 @@
-﻿change order of columns on Entry Index page
-
-change order of fields on Entry Create and Edit pages
-
-fix formatting for Entry Edit and Create pages, mostly for checkboxes
+﻿fix formatting for Entry Edit and Create pages, mostly for checkboxes
 
 add ability to add a new subject or a new student from the Entry Edit and Create pages
 

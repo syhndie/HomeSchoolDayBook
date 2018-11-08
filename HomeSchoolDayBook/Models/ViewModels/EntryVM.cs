@@ -54,12 +54,14 @@ namespace HomeSchoolDayBook.Models.ViewModels
             SubjectCheckBoxes = context
                 .Subjects
                 .Where(s => s.IsActive)
+                .OrderBy(s => s.Name)
                 .Select(s => new CheckBoxVM(s.ID, s.Name, false ))
                 .ToList();
 
             StudentCheckBoxes = context
                 .Students
                 .Where(st => st.IsActive)
+                .OrderBy(st => st.Name)
                 .Select(st => new CheckBoxVM(st.ID, st.Name, false))
                 .ToList();
         }
@@ -81,7 +83,9 @@ namespace HomeSchoolDayBook.Models.ViewModels
             SubjectCheckBoxes = context
                 .Subjects
                 .Where(s => s.IsActive || entrySubjectIDs.Contains(s.ID))
+                .OrderBy(s => s.Name)
                 .Select(s => new CheckBoxVM(s.ID, s.Name, entrySubjectIDs.Contains(s.ID)))
+                
                 .ToList();
 
             HashSet<int> entryStudentIDs = entry
@@ -92,6 +96,7 @@ namespace HomeSchoolDayBook.Models.ViewModels
             StudentCheckBoxes = context
                 .Students
                 .Where(st => st.IsActive || entryStudentIDs.Contains(st.ID))
+                .OrderBy(st => st.Name)
                 .Select(st => new CheckBoxVM(st.ID, st.Name, entryStudentIDs.Contains(st.ID)))
                 .ToList();
         }
