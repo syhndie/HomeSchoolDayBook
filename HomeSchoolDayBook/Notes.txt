@@ -1,6 +1,4 @@
-﻿make Student and Subject default sort by IsActive (yes, then no), then name ascending
-
-change order of columns on Entry Index page
+﻿change order of columns on Entry Index page
 
 change order of fields on Entry Create and Edit pages
 

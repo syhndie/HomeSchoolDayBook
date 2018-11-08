@@ -47,7 +47,7 @@
                     }
                 </td>
                 <td>
-                    @foreach (var sa in entry.SubjectAssignments)
+                    @foreach (var sa in entry.SubjectAssignments.OrderBy(sa => sa.Subject.Name))
                     {
                         <p>
                             @sa.Subject.Name

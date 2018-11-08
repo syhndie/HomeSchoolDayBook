@@ -23,7 +23,8 @@ namespace HomeSchoolDayBook.Pages.Students
 
         public async Task OnGetAsync()
         {
-            Students = await _context.Students.ToListAsync();
+            Students = await _context.Students
+                .ToListAsync();
         }
     }
 }
