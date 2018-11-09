@@ -12,22 +12,25 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Entry.Title)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Entry.Title)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.Entry.Date)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Entry.Date)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Entry.ComputedTimeSpent)
+            @Html.DisplayNameFor(model => model.Entry.Title)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Entry.ComputedTimeSpent)
+            @Html.DisplayFor(model => model.Entry.Title)
+        </dd>
+        <dt>
+            Students
+        </dt>
+        <dd>
+            @foreach (var enr in Model.Entry.Enrollments)
+            {
+                @enr.Student.Name<br />
+            }
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Entry.Description)
@@ -36,13 +39,10 @@
             @Html.DisplayFor(model => model.Entry.Description)
         </dd>
         <dt>
-            Students
+            @Html.DisplayNameFor(model => model.Entry.ComputedTimeSpent)
         </dt>
         <dd>
-            @foreach(var enr in Model.Entry.Enrollments)
-            {
-                <p>@enr.Student.Name</p>
-            }
+            @Html.DisplayFor(model => model.Entry.ComputedTimeSpent)
         </dd>
         <dt>
             Subjects
@@ -50,7 +50,7 @@
         <dd>
             @foreach (var sa in Model.Entry.SubjectAssignments)
             {
-                <p>@sa.Subject.Name</p>
+                @sa.Subject.Name<br />
             }
         </dd>
     </dl>
