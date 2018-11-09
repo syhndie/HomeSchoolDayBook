@@ -1,10 +1,12 @@
-﻿fix formatting for Entry Edit and Create pages, mostly for checkboxes
+﻿should the user be able to delete Students and Subjects?
+
+fix formatting for Entry Edit and Create pages, mostly for checkboxes
 
 add ability to add a new subject or a new student from the Entry Edit and Create pages
 
-make default date on Entry Edit and Create pages be today's date
-
 use eternicode datepicker for Entry date
+
+make default date on Entry Edit and Create pages be today's date
 
 double check all Model Properties for yes or no nullable, and any default values
 
