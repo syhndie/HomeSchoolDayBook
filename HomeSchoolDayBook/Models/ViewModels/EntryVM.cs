@@ -13,7 +13,7 @@ namespace HomeSchoolDayBook.Models.ViewModels
     {
         public int ID { get; set; }
 
-        [DataType(DataType.Date)]
+         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
 
         [Required]
@@ -51,6 +51,8 @@ namespace HomeSchoolDayBook.Models.ViewModels
 
         public EntryVM (ApplicationDbContext context)
         {
+            Date = DateTime.Today;
+
             SubjectCheckBoxes = context
                 .Subjects
                 .Where(s => s.IsActive)

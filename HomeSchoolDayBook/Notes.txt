@@ -1,12 +1,8 @@
-﻿should the user be able to delete Students and Subjects?
-
-fix formatting for Entry Edit and Create pages, mostly for checkboxes
-
-add ability to add a new subject or a new student from the Entry Edit and Create pages
+﻿add ability to add a new subject or a new student from the Entry Edit and Create pages
 
 use eternicode datepicker for Entry date
 
-make default date on Entry Edit and Create pages be today's date
+make default date on Entry Create page be today's date
 
 double check all Model Properties for yes or no nullable, and any default values
 
@@ -20,6 +16,9 @@ Research view components for entry edit and create pages
 
 
 
+https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css
 
+https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker3.css
 
+https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js
 
