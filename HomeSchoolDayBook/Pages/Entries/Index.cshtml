@@ -1,6 +1,10 @@
 ﻿@page
 @model HomeSchoolDayBook.Pages.Entries.IndexModel
 
+@section CSS {
+    <link rel="stylesheet" href="/lib/datatables/datatables.min.css" />
+}
+
 @{
     ViewData["Title"] = "My Entries";
 }
@@ -64,20 +68,22 @@
     </tbody>
 </table>
 
-<script>src = "~/lib/datatables/datatables.min.js"</script>
-<link rel="stylesheet" href="~/lib/datatables/datatables.min.css" />
+@section Scripts {
+    <script src="/lib/datatables/datatables.min.js"></script>
 
-<script>
-    $(document).ready(function () {
-        $('#entryindex').DataTable({
-            "order": [[0, "desc"], [1, "asc"]],
-            columns: [
-                { data: "date", type: "date" },
-                { data: "title" },
-                { data: "students", "orderable": false },
-                { data: "subjects", "orderable": false },
-                { data: "links", "orderable": false }
-            ]
+    <script>
+        $(document).ready(function () {
+            $('#entryindex').DataTable({
+                "order": [[0, "desc"], [1, "asc"]],
+                columns: [
+                    { data: "date", type: "date" },
+                    { data: "title" },
+                    { data: "students", "orderable": false },
+                    { data: "subjects", "orderable": false },
+                    { data: "links", "orderable": false }
+                ]
+            });
         });
-    });
-</script>
+    </script>
+}
+
