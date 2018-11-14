@@ -49,6 +49,7 @@ namespace HomeSchoolDayBook.Models.ViewModels
 
         }
 
+        //constructor for Create page
         public EntryVM (ApplicationDbContext context)
         {
             Date = DateTime.Today;
@@ -68,6 +69,7 @@ namespace HomeSchoolDayBook.Models.ViewModels
                 .ToList();
         }
 
+        //constructor for Edit page
         public EntryVM (Entry entry, ApplicationDbContext context)
         {
             ID = entry.ID;
