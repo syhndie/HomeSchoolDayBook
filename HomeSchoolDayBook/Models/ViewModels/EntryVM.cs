@@ -13,7 +13,8 @@ namespace HomeSchoolDayBook.Models.ViewModels
     {
         public int ID { get; set; }
 
-         [DataType(DataType.Date)]
+        [DataType(DataType.Date)]
+        [Required]
         public DateTime Date { get; set; }
 
         [Required]

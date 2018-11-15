@@ -10,10 +10,13 @@ namespace HomeSchoolDayBook.Models
     public class Subject
     {
         public int ID { get; set; }
+
+        [Required]
         public string Name { get; set; }
 
         [Display(Name = "Active")]
         [DefaultValue(true)]
+        [Required]
         public bool IsActive { get; set; }
 
         public ICollection<SubjectAssignment> SubjectAssignments { get; set; }

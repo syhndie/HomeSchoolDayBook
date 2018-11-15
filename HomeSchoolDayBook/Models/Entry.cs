@@ -14,9 +14,11 @@ namespace HomeSchoolDayBook.Models
         public string Title { get; set; }
 
         [DataType(DataType.Date)]
+        [Required]
         public DateTime Date { get; set; }
 
         public string Description { get; set; }
+
         public int? MinutesSpent { get; set; }
 
         public int? ComputedHours
