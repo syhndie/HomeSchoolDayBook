@@ -1,9 +1,5 @@
 ﻿add ability to add a new subject or a new student from the Entry Edit and Create pages
 
-use eternicode datepicker for Entry date
-
-make default date on Entry Create page be today's date
-
 double check all Model Properties for yes or no nullable, and any default values
 
 add validation to all create and edit pages - unique names, valid dates, non negative minutes and hours
