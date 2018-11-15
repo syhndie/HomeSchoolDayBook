@@ -1,6 +1,10 @@
 ﻿@page
 @model HomeSchoolDayBook.Pages.Subjects.IndexModel
 
+@section CSS {
+    <link rel="stylesheet" href="/lib/datatables/datatables.min.css" />
+}
+
 @{
     ViewData["Title"] = "My Subjects";
 }
@@ -34,29 +38,31 @@
                 </td>
                 <td>
                     <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> @*|
-                    <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>*@
+                        <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>*@
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-<script>src = "~/lib/datatables/datatables.min.js"</script>
-<link rel="stylesheet" href="~/lib/datatables/datatables.min.css" />
 
-<script>
-    $(document).ready(function () {
-        $('#subjectindex').DataTable({
-            "language": {
-                "lengthMenu": "Show _MENU_ subjects"
-            },
-            "order": [[1, "desc"], [0, "asc"]],
-            columns: [
-                { data: "name" },
-                { data: "isactive" },
-                { data: "links", "orderable": false }
-            ]
+@section Scripts {
+    <script src="/lib/datatables/datatables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#subjectindex').DataTable({
+                "language": {
+                    "lengthMenu": "Show _MENU_ subjects"
+                },
+                "order": [[1, "desc"], [0, "asc"]],
+                columns: [
+                    { data: "name" },
+                    { data: "isactive" },
+                    { data: "links", "orderable": false }
+                ]
+            });
         });
-    });
-</script>
+    </script>
+}
