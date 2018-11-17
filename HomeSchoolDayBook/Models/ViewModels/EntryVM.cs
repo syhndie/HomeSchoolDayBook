@@ -23,11 +23,11 @@ namespace HomeSchoolDayBook.Models.ViewModels
         public string Description { get; set; }
 
         [Display(Name = "Time Spent")]
-        [DataType(DataType.Text)]
-        public int? EnteredHours { get; set; }
+        [Range(0, 24, ErrorMessage ="Hours must be positive and less than 24.")]
+        public double? EnteredHours { get; set; }
 
-        [DataType(DataType.Text)]
-        public int? EnteredMinutes { get; set; }
+        [Range(0, 1440, ErrorMessage ="Minutes must be positive and less than 1440")]
+        public double? EnteredMinutes { get; set; }
 
         public int? EnteredTotalMinutes
         {
@@ -35,7 +35,7 @@ namespace HomeSchoolDayBook.Models.ViewModels
             {
                 if (EnteredHours == null && EnteredMinutes == null) return null;
 
-                return ((EnteredHours ?? 0) * 60) + (EnteredMinutes ?? 0);
+                return (int)(((EnteredHours ?? 0) * 60) + (EnteredMinutes ?? 0));
             }
         }
 
