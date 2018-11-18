@@ -14,6 +14,10 @@ namespace HomeSchoolDayBook.Pages.Students
     {
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
 
+        public Student Student { get; set; }
+
+        public string DidNotUpdateMessage { get; set; }
+
         public CreateModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
             _context = context;
@@ -24,20 +28,23 @@ namespace HomeSchoolDayBook.Pages.Students
             return Page();
         }
 
-        [BindProperty]
-        public Student Student { get; set; }
-
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            Student newStudent = new Student();
+
+            bool modelDidUpdate = await TryUpdateModelAsync<Student>(newStudent, "student");
+
+            if (ModelState.IsValid && modelDidUpdate) 
             {
-                return Page();
+                _context.Students.Add(newStudent);
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToPage("./Index");
             }
 
-            _context.Students.Add(Student);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
+            DidNotUpdateMessage = "New Student did not save correctly. Please try again.";
+            return Page();
         }
     }
 }
