@@ -16,7 +16,7 @@ namespace HomeSchoolDayBook.Pages.Students
 
         public Student Student { get; set; }
 
-        public string DidNotUpdateMessage { get; set; }
+        public string ErrorMessage { get; set; }
 
         public CreateModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
@@ -43,7 +43,7 @@ namespace HomeSchoolDayBook.Pages.Students
                 return RedirectToPage("./Index");
             }
 
-            DidNotUpdateMessage = "New Student did not save correctly. Please try again.";
+            ErrorMessage = "New Student did not save correctly. Please try again.";
             return Page();
         }
     }

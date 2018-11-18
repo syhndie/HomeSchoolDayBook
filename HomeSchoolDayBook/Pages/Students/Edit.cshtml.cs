@@ -15,61 +15,47 @@ namespace HomeSchoolDayBook.Pages.Students
     {
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
 
+        public Student Student { get; set; }
+
+        public string ErrorMessage {get; set;}
+
         public EditModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
-        [BindProperty]
-        public Student Student { get; set; }
-
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                ErrorMessage = "No student was selected to edit. Please go back and try again.";
+                return Page();
             }
 
             Student = await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
 
             if (Student == null)
             {
-                return NotFound();
+                ErrorMessage = "Student was not found in the database. Please go back and try again.";
+                return Page();
             }
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            Student editedStudent = await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
 
-            _context.Attach(Student).State = EntityState.Modified;
+            bool modelDidUpdate = await TryUpdateModelAsync<Student>(editedStudent, "student");
 
-            try
+            if (ModelState.IsValid && modelDidUpdate)
             {
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!StudentExists(Student.ID))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return RedirectToPage("./Index");
             }
 
-            return RedirectToPage("./Index");
-        }
-
-        private bool StudentExists(int id)
-        {
-            return _context.Students.Any(e => e.ID == id);
+            ErrorMessage = "Changes did not save correctly. Please try again.";
+            return Page();
         }
     }
 }
