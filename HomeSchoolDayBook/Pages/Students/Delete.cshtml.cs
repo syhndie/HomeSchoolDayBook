@@ -14,45 +14,47 @@ namespace HomeSchoolDayBook.Pages.Students
     {
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
 
+        public Student Student { get; set; }
+
+        public string ErrorMessage { get; set; }
+
         public DeleteModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
-        [BindProperty]
-        public Student Student { get; set; }
-
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                ErrorMessage = "No student was selected. Please go back and try again.";
+                return Page();
             }
 
             Student = await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
 
             if (Student == null)
             {
-                return NotFound();
+                ErrorMessage = "Student was not found in the database. Please go back and try again.";
+                return Page();
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null)
+             Student = await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
+
+            if (Student == null)
             {
-                return NotFound();
+                ErrorMessage = "Student not found. Please try again.";
+                return Page();
             }
 
-            Student = await _context.Students.FindAsync(id);
+            _context.Students.Remove(Student);
 
-            if (Student != null)
-            {
-                _context.Students.Remove(Student);
-                await _context.SaveChangesAsync();
-            }
-
+            await _context.SaveChangesAsync();
+                       
             return RedirectToPage("./Index");
         }
     }

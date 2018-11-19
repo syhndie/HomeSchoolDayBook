@@ -28,7 +28,7 @@ namespace HomeSchoolDayBook.Pages.Students
         {
             if (id == null)
             {
-                ErrorMessage = "No student was selected to edit. Please go back and try again.";
+                ErrorMessage = "No student was selected. Please go back and try again.";
                 return Page();
             }
 
@@ -42,8 +42,14 @@ namespace HomeSchoolDayBook.Pages.Students
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int id)
+        public async Task<IActionResult> OnPostAsync(int? id)
         {
+            if (id == null)
+            {
+                ErrorMessage = "Changes not posted. Please try again.";
+                return Page();
+            }
+
             Student editedStudent = await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
 
             bool modelDidUpdate = await TryUpdateModelAsync<Student>(editedStudent, "student");
