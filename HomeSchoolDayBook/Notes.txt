@@ -9,3 +9,14 @@ add multi-userness
 Reports
 
 Research view components for entry edit and create pages
+
+clean up page models:
+	Subjects
+		Edit
+		Index
+	Entries
+		Create
+		Delete
+		Details
+		Edit
+		Index

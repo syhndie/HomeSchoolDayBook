@@ -15,61 +15,48 @@ namespace HomeSchoolDayBook.Pages.Subjects
     {
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
 
+        public Subject Subject { get; set; }
+
+        public string ErrorMesssage { get; set; }
+
         public EditModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
             _context = context;
-        }
-
-        [BindProperty]
-        public Subject Subject { get; set; }
+        }   
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             Subject = await _context.Subjects.FirstOrDefaultAsync(m => m.ID == id);
 
             if (Subject == null)
             {
-                return NotFound();
+                ErrorMesssage = "Subject not found. Please try again.";
             }
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (!ModelState.IsValid)
+            Subject editedSubject = await _context.Subjects.FirstOrDefaultAsync(m => m.ID == id);
+
+            if (editedSubject == null)
             {
+                ErrorMesssage = "Subject not found. Please try again.";
+
                 return Page();
             }
 
-            _context.Attach(Subject).State = EntityState.Modified;
+            bool modelDidUpdate = await TryUpdateModelAsync<Subject>(editedSubject, "subject");
 
-            try
+            if (ModelState.IsValid && modelDidUpdate)
             {
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SubjectExists(Subject.ID))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return RedirectToPage("./Index");
             }
 
-            return RedirectToPage("./Index");
+            ErrorMesssage = "Changes did not save correctly. Please try again.";
+            return Page();
         }
 
-        private bool SubjectExists(int id)
-        {
-            return _context.Subjects.Any(e => e.ID == id);
-        }
     }
 }
