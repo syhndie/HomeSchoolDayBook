@@ -25,19 +25,13 @@ namespace HomeSchoolDayBook.Pages.Students
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
-            {
-                ErrorMessage = "No student was selected. Please go back and try again.";
-                return Page();
-            }
-
             Student = await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
 
             if (Student == null)
             {
                 ErrorMessage = "Student was not found in the database. Please go back and try again.";
-                return Page();
             }
+
             return Page();
         }
 
@@ -48,6 +42,7 @@ namespace HomeSchoolDayBook.Pages.Students
             if (Student == null)
             {
                 ErrorMessage = "Student not found. Please try again.";
+
                 return Page();
             }
 

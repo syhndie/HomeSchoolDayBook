@@ -44,6 +44,7 @@ namespace HomeSchoolDayBook.Pages.Students
             }
 
             ErrorMessage = "New Student did not save correctly. Please try again.";
+
             return Page();
         }
     }

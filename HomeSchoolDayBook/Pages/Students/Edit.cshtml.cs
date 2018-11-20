@@ -26,31 +26,25 @@ namespace HomeSchoolDayBook.Pages.Students
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
-            {
-                ErrorMessage = "No student was selected. Please go back and try again.";
-                return Page();
-            }
-
             Student = await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
 
             if (Student == null)
             {
                 ErrorMessage = "Student was not found in the database. Please go back and try again.";
-                return Page();
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null)
+            Student editedStudent = await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
+
+            if (Student == null)
             {
-                ErrorMessage = "Changes not posted. Please try again.";
+                ErrorMessage = "Student was not found in the database. Please go back and try again.";
+
                 return Page();
             }
-
-            Student editedStudent = await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
 
             bool modelDidUpdate = await TryUpdateModelAsync<Student>(editedStudent, "student");
 
