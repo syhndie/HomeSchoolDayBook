@@ -14,25 +14,22 @@ namespace HomeSchoolDayBook.Pages.Students
     {
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
 
+        public Student Student { get; set; }
+
+        public string ErrorMessage { get; set; }
+
         public DetailsModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
             _context = context;
         }
-
-        public Student Student { get; set; }
-
+               
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             Student = await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
 
             if (Student == null)
             {
-                return NotFound();
+                ErrorMessage = "Student not found in database.";
             }
             return Page();
         }

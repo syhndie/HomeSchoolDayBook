@@ -14,17 +14,18 @@ namespace HomeSchoolDayBook.Pages.Students
     {
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
 
+        public IList<Student> Students { get; set; }
+
         public IndexModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public IList<Student> Students { get;set; }
-
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
-            Students = await _context.Students
-                .ToListAsync();
+            Students = await _context.Students.ToListAsync();
+
+            return Page();
         }
     }
 }
