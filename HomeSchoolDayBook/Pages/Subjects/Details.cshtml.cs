@@ -14,25 +14,22 @@ namespace HomeSchoolDayBook.Pages.Subjects
     {
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
 
+        public Subject Subject { get; set; }
+
+        public string ErrorMessage { get; set; }
+
         public DetailsModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public Subject Subject { get; set; }
-
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             Subject = await _context.Subjects.FirstOrDefaultAsync(m => m.ID == id);
 
             if (Subject == null)
             {
-                return NotFound();
+                ErrorMessage = "Subject not found. Please try again.";
             }
             return Page();
         }
