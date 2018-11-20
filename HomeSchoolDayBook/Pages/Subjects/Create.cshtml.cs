@@ -14,6 +14,10 @@ namespace HomeSchoolDayBook.Pages.Subjects
     {
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
 
+        public Subject Subject { get; set; }
+
+        public string ErrorMessage { get; set; }
+
         public CreateModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
             _context = context;
@@ -24,20 +28,24 @@ namespace HomeSchoolDayBook.Pages.Subjects
             return Page();
         }
 
-        [BindProperty]
-        public Subject Subject { get; set; }
-
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            Subject newSubject = new Subject();
+
+            bool modelDidUpdate = await TryUpdateModelAsync<Subject>(newSubject, "subject");
+
+            if (ModelState.IsValid && modelDidUpdate)
             {
-                return Page();
+                _context.Subjects.Add(newSubject);
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToPage("./Index");
             }
 
-            _context.Subjects.Add(Subject);
-            await _context.SaveChangesAsync();
+            ErrorMessage = "New Subject did not save correctly. Please try again";
 
-            return RedirectToPage("./Index");
+            return Page();
         }
     }
 }
