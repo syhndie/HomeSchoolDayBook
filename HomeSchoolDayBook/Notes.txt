@@ -11,8 +11,7 @@ Reports
 Research view components for entry edit and create pages
 
 clean up page models:
-	Subjects
-		Edit
+	Subject
 		Index
 	Entries
 		Create
