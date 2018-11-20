@@ -29,7 +29,7 @@ namespace HomeSchoolDayBook.Pages.Students
 
             if (Student == null)
             {
-                ErrorMessage = "Student was not found in the database. Please go back and try again.";
+                ErrorMessage = "Student not found. Please try again.";
             }
 
             return Page();
