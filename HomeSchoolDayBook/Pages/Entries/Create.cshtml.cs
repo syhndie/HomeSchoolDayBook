@@ -37,41 +37,41 @@ namespace HomeSchoolDayBook.Pages.Entries
                 return Page();
             }
 
-            var emptyEntry = new Entry();
+            var newEntry = EntryVM.Entry;
 
-            emptyEntry.MinutesSpent = EntryVM.EnteredTotalMinutes;
+            newEntry.MinutesSpent = EntryVM.EnteredTotalMinutes;
 
-            emptyEntry.SubjectAssignments = new List<SubjectAssignment>();
+            newEntry.SubjectAssignments = new List<SubjectAssignment>();
 
             foreach (Subject subject in _context.Subjects)
             {
                 if (selectedSubjects.Contains(subject.ID.ToString()))
                 {
-                    emptyEntry.SubjectAssignments.Add(new SubjectAssignment
+                    newEntry.SubjectAssignments.Add(new SubjectAssignment
                     {
                         SubjectID = subject.ID,
-                        EntryID = emptyEntry.ID
+                        EntryID = newEntry.ID
                     });
                 }
             }
 
-            emptyEntry.Enrollments = new List<Enrollment>();
+            newEntry.Enrollments = new List<Enrollment>();
 
             foreach (Student student in _context.Students)
             {
                 if (selectedStudents.Contains(student.ID.ToString()))
                 {
-                    emptyEntry.Enrollments.Add(new Enrollment
+                    newEntry.Enrollments.Add(new Enrollment
                     {
                         StudentID = student.ID,
-                        EntryID = emptyEntry.ID
+                        EntryID = newEntry.ID
                     });
                 }
             }
 
-            if (await TryUpdateModelAsync<Entry>(emptyEntry, "entryvm"))
+            if (await TryUpdateModelAsync<Entry>(newEntry, "entryvm"))
             {
-                _context.Entries.Add(emptyEntry);
+                _context.Entries.Add(newEntry);
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
             }

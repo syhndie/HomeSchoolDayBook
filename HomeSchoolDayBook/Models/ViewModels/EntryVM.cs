@@ -11,16 +11,7 @@ namespace HomeSchoolDayBook.Models.ViewModels
 {
     public class EntryVM
     {
-        public int ID { get; set; }
-
-        [DataType(DataType.Date)]
-        [Required]
-        public DateTime Date { get; set; }
-
-        [Required]
-        public string Title { get; set; }
-        
-        public string Description { get; set; }
+        public Entry Entry { get; set; }
 
         [Display(Name = "Time Spent")]
         [Range(0, 24, ErrorMessage ="Hours must be positive and less than 24.")]
@@ -53,7 +44,9 @@ namespace HomeSchoolDayBook.Models.ViewModels
         //constructor for Create page
         public EntryVM (ApplicationDbContext context)
         {
-            Date = DateTime.Today;
+            Entry = new Entry();
+
+            Entry.Date = DateTime.Today;
 
             SubjectCheckBoxes = context
                 .Subjects
@@ -73,10 +66,7 @@ namespace HomeSchoolDayBook.Models.ViewModels
         //constructor for Edit page
         public EntryVM (Entry entry, ApplicationDbContext context)
         {
-            ID = entry.ID;
-            Date = entry.Date;
-            Title = entry.Title;
-            Description = entry.Description;
+            Entry = entry;
             EnteredHours = entry.ComputedHours;
             EnteredMinutes = entry.ComputedMinutes;
 
@@ -89,8 +79,7 @@ namespace HomeSchoolDayBook.Models.ViewModels
                 .Subjects
                 .Where(s => s.IsActive || entrySubjectIDs.Contains(s.ID))
                 .OrderBy(s => s.Name)
-                .Select(s => new CheckBoxVM(s.ID, s.Name, entrySubjectIDs.Contains(s.ID)))
-                
+                .Select(s => new CheckBoxVM(s.ID, s.Name, entrySubjectIDs.Contains(s.ID)))                
                 .ToList();
 
             HashSet<int> entryStudentIDs = entry

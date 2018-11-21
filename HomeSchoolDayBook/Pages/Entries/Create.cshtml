@@ -18,14 +18,14 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="EntryVM.Date" class="control-label"></label>
-                <input asp-for="EntryVM.Date" type="text" class="form-control"  />
-                <span asp-validation-for="EntryVM.Date" class="text-danger"></span>
+                <label asp-for="EntryVM.Entry.Date" class="control-label"></label>
+                <input asp-for="EntryVM.Entry.Date" type="text" class="form-control"  />
+                <span asp-validation-for="EntryVM.Entry.Date" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EntryVM.Title" class="control-label"></label>
-                <input asp-for="EntryVM.Title" class="form-control" autofocus/>
-                <span asp-validation-for="EntryVM.Title" class="text-danger"></span>
+                <label asp-for="EntryVM.Entry.Title" class="control-label"></label>
+                <input asp-for="EntryVM.Entry.Title" class="form-control" autofocus/>
+                <span asp-validation-for="EntryVM.Entry.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="EntryVM.StudentCheckBoxes" class="control-label"></label>
@@ -41,9 +41,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <label asp-for="EntryVM.Description" class="control-label"></label>
-                <textarea asp-for="EntryVM.Description" class="form-control"></textarea>
-                <span asp-validation-for="EntryVM.Description" class="text-danger"></span>
+                <label asp-for="EntryVM.Entry.Description" class="control-label"></label>
+                <textarea asp-for="EntryVM.Entry.Description" class="form-control"></textarea>
+                <span asp-validation-for="EntryVM.Entry.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="EntryVM.EnteredHours" class="control-label"></label>
@@ -82,7 +82,7 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#EntryVM_Date").datepicker({});
+            $("#EntryVM_Entry_Date").datepicker({});
         });
 
     </script>

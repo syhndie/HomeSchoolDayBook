@@ -65,6 +65,12 @@ namespace HomeSchoolDayBook.Pages.Entries
                     .ThenInclude(enr => enr.Student)
                 .FirstOrDefaultAsync(ent => ent.ID == id);
 
+            entryToUpdate.Date = EntryVM.Entry.Date;
+
+            entryToUpdate.Title = EntryVM.Entry.Title;
+
+            entryToUpdate.Description = EntryVM.Entry.Description;
+
             entryToUpdate.MinutesSpent = EntryVM.EnteredTotalMinutes;
 
             entryToUpdate.SubjectAssignments = new List<SubjectAssignment>();
@@ -95,7 +101,7 @@ namespace HomeSchoolDayBook.Pages.Entries
                 }
             }
             
-            if (await TryUpdateModelAsync<Entry>(entryToUpdate, "entryvm"))
+            if (await TryUpdateModelAsync<Entry>(entryToUpdate))
             {
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
