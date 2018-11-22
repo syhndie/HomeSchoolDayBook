@@ -11,12 +11,13 @@ using HomeSchoolDayBook.Models.ViewModels;
 
 namespace HomeSchoolDayBook.Pages.Entries
 {
-    [BindProperties]
     public class CreateModel : PageModel
     {
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
 
         public EntryVM EntryVM { get; set; }
+
+        public string ErrorMessage { get; set; }
 
         public CreateModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
@@ -32,51 +33,54 @@ namespace HomeSchoolDayBook.Pages.Entries
 
         public async Task<IActionResult> OnPostAsync(string[] selectedSubjects, string[] selectedStudents)
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            EntryVM newEntryVM = new EntryVM();
 
-            var newEntry = EntryVM.Entry;
-
-            newEntry.MinutesSpent = EntryVM.EnteredTotalMinutes;
-
-            newEntry.SubjectAssignments = new List<SubjectAssignment>();
+            newEntryVM.Entry = new Entry();
+            
+            newEntryVM.Entry.SubjectAssignments = new List<SubjectAssignment>();
 
             foreach (Subject subject in _context.Subjects)
             {
                 if (selectedSubjects.Contains(subject.ID.ToString()))
                 {
-                    newEntry.SubjectAssignments.Add(new SubjectAssignment
+                    newEntryVM.Entry.SubjectAssignments.Add(new SubjectAssignment
                     {
                         SubjectID = subject.ID,
-                        EntryID = newEntry.ID
+                        EntryID = newEntryVM.Entry.ID
                     });
                 }
             }
 
-            newEntry.Enrollments = new List<Enrollment>();
+            newEntryVM.Entry.Enrollments = new List<Enrollment>();
 
             foreach (Student student in _context.Students)
             {
                 if (selectedStudents.Contains(student.ID.ToString()))
                 {
-                    newEntry.Enrollments.Add(new Enrollment
+                    newEntryVM.Entry.Enrollments.Add(new Enrollment
                     {
                         StudentID = student.ID,
-                        EntryID = newEntry.ID
+                        EntryID = newEntryVM.Entry.ID
                     });
                 }
             }
 
-            if (await TryUpdateModelAsync<Entry>(newEntry, "entryvm"))
+            bool modelDidUpdate = await TryUpdateModelAsync<EntryVM>(newEntryVM, "entryvm");
+
+            newEntryVM.Entry.MinutesSpent = newEntryVM.EnteredTotalMinutes;
+
+            if (ModelState.IsValid && modelDidUpdate)
             {
-                _context.Entries.Add(newEntry);
+                _context.Entries.Add(newEntryVM.Entry);
+
                 await _context.SaveChangesAsync();
+
                 return RedirectToPage("./Index");
             }
 
-            return null;
-        }       
+            ErrorMessage = "New Entry did not save correctly. Please try again.";
+
+            return Page();
+        }
     }
 }
