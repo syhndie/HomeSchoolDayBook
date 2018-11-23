@@ -14,22 +14,17 @@ namespace HomeSchoolDayBook.Pages.Entries
     {
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
 
+        public Entry Entry { get; set; }
+
+        public string ErrorMessage { get; set; }
+
         public DeleteModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
-        [BindProperty]
-        public Entry Entry { get; set; }
-        public string ErrorMessage { get; set; }
-
-        public async Task<IActionResult> OnGetAsync(int? id, bool? saveChangesError = false)
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             Entry = await _context.Entries
                 .Include(ent => ent.Enrollments)
                     .ThenInclude(enr => enr.Student)
@@ -40,47 +35,42 @@ namespace HomeSchoolDayBook.Pages.Entries
 
             if (Entry == null)
             {
-                return NotFound();
-            }
+                Entry = new Entry();
 
-            if (saveChangesError.GetValueOrDefault())
-            {
-                ErrorMessage = "Delete failed. Try again.";
+                Entry.Enrollments = new List<Enrollment>();
+
+                Entry.SubjectAssignments = new List<SubjectAssignment>();
+
+                ErrorMessage = "Entry not found. Please try again.";
             }
+            
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             Entry = await _context.Entries
                 .AsNoTracking()
                 .FirstOrDefaultAsync(e => e.ID == id);
 
             if (Entry == null)
             {
-                return NotFound();
+                Entry = new Entry();
+
+                Entry.Enrollments = new List<Enrollment>();
+
+                Entry.SubjectAssignments = new List<SubjectAssignment>();
+
+                ErrorMessage = "Entry not found. Please try again.";
+
+                return Page();
             }
 
-            try
-            {
-                _context.Entries.Remove(Entry);
-                await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
-            }
-            catch (DbUpdateException)
-            {
-                return RedirectToAction("./Delete",
-                                        new { id, saveChangesError = true });
-            }
+            _context.Remove(Entry);
 
+            await _context.SaveChangesAsync();
 
-
-            
+            return RedirectToPage("./Index");
         }
     }
 }
