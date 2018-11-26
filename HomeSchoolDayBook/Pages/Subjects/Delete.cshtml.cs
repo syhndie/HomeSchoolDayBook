@@ -16,7 +16,8 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
         public Subject Subject { get; set; }
 
-        public string ErrorMessage { get; set; }
+        [TempData]
+        public string NotFoundMessage { get; set; }
 
         public DeleteModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
@@ -29,7 +30,8 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
             if (Subject == null)
             {
-                ErrorMessage = "Subject not found. Please try again.";
+                NotFoundMessage = "Subject not found. The Subject you selected is no longer in the database.";
+                return RedirectToPage("./Index");
             }
             return Page();
         }
@@ -40,9 +42,7 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
             if (Subject == null)
             {
-                ErrorMessage = "Subject not found. Please try again.";
-
-                return Page();
+                return RedirectToPage("./Index");
             }
 
             _context.Remove(Subject);

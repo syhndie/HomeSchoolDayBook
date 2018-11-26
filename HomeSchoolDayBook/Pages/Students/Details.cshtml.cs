@@ -16,7 +16,8 @@ namespace HomeSchoolDayBook.Pages.Students
 
         public Student Student { get; set; }
 
-        public string ErrorMessage { get; set; }
+        [TempData]
+        public string NotFoundMessage { get; set; }
 
         public DetailsModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
@@ -29,8 +30,11 @@ namespace HomeSchoolDayBook.Pages.Students
 
             if (Student == null)
             {
-                ErrorMessage = "Student not found. Please try again.";
+                NotFoundMessage = "Student not found. The Student you selected is no longer in the database.";
+
+                return RedirectToPage("./Index");
             }
+
             return Page();
         }
     }

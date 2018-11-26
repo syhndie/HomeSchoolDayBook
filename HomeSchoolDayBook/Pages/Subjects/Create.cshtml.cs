@@ -16,7 +16,7 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
         public Subject Subject { get; set; }
 
-        public string ErrorMessage { get; set; }
+        public string DidNotSaveMessage { get; set; }
 
         public CreateModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
@@ -43,7 +43,7 @@ namespace HomeSchoolDayBook.Pages.Subjects
                 return RedirectToPage("./Index");
             }
 
-            ErrorMessage = "New Subject did not save correctly. Please try again";
+            DidNotSaveMessage = "New Subject did not save correctly. Please try again";
 
             return Page();
         }

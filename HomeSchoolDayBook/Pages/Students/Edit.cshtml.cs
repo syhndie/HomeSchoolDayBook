@@ -17,7 +17,10 @@ namespace HomeSchoolDayBook.Pages.Students
 
         public Student Student { get; set; }
 
-        public string ErrorMessage {get; set;}
+        [TempData]
+        public string NotFoundMessage {get; set;}
+
+        public string DidNotSaveMessage { get; set; }
 
         public EditModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
@@ -30,8 +33,11 @@ namespace HomeSchoolDayBook.Pages.Students
 
             if (Student == null)
             {
-                ErrorMessage = "Subject not found. Please try again.";
+                NotFoundMessage = "Student not found. The Student you selected is no longer in the database.";
+
+                return RedirectToPage("./Index");
             }
+
             return Page();
         }
 
@@ -41,9 +47,9 @@ namespace HomeSchoolDayBook.Pages.Students
 
             if (editedStudent == null)
             {
-                ErrorMessage = "Student not found. Please try again.";
+                NotFoundMessage = "Student not found. The Student you selected is not longer in the database.";
 
-                return Page();
+                return RedirectToPage("./Index");
             }
 
             bool modelDidUpdate = await TryUpdateModelAsync<Student>(editedStudent, "student");
@@ -51,10 +57,12 @@ namespace HomeSchoolDayBook.Pages.Students
             if (ModelState.IsValid && modelDidUpdate)
             {
                 await _context.SaveChangesAsync();
+
                 return RedirectToPage("./Index");
             }
 
-            ErrorMessage = "Changes did not save correctly. Please try again.";
+            DidNotSaveMessage = "Changes did not save correctly. Please try again.";
+
             return Page();
         }
     }

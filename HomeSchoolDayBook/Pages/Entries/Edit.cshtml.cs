@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,40 +13,38 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HomeSchoolDayBook.Pages.Entries
 {
-    [BindProperties]
     public class EditModel : PageModel
     {
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
+
+        public EntryVM EntryVM { get; set; }
+
+        [TempData]
+        public string ErrorMessage { get; set; }
 
         public EditModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
             _context = context;
             
         }
-        
-        public EntryVM EntryVM { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             Entry entry = await _context.Entries
                 .Include(ent => ent.SubjectAssignments)
                     .ThenInclude(sa => sa.Subject)
                 .Include(ent => ent.Enrollments)
                     .ThenInclude(enr => enr.Student)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(ent => ent.ID == id);
-
-            EntryVM = new EntryVM(entry, _context);
+                .FirstOrDefaultAsync(ent => ent.ID == id);            
 
             if (entry == null)
             {
-                return NotFound();
+                ErrorMessage = "Entry not found. The Entry you selected is no longer in the database.";
+                return RedirectToPage("./Index");
             }
+
+            EntryVM = new EntryVM(entry, _context);
 
             return Page();
         }

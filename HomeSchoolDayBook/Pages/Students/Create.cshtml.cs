@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using HomeSchoolDayBook.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using HomeSchoolDayBook.Data;
-using HomeSchoolDayBook.Models;
+using System.Threading.Tasks;
 
 namespace HomeSchoolDayBook.Pages.Students
 {
@@ -16,7 +11,7 @@ namespace HomeSchoolDayBook.Pages.Students
 
         public Student Student { get; set; }
 
-        public string ErrorMessage { get; set; }
+        public string DidNotSaveMessage { get; set; }
 
         public CreateModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
@@ -43,7 +38,7 @@ namespace HomeSchoolDayBook.Pages.Students
                 return RedirectToPage("./Index");
             }
 
-            ErrorMessage = "New Student did not save correctly. Please try again.";
+            DidNotSaveMessage = "New Student did not save correctly. Please try again.";
 
             return Page();
         }

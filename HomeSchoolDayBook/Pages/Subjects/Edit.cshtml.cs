@@ -17,7 +17,10 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
         public Subject Subject { get; set; }
 
-        public string ErrorMesssage { get; set; }
+        [TempData]
+        public string NotFoundMessage { get; set; }
+
+        public string DidNotSaveMessage { get; set; }
 
         public EditModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
@@ -30,9 +33,13 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
             if (Subject == null)
             {
-                ErrorMesssage = "Subject not found. Please try again.";
+                NotFoundMessage = "Subject not found. The Subject you selected is no longer in the database.";
+
+                return RedirectToPage("./Index");
             }
+
             return Page();
+            
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
@@ -41,9 +48,9 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
             if (editedSubject == null)
             {
-                ErrorMesssage = "Subject not found. Please try again.";
+                NotFoundMessage = "Subject not found. The Subject you selected is no longer in the database.";
 
-                return Page();
+                return RedirectToPage("./Index");
             }
 
             bool modelDidUpdate = await TryUpdateModelAsync<Subject>(editedSubject, "subject");
@@ -54,7 +61,7 @@ namespace HomeSchoolDayBook.Pages.Subjects
                 return RedirectToPage("./Index");
             }
 
-            ErrorMesssage = "Changes did not save correctly. Please try again.";
+            DidNotSaveMessage = "Changes did not save correctly. Please try again.";
             return Page();
         }
 

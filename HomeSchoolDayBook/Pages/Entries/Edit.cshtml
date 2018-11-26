@@ -11,6 +11,8 @@
 
 <h2>Edit</h2>
 
+<p class="text-danger">@Model.ErrorMessage</p>
+
 <h4>Entry</h4>
 <hr />
 <div class="row">
@@ -20,7 +22,7 @@
             <input type="hidden" asp-for="EntryVM.Entry.ID" />
             <div class="form-group">
                 <label asp-for="EntryVM.Entry.Date" class="control-label"></label>
-                <input asp-for="EntryVM.Entry.Date" type="text" class="form-control"  />
+                <input asp-for="EntryVM.Entry.Date" type="text" class="form-control" />
                 <span asp-validation-for="EntryVM.Entry.Date" class="text-danger"></span>
             </div>
             <div class="form-group">
