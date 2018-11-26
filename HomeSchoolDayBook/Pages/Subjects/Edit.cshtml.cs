@@ -55,11 +55,11 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
             bool modelDidUpdate = await TryUpdateModelAsync<Subject>(editedSubject, "subject");
 
-            if (ModelState.IsValid && modelDidUpdate)
-            {
-                await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
-            }
+            //if (ModelState.IsValid && modelDidUpdate)
+            //{
+            //    await _context.SaveChangesAsync();
+            //    return RedirectToPage("./Index");
+            //}
 
             DidNotSaveMessage = "Changes did not save correctly. Please try again.";
             return Page();

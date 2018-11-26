@@ -20,7 +20,9 @@ namespace HomeSchoolDayBook.Pages.Entries
         public EntryVM EntryVM { get; set; }
 
         [TempData]
-        public string ErrorMessage { get; set; }
+        public string NotFoundMessage { get; set; }
+
+        public string DidNotSaveMessage { get; set; }
 
         public EditModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
@@ -40,7 +42,8 @@ namespace HomeSchoolDayBook.Pages.Entries
 
             if (entry == null)
             {
-                ErrorMessage = "Entry not found. The Entry you selected is no longer in the database.";
+                NotFoundMessage = "Entry not found. The Entry you selected is no longer in the database.";
+
                 return RedirectToPage("./Index");
             }
 
@@ -51,61 +54,68 @@ namespace HomeSchoolDayBook.Pages.Entries
 
         public async Task<IActionResult> OnPostAsync(int? id, string[] selectedSubjects, string[] selectedStudents)
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            var entryToUpdate = await _context.Entries
+            Entry editedEntry = await _context.Entries
                 .Include(ent => ent.SubjectAssignments)
                     .ThenInclude(sa => sa.Subject)
                 .Include(ent => ent.Enrollments)
                     .ThenInclude(enr => enr.Student)
                 .FirstOrDefaultAsync(ent => ent.ID == id);
 
-            entryToUpdate.Date = EntryVM.Entry.Date;
+            if (editedEntry == null)
+            {
+                NotFoundMessage = "Entry not found. The Entry you selected is no longer in the database.";
 
-            entryToUpdate.Title = EntryVM.Entry.Title;
+                return RedirectToPage("./Index");
+            }
 
-            entryToUpdate.Description = EntryVM.Entry.Description;
+            EntryVM editedEntryVM = new EntryVM(editedEntry, _context);
 
-            entryToUpdate.MinutesSpent = EntryVM.EnteredTotalMinutes;
-
-            entryToUpdate.SubjectAssignments = new List<SubjectAssignment>();
+            editedEntryVM.Entry.SubjectAssignments = new List<SubjectAssignment>();
             
             foreach (Subject subject in _context.Subjects)
             {
                 if (selectedSubjects.Contains(subject.ID.ToString()))
                 {
-                    entryToUpdate.SubjectAssignments.Add(new SubjectAssignment
+                    editedEntryVM.Entry.SubjectAssignments.Add(new SubjectAssignment
                     {
                         SubjectID = subject.ID,
-                        EntryID = entryToUpdate.ID
+                        EntryID = editedEntry.ID
                     });
                 }
             }
 
-            entryToUpdate.Enrollments = new List<Enrollment>();
+            editedEntryVM.Entry.Enrollments = new List<Enrollment>();
 
             foreach (Student student in _context.Students)
             {
                 if (selectedStudents.Contains(student.ID.ToString()))
                 {
-                    entryToUpdate.Enrollments.Add(new Enrollment
+                    editedEntryVM.Entry.Enrollments.Add(new Enrollment
                     {
                         StudentID = student.ID,
-                        EntryID = entryToUpdate.ID
+                        EntryID = editedEntry.ID
                     });
                 }
             }
-            
-            if (await TryUpdateModelAsync<Entry>(entryToUpdate))
-            {
-                await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
-            }
+
+            bool modelDidUpdate = await TryUpdateModelAsync<EntryVM>(editedEntryVM, "entryVM");
+
+            editedEntryVM.Entry.MinutesSpent = editedEntryVM.EnteredTotalMinutes;
+
+            //if (ModelState.IsValid && modelDidUpdate)
+            //{
+            //    await _context.SaveChangesAsync();
+
+            //    return RedirectToPage("./Index");                               
+            //}
+
+            EntryVM = editedEntryVM;
+
+            DidNotSaveMessage = "Changes did not save correctly. Please try again.";
 
             return Page();
-        }
+
+
+    }
     }
 }

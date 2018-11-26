@@ -17,7 +17,7 @@ namespace HomeSchoolDayBook.Pages.Entries
 
         public EntryVM EntryVM { get; set; }
 
-        public string ErrorMessage { get; set; }
+        public string DidNotSaveMessage { get; set; }
 
         public CreateModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
@@ -69,16 +69,16 @@ namespace HomeSchoolDayBook.Pages.Entries
 
             newEntryVM.Entry.MinutesSpent = newEntryVM.EnteredTotalMinutes;
 
-            if (ModelState.IsValid && modelDidUpdate)
-            {
-                _context.Entries.Add(newEntryVM.Entry);
+            //if (ModelState.IsValid && modelDidUpdate)
+            //{
+            //    _context.Entries.Add(newEntryVM.Entry);
 
-                await _context.SaveChangesAsync();
+            //    await _context.SaveChangesAsync();
 
-                return RedirectToPage("./Index");
-            }
+            //    return RedirectToPage("./Index");
+            //}
 
-            ErrorMessage = "New Entry did not save correctly. Please try again.";
+            DidNotSaveMessage = "New Entry did not save correctly. Please try again.";
 
             return Page();
         }

@@ -16,7 +16,8 @@ namespace HomeSchoolDayBook.Pages.Entries
 
         public Entry Entry { get; set; }
 
-        public string ErrorMessage { get; set; }
+        [TempData]
+        public string NotFoundMessage { get; set; }
 
         public DeleteModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
@@ -35,13 +36,9 @@ namespace HomeSchoolDayBook.Pages.Entries
 
             if (Entry == null)
             {
-                Entry = new Entry();
+                NotFoundMessage = "Entry not found. The Entry you selected is no longer in the database.";
 
-                Entry.Enrollments = new List<Enrollment>();
-
-                Entry.SubjectAssignments = new List<SubjectAssignment>();
-
-                ErrorMessage = "Entry not found. Please try again.";
+                return RedirectToPage("./Index");
             }
             
             return Page();
@@ -55,15 +52,7 @@ namespace HomeSchoolDayBook.Pages.Entries
 
             if (Entry == null)
             {
-                Entry = new Entry();
-
-                Entry.Enrollments = new List<Enrollment>();
-
-                Entry.SubjectAssignments = new List<SubjectAssignment>();
-
-                ErrorMessage = "Entry not found. Please try again.";
-
-                return Page();
+                return RedirectToPage("./Index");
             }
 
             _context.Remove(Entry);

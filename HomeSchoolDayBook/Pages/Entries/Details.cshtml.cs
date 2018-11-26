@@ -8,30 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Models;
 
-//public class DetailsModel : PageModel
-//{
-//    private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
-
-//    public Subject Subject { get; set; }
-
-//    public string ErrorMessage { get; set; }
-
-//    public DetailsModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
-//    {
-//        _context = context;
-//    }
-
-//    public async Task<IActionResult> OnGetAsync(int? id)
-//    {
-//        Subject = await _context.Subjects.FirstOrDefaultAsync(m => m.ID == id);
-
-//        if (Subject == null)
-//        {
-//            ErrorMessage = "Subject not found. Please try again.";
-//        }
-//        return Page();
-//    }
-
 namespace HomeSchoolDayBook.Pages.Entries
 {
     public class DetailsModel : PageModel
@@ -40,7 +16,8 @@ namespace HomeSchoolDayBook.Pages.Entries
 
         public Entry Entry { get; set; }
 
-        public string ErrorMessage { get; set; }
+        [TempData]
+        public string NotFoundMessage { get; set; }
 
         public DetailsModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
@@ -59,13 +36,9 @@ namespace HomeSchoolDayBook.Pages.Entries
 
             if (Entry == null)
             {
-                Entry = new Entry();
+                NotFoundMessage = "Entry not found. The Entry you selected is no longer in the database.";
 
-                Entry.Enrollments = new List<Enrollment>();
-
-                Entry.SubjectAssignments = new List<SubjectAssignment>();
-
-                ErrorMessage = "Entry not found. Please try again.";
+                return RedirectToPage("./Index");
             }
 
             return Page();
