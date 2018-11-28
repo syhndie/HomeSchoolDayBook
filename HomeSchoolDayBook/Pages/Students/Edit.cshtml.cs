@@ -43,16 +43,16 @@ namespace HomeSchoolDayBook.Pages.Students
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            Student editedStudent = await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
+            Student = await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
 
-            if (editedStudent == null)
+            if (Student == null)
             {
                 NotFoundMessage = "Student not found. The Student you selected is not longer in the database.";
 
                 return RedirectToPage("./Index");
             }
 
-            bool modelDidUpdate = await TryUpdateModelAsync<Student>(editedStudent, "student");
+            bool modelDidUpdate = await TryUpdateModelAsync<Student>(Student, "student");
 
             if (ModelState.IsValid && modelDidUpdate)
             {

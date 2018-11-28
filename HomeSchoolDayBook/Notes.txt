@@ -9,7 +9,3 @@ add multi-userness
 Reports
 
 Research view components for entry edit and create pages
-
-clean up page models: Entries Edit & Index
-
-on null model - datetime shows as 01/01/0001 - fix this

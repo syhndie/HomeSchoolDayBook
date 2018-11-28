@@ -34,10 +34,13 @@
                 <div class="row">
                     @foreach (var checkbox in Model.EntryVM.StudentCheckBoxes)
                     {
+                        string isChecked = checkbox.Assigned ? "checked" : "";
+
                         <div class="col-md-6">
                             <input type="checkbox"
                                    name="selectedStudents"
-                                   value="@checkbox.ID" /> @checkbox.Name
+                                   value="@checkbox.ID"
+                                   @isChecked /> @checkbox.Name
                             </div>
                         }
                 </div>
@@ -59,10 +62,13 @@
                 <div class="row">
                     @foreach (var checkbox in Model.EntryVM.SubjectCheckBoxes)
                     {
+                        string isChecked = checkbox.Assigned ? "checked" : "";
+
                         <div class="col-md-6">
                             <input type="checkbox"
                                    name="selectedSubjects"
-                                   value="@checkbox.ID" /> @checkbox.Name
+                                   value="@checkbox.ID" 
+                                   @isChecked /> @checkbox.Name
                             </div>
                         }
                 </div>

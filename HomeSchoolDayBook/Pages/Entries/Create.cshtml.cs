@@ -33,50 +33,50 @@ namespace HomeSchoolDayBook.Pages.Entries
 
         public async Task<IActionResult> OnPostAsync(string[] selectedSubjects, string[] selectedStudents)
         {
-            EntryVM newEntryVM = new EntryVM();
-
-            newEntryVM.Entry = new Entry();
+            Entry newEntry = new Entry();
             
-            newEntryVM.Entry.SubjectAssignments = new List<SubjectAssignment>();
+            newEntry.SubjectAssignments = new List<SubjectAssignment>();
 
             foreach (Subject subject in _context.Subjects)
             {
                 if (selectedSubjects.Contains(subject.ID.ToString()))
                 {
-                    newEntryVM.Entry.SubjectAssignments.Add(new SubjectAssignment
+                    newEntry.SubjectAssignments.Add(new SubjectAssignment
                     {
                         SubjectID = subject.ID,
-                        EntryID = newEntryVM.Entry.ID
+                        EntryID = newEntry.ID
                     });
                 }
             }
 
-            newEntryVM.Entry.Enrollments = new List<Enrollment>();
+            newEntry.Enrollments = new List<Enrollment>();
 
             foreach (Student student in _context.Students)
             {
                 if (selectedStudents.Contains(student.ID.ToString()))
                 {
-                    newEntryVM.Entry.Enrollments.Add(new Enrollment
+                    newEntry.Enrollments.Add(new Enrollment
                     {
                         StudentID = student.ID,
-                        EntryID = newEntryVM.Entry.ID
+                        EntryID = newEntry.ID
                     });
                 }
             }
 
-            bool modelDidUpdate = await TryUpdateModelAsync<EntryVM>(newEntryVM, "entryvm");
+            EntryVM = new EntryVM(newEntry, _context);
 
-            newEntryVM.Entry.MinutesSpent = newEntryVM.EnteredTotalMinutes;
+            bool modelDidUpdate = await TryUpdateModelAsync<EntryVM>(EntryVM, "entryvm");
 
-            //if (ModelState.IsValid && modelDidUpdate)
-            //{
-            //    _context.Entries.Add(newEntryVM.Entry);
+            EntryVM.Entry.MinutesSpent = EntryVM.EnteredTotalMinutes;
 
-            //    await _context.SaveChangesAsync();
+            if (ModelState.IsValid && modelDidUpdate)
+            {
+                _context.Entries.Add(EntryVM.Entry);
 
-            //    return RedirectToPage("./Index");
-            //}
+                await _context.SaveChangesAsync();
+
+                return RedirectToPage("./Index");
+            }
 
             DidNotSaveMessage = "New Entry did not save correctly. Please try again.";
 

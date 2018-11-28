@@ -30,13 +30,13 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
         public async Task<IActionResult> OnPostAsync()
         {
-            Subject newSubject = new Subject();
+            Subject = new Subject();
 
-            bool modelDidUpdate = await TryUpdateModelAsync<Subject>(newSubject, "subject");
+            bool modelDidUpdate = await TryUpdateModelAsync<Subject>(Subject, "subject");
 
             if (ModelState.IsValid && modelDidUpdate)
             {
-                _context.Subjects.Add(newSubject);
+                _context.Subjects.Add(Subject);
 
                 await _context.SaveChangesAsync();
 

@@ -44,24 +44,25 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            Subject editedSubject = await _context.Subjects.FirstOrDefaultAsync(m => m.ID == id);
+            Subject = await _context.Subjects.FirstOrDefaultAsync(m => m.ID == id);
 
-            if (editedSubject == null)
+            if (Subject == null)
             {
                 NotFoundMessage = "Subject not found. The Subject you selected is no longer in the database.";
 
                 return RedirectToPage("./Index");
             }
 
-            bool modelDidUpdate = await TryUpdateModelAsync<Subject>(editedSubject, "subject");
+            bool modelDidUpdate = await TryUpdateModelAsync<Subject>(Subject, "subject");
 
-            //if (ModelState.IsValid && modelDidUpdate)
-            //{
-            //    await _context.SaveChangesAsync();
-            //    return RedirectToPage("./Index");
-            //}
+            if (ModelState.IsValid && modelDidUpdate)
+            {
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
 
             DidNotSaveMessage = "Changes did not save correctly. Please try again.";
+
             return Page();
         }
 

@@ -68,15 +68,13 @@ namespace HomeSchoolDayBook.Pages.Entries
                 return RedirectToPage("./Index");
             }
 
-            EntryVM editedEntryVM = new EntryVM(editedEntry, _context);
-
-            editedEntryVM.Entry.SubjectAssignments = new List<SubjectAssignment>();
+            editedEntry.SubjectAssignments = new List<SubjectAssignment>();
             
             foreach (Subject subject in _context.Subjects)
             {
                 if (selectedSubjects.Contains(subject.ID.ToString()))
                 {
-                    editedEntryVM.Entry.SubjectAssignments.Add(new SubjectAssignment
+                    editedEntry.SubjectAssignments.Add(new SubjectAssignment
                     {
                         SubjectID = subject.ID,
                         EntryID = editedEntry.ID
@@ -84,13 +82,13 @@ namespace HomeSchoolDayBook.Pages.Entries
                 }
             }
 
-            editedEntryVM.Entry.Enrollments = new List<Enrollment>();
+            editedEntry.Enrollments = new List<Enrollment>();
 
             foreach (Student student in _context.Students)
             {
                 if (selectedStudents.Contains(student.ID.ToString()))
                 {
-                    editedEntryVM.Entry.Enrollments.Add(new Enrollment
+                    editedEntry.Enrollments.Add(new Enrollment
                     {
                         StudentID = student.ID,
                         EntryID = editedEntry.ID
@@ -98,24 +96,22 @@ namespace HomeSchoolDayBook.Pages.Entries
                 }
             }
 
-            bool modelDidUpdate = await TryUpdateModelAsync<EntryVM>(editedEntryVM, "entryVM");
+            EntryVM = new EntryVM(editedEntry, _context);
 
-            editedEntryVM.Entry.MinutesSpent = editedEntryVM.EnteredTotalMinutes;
+            bool modelDidUpdate = await TryUpdateModelAsync<EntryVM>(EntryVM, "entryVM");
 
-            //if (ModelState.IsValid && modelDidUpdate)
-            //{
-            //    await _context.SaveChangesAsync();
+            EntryVM.Entry.MinutesSpent = EntryVM.EnteredTotalMinutes;
 
-            //    return RedirectToPage("./Index");                               
-            //}
+            if (ModelState.IsValid && modelDidUpdate)
+            {
+                await _context.SaveChangesAsync();
 
-            EntryVM = editedEntryVM;
+                return RedirectToPage("./Index");
+            }
 
             DidNotSaveMessage = "Changes did not save correctly. Please try again.";
 
             return Page();
-
-
-    }
+        }
     }
 }

@@ -25,13 +25,13 @@ namespace HomeSchoolDayBook.Pages.Students
 
         public async Task<IActionResult> OnPostAsync()
         {
-            Student newStudent = new Student();
+            Student = new Student();
 
-            bool modelDidUpdate = await TryUpdateModelAsync<Student>(newStudent, "student");
+            bool modelDidUpdate = await TryUpdateModelAsync<Student>(Student, "student");
 
             if (ModelState.IsValid && modelDidUpdate) 
             {
-                _context.Students.Add(newStudent);
+                _context.Students.Add(Student);
 
                 await _context.SaveChangesAsync();
 
