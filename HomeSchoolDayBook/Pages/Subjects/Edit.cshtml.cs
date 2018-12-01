@@ -57,6 +57,15 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
             if (ModelState.IsValid && modelDidUpdate)
             {
+                List<string> otherUsedNames = _context.Subjects.Where(s => s.ID != id).Select(s => s.Name).ToList();
+
+                if (otherUsedNames.Contains(Subject.Name))
+                {
+                    DidNotSaveMessage = "This Subject is already in the database.";
+
+                    return Page();
+                }
+
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
             }
