@@ -56,6 +56,15 @@ namespace HomeSchoolDayBook.Pages.Students
 
             if (ModelState.IsValid && modelDidUpdate)
             {
+                List<string> otherUsedNames = _context.Students.Where(s => s.ID != id).Select(s=> s.Name).ToList();
+
+                if (otherUsedNames.Contains(Student.Name))
+                {
+                    DidNotSaveMessage = "This Student is already in the database.";
+
+                    return Page();
+                }
+
                 await _context.SaveChangesAsync();
 
                 return RedirectToPage("./Index");
