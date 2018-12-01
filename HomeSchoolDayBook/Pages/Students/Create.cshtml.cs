@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HomeSchoolDayBook.Pages.Students
 {
@@ -10,7 +12,7 @@ namespace HomeSchoolDayBook.Pages.Students
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
 
         public Student Student { get; set; }
-
+    
         public string DidNotSaveMessage { get; set; }
 
         public CreateModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
@@ -31,6 +33,14 @@ namespace HomeSchoolDayBook.Pages.Students
 
             if (ModelState.IsValid && modelDidUpdate) 
             {
+                List<string> usedNames = _context.Students.Select(s => s.Name).ToList();
+
+                if (usedNames.Contains(Student.Name))
+                {
+                    DidNotSaveMessage = "This Student is already in the database.";
+
+                    return Page();
+                }
                 _context.Students.Add(Student);
 
                 await _context.SaveChangesAsync();
