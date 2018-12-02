@@ -1,0 +1,69 @@
+﻿@page
+@model HomeSchoolDayBook.Pages.Reports.IndexModel
+
+@section CSS {
+    <link rel="stylesheet" href="~/lib/datepicker/bootstrap-datepicker-standalone.css" />
+}
+
+@{
+    ViewData["Title"] = "Create a Report";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" type="text" class="form-control" autofocus />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" type="text" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="StudentCheckBoxes" class="control-label"></label>
+                <div class="row">
+                    @foreach (var checkbox in Model.StudentCheckBoxes)
+                    {
+                        string isChecked = checkbox.Assigned ? "checked" : "";
+
+                        <div class="col-md-6">
+                            <input type="checkbox"
+                                   name="selectedStudents"
+                                   value="@checkbox.ID"
+                                   @isChecked /> @checkbox.Name
+                        </div>
+                    }
+            </div>
+        </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create Report" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="/lib/datepicker/bootstrap-datepicker.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#StartDate").datepicker({});
+        });
+
+    </script>
+}
+

@@ -1,11 +1,21 @@
-﻿add ability to add a new subject or a new student from the Entry Edit and Create pages
-
-double check all Model Properties for yes or no nullable, and any default values
-
-add validation to all create and edit pages - unique names, valid dates, non negative minutes and hours
-
-add multi-userness
-
-Reports
+﻿add multi-userness
 
 Research view components for entry edit and create pages
+
+reports:
+	attendance			user entered date range
+						user-entered student(s)	
+						reports x days out of y
+	entries, brief		user-entered date range
+						user-entered student(s)
+						reports date, title, subjects
+	entries, full		user-entered date range
+						user-entered student(s)
+						reports date, title, subjects, time, descriptions
+	time per day		user-entered date range
+						user-entered student(s)
+						reports total time per day
+						reports total time for date range
+	time per subject	user-entered date range 
+						user-entered student(s)
+						reports total time per subject for date range
