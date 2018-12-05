@@ -29,6 +29,8 @@ namespace HomeSchoolDayBook.Pages.Reports
         [Display(Name = "Students")]
         public List<CheckBoxVM> StudentCheckBoxes { get; set; }
 
+        public List<CheckBoxVM> ReportCheckBoxes { get; set; }
+
         public IndexModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
             _context = context;
@@ -46,6 +48,11 @@ namespace HomeSchoolDayBook.Pages.Reports
                 .OrderBy(st => st.Name)
                 .Select(st => new CheckBoxVM(st.ID, st.Name, false))
                 .ToListAsync();
+
+            ReportCheckBoxes = new List<CheckBoxVM>();
+            ReportCheckBoxes.Add(new CheckBoxVM(1, "Attendance", false));
+            ReportCheckBoxes.Add(new CheckBoxVM(2, "Entries in Brief", false));
+            ReportCheckBoxes.Add(new CheckBoxVM(3, "Entries in Full", false));
 
             return Page();
             
