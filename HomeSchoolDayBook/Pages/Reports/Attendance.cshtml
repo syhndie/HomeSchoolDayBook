@@ -1,0 +1,24 @@
+﻿@page
+@model HomeSchoolDayBook.Pages.Reports.AttendanceModel
+@{
+    ViewData["Title"] = "Attendance";
+}
+
+<h2>Attendance, @Html.DisplayFor(model => model.StartDate) to @Html.DisplayFor(model => model.EndDate) </h2>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        @foreach (var student in Model.StudentAttendances)
+        {
+            <div class="row">
+                <div class="colmd6">
+                    <h3>@student.Student.Name: </h3>
+                    <h4>present @student.DaysAttended out of @student.TotalDays days</h4>
+                        
+                </div>
+            </div>
+            <hr />
+        }
+    </div>
+</div>
+
