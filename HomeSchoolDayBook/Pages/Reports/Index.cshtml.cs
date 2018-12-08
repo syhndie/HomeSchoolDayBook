@@ -19,13 +19,13 @@ namespace HomeSchoolDayBook.Pages.Reports
 
         [DataType(DataType.Date)]
         [Required]
-        [Display(Name ="Start Date")]
-        public DateTime StartDate { get; set; }
+        [Display(Name ="From")]
+        public DateTime FromDate { get; set; }
 
         [DataType(DataType.Date)]
         [Required]
-        [Display(Name ="End Date")]
-        public DateTime EndDate { get; set; }
+        [Display(Name ="To")]
+        public DateTime ToDate { get; set; }
 
         [Display(Name = "Students")]
         public List<CheckBoxVM> StudentCheckBoxes { get; set; }
@@ -40,9 +40,9 @@ namespace HomeSchoolDayBook.Pages.Reports
         
         public async Task<IActionResult> OnGetAsync()
         {
-            StartDate = DateTime.Today.AddMonths(-1);
+            FromDate = DateTime.Today.AddMonths(-1);
 
-            EndDate = DateTime.Today;
+            ToDate = DateTime.Today;
 
             StudentCheckBoxes = await _context
                 .Students
@@ -59,8 +59,12 @@ namespace HomeSchoolDayBook.Pages.Reports
             return Page();            
         }
 
-        public IActionResult OnPost(string startDate, string endDate, string[] selectedStudents, string selectedReport)
-        {            
+        public IActionResult OnPost(string fromDate, string toDate, string[] selectedStudents, string selectedReport)
+        {
+            string startDate = Convert.ToDateTime(fromDate) <= Convert.ToDateTime(toDate) ? fromDate : toDate;
+
+            string endDate = startDate == fromDate ? toDate : fromDate;
+
             string selectedStudentsAsString = String.Join(',', selectedStudents);
             switch (selectedReport)
             {

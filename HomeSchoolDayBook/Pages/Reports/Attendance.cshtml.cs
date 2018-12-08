@@ -16,11 +16,9 @@ namespace HomeSchoolDayBook.Pages.Reports
         private readonly ApplicationDbContext _context;
 
         [DataType(DataType.Date)]
-        [Required]
         public DateTime StartDate { get; set; }
 
         [DataType(DataType.Date)]
-        [Required]
         public DateTime EndDate { get; set; }
 
         public List<AttendanceVM> StudentAttendances { get; set; }

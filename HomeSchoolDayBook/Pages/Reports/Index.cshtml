@@ -17,15 +17,15 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" type="text" class="form-control" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
+                <label asp-for="FromDate" class="control-label"></label>
+                <input asp-for="FromDate" type="text" class="form-control" />
+                <span asp-validation-for="FromDate" class="text-danger"></span>
             </div>
 
             <div class="form-group">                
-                <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" type="text" class="form-control" />
-                <span asp-validation-for="EndDate" class="text-danger"></span>
+                <label asp-for="ToDate" class="control-label"></label>
+                <input asp-for="ToDate" type="text" class="form-control" />
+                <span asp-validation-for="ToDate" class="text-danger"></span>
             </div>
 
             <div class="form-group">
@@ -77,11 +77,11 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#StartDate").datepicker({
+            $("#FromDate").datepicker({
                 orientation: "bottom right"
             });
 
-            $("#EndDate").datepicker({
+            $("#ToDate").datepicker({
                 orientation: "bottom right"
             });
         });
