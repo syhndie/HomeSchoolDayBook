@@ -24,11 +24,13 @@ namespace HomeSchoolDayBook.Pages.Reports
 
         [DataType(DataType.Date)]
         [Required]
+        [Display(Name ="End Date")]
         public DateTime EndDate { get; set; }
 
         [Display(Name = "Students")]
         public List<CheckBoxVM> StudentCheckBoxes { get; set; }
 
+        [Display(Name ="Choose a Report")]
         public List<CheckBoxVM> ReportRadioButtons { get; set; }
 
         public IndexModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
@@ -58,7 +60,7 @@ namespace HomeSchoolDayBook.Pages.Reports
         }
 
         public IActionResult OnPost(string startDate, string endDate, string[] selectedStudents, string selectedReport)
-        {
+        {            
             string selectedStudentsAsString = String.Join(',', selectedStudents);
             switch (selectedReport)
             {
