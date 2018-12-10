@@ -11,6 +11,7 @@ namespace HomeSchoolDayBook.Models
     {
         public int ID { get; set; }
 
+        [Display(Name ="Subject")]
         [Required]
         public string Name { get; set; }
 
