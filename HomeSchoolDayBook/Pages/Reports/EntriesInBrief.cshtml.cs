@@ -37,7 +37,9 @@ namespace HomeSchoolDayBook.Pages.Reports
 
             EndDate = Convert.ToDateTime(end);
 
-            List<int> studentIntIDs = studentIDs.Split(',')
+            List<int> studentIntIDs = studentIDs is null || studentIDs == "" 
+                ? new List<int>() :
+                studentIDs.Split(',')
                 .Select(Int32.Parse)
                 .ToList();
 
