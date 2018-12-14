@@ -35,7 +35,7 @@ namespace HomeSchoolDayBook.Pages.Reports
         {
             StartDate = Convert.ToDateTime(start);
 
-            EndDate = Convert.ToDateTime(end);           
+            EndDate = Convert.ToDateTime(end);
 
             List<int> studentIntIDs = studentIDs.Split(',')
                 .Select(Int32.Parse)

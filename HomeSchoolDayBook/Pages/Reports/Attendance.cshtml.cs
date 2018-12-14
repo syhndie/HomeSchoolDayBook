@@ -35,11 +35,16 @@ namespace HomeSchoolDayBook.Pages.Reports
 
             EndDate = Convert.ToDateTime(end);
 
-            StudentAttendances = studentIDs.Split(',')
-                .Select(Int32.Parse)
-                .Select(i => new AttendanceVM(_context, i, StartDate, EndDate))
-                .OrderBy(sa => sa.Student.Name)
-                .ToList();
+            if (studentIDs == null || studentIDs == "") StudentAttendances = new List<AttendanceVM>();
+            else
+            {
+                StudentAttendances = studentIDs.Split(',')
+                    .Select(Int32.Parse)
+                    .Select(i => new AttendanceVM(_context, i, StartDate, EndDate))
+                    .OrderBy(sa => sa.Student.Name)
+                    .ToList();
+            }
+
         }
     }
 }

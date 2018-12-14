@@ -17,16 +17,11 @@ namespace HomeSchoolDayBook.Pages.Reports
     {
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
 
-        [TempData]
-        public string InputErrorMessage { get; set; }
-
         [DataType(DataType.Date)]
-        [Required]
         [Display(Name ="From")]
         public DateTime FromDate { get; set; }
 
         [DataType(DataType.Date)]
-        [Required]
         [Display(Name ="To")]
         public DateTime ToDate { get; set; }
 
@@ -63,18 +58,13 @@ namespace HomeSchoolDayBook.Pages.Reports
         }
 
         public IActionResult OnPost(string fromDate, string toDate, string[] selectedStudents, string selectedReport)
-        {
-            if (selectedStudents.Count() == 0)
-            {
-                InputErrorMessage = "You must choose at least one student.";
-                return RedirectToPage("./Index"); 
-            }
- 
+        { 
             string startDate = Convert.ToDateTime(fromDate) <= Convert.ToDateTime(toDate) ? fromDate : toDate;
 
             string endDate = startDate == fromDate ? toDate : fromDate;
 
             string selectedStudentsAsString = String.Join(',', selectedStudents);
+
             switch (selectedReport)
             {
                 case "1":
@@ -87,7 +77,7 @@ namespace HomeSchoolDayBook.Pages.Reports
                     return RedirectToPage("./EntriesInFull");
 
                 default:
-                    return Page();
+                    return RedirectToPage("./NoReport");
             }         
         }
     }

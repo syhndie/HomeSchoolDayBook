@@ -13,7 +13,7 @@
 <hr />
 <div class="row">
     <div class="col-md-6">
-        <form method="post" target="_blank">
+        <form method="post" target="_blank" id="reportForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
@@ -22,7 +22,7 @@
                 <span asp-validation-for="FromDate" class="text-danger"></span>
             </div>
 
-            <div class="form-group">                
+            <div class="form-group">
                 <label asp-for="ToDate" class="control-label"></label>
                 <input asp-for="ToDate" type="text" class="form-control" />
                 <span asp-validation-for="ToDate" class="text-danger"></span>
@@ -30,6 +30,7 @@
 
             <div class="form-group">
                 <label asp-for="StudentCheckBoxes" class="control-label"></label>
+                <span id="studentValidationMessage" class="text-danger"></span>
                 <div class="row">
                     @foreach (var checkbox in Model.StudentCheckBoxes)
                     {
@@ -47,6 +48,7 @@
 
             <div class="form-group">
                 <label asp-for="ReportRadioButtons" class="control-label"></label>
+                <span id="reportValidationMessage" class="text-danger"></span>
                 <div class="row">
                     @foreach (var checkboxVM in Model.ReportRadioButtons)
                     {
@@ -73,7 +75,7 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    <script src="/lib/datepicker/bootstrap-datepicker.js"></script>
+    <script src="~/lib/datepicker/bootstrap-datepicker.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -84,9 +86,21 @@
             $("#ToDate").datepicker({
                 orientation: "bottom right"
             });
+            
+            $('#reportForm').submit(function () {
+                var $students = $(this).find('input[name="selectedStudents"]:checked');
+                var $report = $(this).find('input[name="selectedReport"]:checked');
+                if (!$students.length) {
+                    $('#studentValidationMessage').html('You must select at least one Student.');
+                    return false; 
+                }
+                if (!$report.length) {
+                    $('#reportValidationMessage').html('You must select a Report.');
+                    return false;
+                }
+            });
+            
         });
     </script>
 }
-
-
 
