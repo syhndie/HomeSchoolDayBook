@@ -3,12 +3,6 @@
 Research view components for entry edit and create pages
 
 reports:
-	attendance			user entered date range
-						user-entered student(s)	
-						reports x days out of y
-	entries, brief		user-entered date range
-						user-entered student(s)
-						reports date, title, subjects
 	entries, full		user-entered date range
 						user-entered student(s)
 						reports date, title, subjects, time, descriptions
@@ -19,3 +13,6 @@ reports:
 	time per subject	user-entered date range 
 						user-entered student(s)
 						reports total time per subject for date range
+
+
+In Entries in Full report, change view model(?) to have enrollments sorted by student name

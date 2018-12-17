@@ -74,7 +74,7 @@ namespace HomeSchoolDayBook.Pages.Reports
                     return RedirectToPage("./EntriesInBrief", new { start = startDate, end = endDate, studentIDs = selectedStudentsAsString});
                     
                 case "3":
-                    return RedirectToPage("./EntriesInFull");
+                    return RedirectToPage("./EntriesInFull", new { start = startDate, end = endDate, studentIDs = selectedStudentsAsString });
 
                 default:
                     return RedirectToPage("./NoReport");

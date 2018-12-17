@@ -5,30 +5,30 @@
     Layout = "~/Pages/Reports/_ReportsLayout.cshtml";
 }
 
-<h3>Entries In Brief, @Html.DisplayFor(model => model.StartDate) to @Html.DisplayFor(model => model.EndDate)</h3>
-<h4>for @Html.DisplayFor(model => model.StudentNames)</h4>
+<h3>Entries In Brief, @Html.DisplayFor(model => model.EntriesReportVM.StartDate) to @Html.DisplayFor(model => model.EntriesReportVM.EndDate)</h3>
+<h4>for @Html.DisplayFor(model => model.EntriesReportVM.StudentNames)</h4>
 <hr />
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Entries[0].Date)
+                @Html.DisplayNameFor(model => model.EntriesReportVM.Entries[0].Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Entries[0].Title)
+                @Html.DisplayNameFor(model => model.EntriesReportVM.Entries[0].Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Entries[0].Enrollments.ToList()[0].Student.Name)
+                @Html.DisplayNameFor(model => model.EntriesReportVM.Entries[0].Enrollments.ToList()[0].Student.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Entries[0].SubjectAssignments.ToList()[0].Subject.Name)
+                @Html.DisplayNameFor(model => model.EntriesReportVM.Entries[0].SubjectAssignments.ToList()[0].Subject.Name)
             </th>
         </tr>
 
     </thead>
     <tbody>
-        @foreach (var entry in Model.Entries)
+        @foreach (var entry in Model.EntriesReportVM.Entries)
         {
             <tr>
                 <td>

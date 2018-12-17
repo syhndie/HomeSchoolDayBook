@@ -1,0 +1,29 @@
+﻿@page
+@model HomeSchoolDayBook.Pages.Reports.EntriesInFullModel
+@{
+    ViewData["Title"] = "EntriesInFull";
+    Layout = "~/Pages/Reports/_ReportsLayout.cshtml";
+}
+
+<h3>Entries In Full, @Html.DisplayFor(model => model.EntriesReportVM.StartDate) to @Html.DisplayFor(model => model.EntriesReportVM.EndDate)</h3>
+<h4>for @Html.DisplayFor(model => model.EntriesReportVM.StudentNames)</h4>
+<hr />
+
+<div>
+    @foreach (var entry in Model.EntriesReportVM.Entries)
+    {
+       
+        <p>
+            @Html.DisplayFor(model => entry.Date)
+            <br />
+            <strong>@Html.DisplayFor(model => entry.Title):</strong>
+            @Html.DisplayFor(model => entry.Description)
+            <br />
+            @Model.StudentNameLookup[entry.ID]
+            <br />
+            @Html.DisplayFor(model => entry.ComputedTimeSpent)
+        </p>
+        <br />
+        
+    }
+</div>
