@@ -32,13 +32,22 @@ namespace HomeSchoolDayBook.Models.ViewModels
                 .Select(Int32.Parse)
                 .ToList();
 
-            List<string> studentNamesList = context.Students
+            var studentNamesList = context.Students
                 .Where(s => studentIntIDs.Contains(s.ID))
                 .OrderBy(s => s.Name)
                 .Select(s => s.Name)
                 .ToList();
 
-            StudentNames = String.Join(", ", studentNamesList);
+            StudentNames = "";
+
+            for (int i = 0; i < studentNamesList.Count(); i++)
+            {
+                if (i == 0) StudentNames = studentNamesList[i];
+
+                else if (i == studentNamesList.Count() - 1) StudentNames = $"{StudentNames} and {studentNamesList[i]}";
+ 
+                else StudentNames = $"{StudentNames}, {studentNamesList[i]}";
+            }
 
             Entries = context.Entries
                 .Include(ent => ent.Enrollments)
@@ -50,7 +59,6 @@ namespace HomeSchoolDayBook.Models.ViewModels
                 .OrderBy(ent => ent.Date)
                     .ThenBy(ent => ent.Title)
                 .ToList();
-
         }
 
     }
