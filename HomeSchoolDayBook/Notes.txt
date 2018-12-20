@@ -3,12 +3,9 @@
 Research view components for entry edit and create pages
 
 reports:
-	entries, full		user-entered date range
-						user-entered student(s)
-						reports date, title, subjects, time, descriptions
 	time per day		user-entered date range
 						user-entered student(s)
-						reports total time per day
+						reports time per each day in the range, and total time across the date range
 						reports total time for date range
 	time per subject	user-entered date range 
 						user-entered student(s)

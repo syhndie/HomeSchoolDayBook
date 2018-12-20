@@ -53,6 +53,7 @@ namespace HomeSchoolDayBook.Pages.Reports
             ReportRadioButtons.Add(new CheckBoxVM(1, "Attendance", false));
             ReportRadioButtons.Add(new CheckBoxVM(2, "Entries in Brief", false));
             ReportRadioButtons.Add(new CheckBoxVM(3, "Entries in Full", false));
+            ReportRadioButtons.Add(new CheckBoxVM(4, "Time Spent per Day", false));
 
             return Page();            
         }
@@ -75,6 +76,9 @@ namespace HomeSchoolDayBook.Pages.Reports
                     
                 case "3":
                     return RedirectToPage("./EntriesInFull", new { start = startDate, end = endDate, studentIDs = selectedStudentsAsString });
+
+                case "4":
+                    return RedirectToPage("./TimeSpentPerDay", new { start = startDate, end = endDate, studentIDs = selectedStudentsAsString });
 
                 default:
                     return RedirectToPage("./NoReport");
