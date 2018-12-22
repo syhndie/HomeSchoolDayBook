@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using HomeSchoolDayBook.Data;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
+using HomeSchoolDayBook.Models.ViewModels;
 
 namespace HomeSchoolDayBook.Pages.Reports
 {
@@ -19,6 +21,8 @@ namespace HomeSchoolDayBook.Pages.Reports
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
 
+        public List<TimeSpentPerDayVM> StudentTimeSpents { get; set; }
+
         public TimeSpentPerDayModel(ApplicationDbContext context)
         {
             _context = context;
@@ -29,6 +33,17 @@ namespace HomeSchoolDayBook.Pages.Reports
             StartDate = Convert.ToDateTime(start);
 
             EndDate = Convert.ToDateTime(end);
+
+            if (studentIDs == null || studentIDs == "")  StudentTimeSpents = new List<TimeSpentPerDayVM>();
+            else
+            {
+                StudentTimeSpents = studentIDs.Split(',')
+                    .Select(Int32.Parse)
+                    .Select(i => new TimeSpentPerDayVM(_context, i, StartDate, EndDate))
+                    .OrderBy(sa => sa.Student.Name)
+                    .ToList();
+            }
+
         }
     }
 }
