@@ -44,9 +44,7 @@ namespace HomeSchoolDayBook.Models.ViewModels
         //constructor for Create page
         public EntryVM (ApplicationDbContext context)
         {
-            Entry = new Entry();
-
-            Entry.Date = DateTime.Today;
+            Entry = new Entry { Date = DateTime.Today };
 
             SubjectCheckBoxes = context
                 .Subjects

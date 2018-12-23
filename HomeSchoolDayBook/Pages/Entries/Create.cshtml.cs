@@ -33,9 +33,7 @@ namespace HomeSchoolDayBook.Pages.Entries
 
         public async Task<IActionResult> OnPostAsync(string[] selectedSubjects, string[] selectedStudents)
         {
-            Entry newEntry = new Entry();
-            
-            newEntry.SubjectAssignments = new List<SubjectAssignment>();
+            Entry newEntry = new Entry { SubjectAssignments = new List<SubjectAssignment>() };
 
             foreach (Subject subject in _context.Subjects)
             {
