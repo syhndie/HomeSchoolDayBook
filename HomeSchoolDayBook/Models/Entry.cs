@@ -20,6 +20,15 @@ namespace HomeSchoolDayBook.Models
 
         public int? MinutesSpent { get; set; }
 
+        [Display(Name = "Time Spent")]
+        public string ComputedTimeSpent
+        {
+            get
+            {
+                return Helpers.Helpers.GetTimeSpentDisplay(MinutesSpent);
+            }
+        }
+
         public int? ComputedHours
         {
             get
@@ -33,19 +42,6 @@ namespace HomeSchoolDayBook.Models
             get
             {
                 return MinutesSpent % 60;
-            }
-        }
-
-        [Display(Name = "Time Spent")]
-        public string ComputedTimeSpent
-        {
-            get
-            {
-                string hoursUnits = ComputedHours == 1 ? "hour" : "hours";
-                string minutesUnits = ComputedMinutes == 1 ? "minute" : "minutes";
-                string hours = (ComputedHours == 0 || ComputedHours == null) ? "" : $"{ComputedHours} {hoursUnits}";
-                string minutes = (ComputedMinutes == 0 || ComputedMinutes == null) ? "" : $"{ComputedMinutes} {minutesUnits}";
-                return (hours == "" || minutes == "") ? $"{hours} {minutes}" : $"{hours}, {minutes}";
             }
         }
 
