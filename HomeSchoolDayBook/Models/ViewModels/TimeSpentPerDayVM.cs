@@ -21,8 +21,9 @@ namespace HomeSchoolDayBook.Models.ViewModels
                 .Include(ent => ent.Enrollments)
                 .Where(ent => startDate <= ent.Date && ent.Date <= endDate)
                 .Where(ent => ent.Enrollments.Select(enr => enr.StudentID).Contains(studentID))
+                .Where(ent => ent.MinutesSpent >0)
                 .GroupBy(ent => ent.Date)
                 .ToDictionary(x => x.Key, x => x.Sum(y => y.MinutesSpent));
-        }
+         }
     }
 }

@@ -15,7 +15,10 @@
             @foreach (var day in student.TimePerDayLookup)
             {
                 string formattedDate = $"{day.Key.ToShortDateString()} ({day.Key.DayOfWeek})";
-                <p>@Html.DisplayFor(modelitem => formattedDate): @Html.DisplayFor(model => day.Value)</p>
+
+                string formattedTimeSpent = Helpers.Helpers.GetTimeSpentDisplay(day.Value);
+
+                <p>@Html.DisplayFor(modelitem => formattedDate): @Html.DisplayFor(modelitem => formattedTimeSpent)</p>
             }
             <hr />
         }

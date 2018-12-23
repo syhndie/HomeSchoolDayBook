@@ -8,6 +8,7 @@ using HomeSchoolDayBook.Data;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using HomeSchoolDayBook.Models.ViewModels;
+using HomeSchoolDayBook.Helpers;
 
 namespace HomeSchoolDayBook.Pages.Reports
 {
@@ -43,6 +44,8 @@ namespace HomeSchoolDayBook.Pages.Reports
                     .OrderBy(sa => sa.Student.Name)
                     .ToList();
             }
+
+         
 
         }
     }
