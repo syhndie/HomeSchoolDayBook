@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using static HomeSchoolDayBook.Helpers.Helpers;
 
 namespace HomeSchoolDayBook.Models
 {
@@ -25,7 +26,8 @@ namespace HomeSchoolDayBook.Models
         {
             get
             {
-                return Helpers.Helpers.GetTimeSpentDisplay(MinutesSpent);
+              
+                return GetTimeSpentDisplay(MinutesSpent);
             }
         }
 

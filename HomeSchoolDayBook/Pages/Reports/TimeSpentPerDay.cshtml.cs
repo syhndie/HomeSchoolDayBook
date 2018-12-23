@@ -8,7 +8,6 @@ using HomeSchoolDayBook.Data;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using HomeSchoolDayBook.Models.ViewModels;
-using HomeSchoolDayBook.Helpers;
 
 namespace HomeSchoolDayBook.Pages.Reports
 {
