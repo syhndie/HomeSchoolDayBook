@@ -9,7 +9,7 @@ namespace HomeSchoolDayBook.Helpers
     {
         public static string GetTimeSpentDisplay(int? totalMinutes)
         {
-            if (totalMinutes == null) return null;
+            if (totalMinutes == null) return "Time was not recorded.";
 
             if (totalMinutes == 0) return "0 minutes";
 
