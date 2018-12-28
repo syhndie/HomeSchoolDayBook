@@ -1,0 +1,33 @@
+﻿@page
+@model HomeSchoolDayBook.Pages.Reports.TimeSpentPerSubjectModel
+@{
+    ViewData["Title"] = "TimeSpentPerSubject";
+    Layout = "~/Pages/Reports/_ReportsLayout.cshtml";
+}
+<h3>Time Spent per Subject, @Html.DisplayFor(model => model.StartDate) to @Html.DisplayFor(model => model.EndDate) </h3>
+<hr />
+
+@foreach (var student in Model.StudentTimeSpents)
+{
+    <h4>@student.Student.Name:</h4>
+    <table class="table">
+        <tbody>
+            @foreach (var subject in student.TimePerSubjectLookup.OrderBy(d => d.Key.Name))
+            {
+                string formattedSubject = subject.Key.Name;
+
+                string formattedTimeSpent = Helpers.Helpers.GetTimeSpentDisplay(subject.Value);
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => formattedSubject)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => formattedTimeSpent)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <hr />
+}
