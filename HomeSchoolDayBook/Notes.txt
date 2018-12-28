@@ -1,11 +1,3 @@
 ﻿add multi-userness
 
 Research view components for entry edit and create pages
-
-reports:
-	time per subject	user-entered date range 
-						user-entered student(s)
-						reports total time per subject for date range
-
-
-In Entries in Full report, change view model(?) to have enrollments sorted by student name
