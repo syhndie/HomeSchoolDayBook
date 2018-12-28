@@ -5,20 +5,31 @@
     Layout = "~/Pages/Reports/_ReportsLayout.cshtml";
 }
 
-<h2>Time Spent per Day, @Html.DisplayFor(model => model.StartDate) to @Html.DisplayFor(model => model.EndDate) </h2>
-<h3>All Subjects</h3>
+<h3>Time Spent per Day, @Html.DisplayFor(model => model.StartDate) to @Html.DisplayFor(model => model.EndDate) </h3>
+<h4>All Subjects</h4>
 <hr />
 
         @foreach (var student in Model.StudentTimeSpents)
         {
-            <h3>@student.Student.Name:</h3>
-            @foreach (var day in student.TimePerDayLookup)
-            {
-                string formattedDate = $"{day.Key.ToShortDateString()} ({day.Key.DayOfWeek})";
+            <h4>@student.Student.Name:</h4>
+            <table class="table">
+                <tbody>
+                    @foreach (var day in student.TimePerDayLookup)
+                    {
+                        string formattedDate = $"{day.Key.ToShortDateString()} ({day.Key.DayOfWeek})";
 
-                string formattedTimeSpent = Helpers.Helpers.GetTimeSpentDisplay(day.Value);
+                        string formattedTimeSpent = Helpers.Helpers.GetTimeSpentDisplay(day.Value);
 
-                <p>@Html.DisplayFor(modelitem => formattedDate): @Html.DisplayFor(modelitem => formattedTimeSpent)</p>
-            }
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelitem => formattedDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => formattedTimeSpent)
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+            </table>
             <hr />
         }
