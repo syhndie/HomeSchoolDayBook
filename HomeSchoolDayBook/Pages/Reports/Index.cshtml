@@ -1,5 +1,6 @@
 ﻿@page
 @model HomeSchoolDayBook.Pages.Reports.IndexModel
+@using System.Text.RegularExpressions;
 
 @section CSS {
     <link rel="stylesheet" href="~/lib/datepicker/bootstrap-datepicker-standalone.css" />
@@ -47,20 +48,21 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="ReportRadioButtons" class="control-label"></label>
-                <span id="reportValidationMessage" class="text-danger"></span>
+                <label class="control-label">Choose a Report</label>
+                <span id="reportValidationMessage" class=" text-danger"></span>
                 <div class="row">
-                    @foreach (var checkboxVM in Model.ReportRadioButtons)
+                    @foreach (var reportView in Model.ReportViews)
                     {
-                        string isChecked = checkboxVM.Assigned ? "checked" : "";
+                        string reportNameCamel = Regex.Replace(reportView, "[^a-zA-Z]", "");
+                        string reportName = Regex.Replace(reportNameCamel, "(?!^)([A-Z])", " $1");
 
                         <div class="col-md-6">
                             <label class="notbold">
-                                <input type="radio" name="selectedReport" value="@checkboxVM.ID" @isChecked /> 
-                                @checkboxVM.Name
+                                <input type="radio" name="selectedReport" value="@reportView" />
+                                @reportName
                             </label>
                         </div>
-                     }
+                    }
                 </div>
             </div>
 

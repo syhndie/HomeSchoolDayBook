@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using HomeSchoolDayBook.Models.ViewModels;
+using System.Text.RegularExpressions;
+
 
 using Microsoft.EntityFrameworkCore;
 using HomeSchoolDayBook.Data;
@@ -17,6 +19,9 @@ namespace HomeSchoolDayBook.Pages.Reports
     {
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
 
+        public readonly List<string> ReportViews = new List<string>
+        { "./Attendance", "./TimeSpentPerDay", "./EntriesInBrief",  "./TimeSpentPerSubject", "./EntriesInFull"};
+
         [DataType(DataType.Date)]
         [Display(Name ="From")]
         public DateTime FromDate { get; set; }
@@ -27,9 +32,6 @@ namespace HomeSchoolDayBook.Pages.Reports
 
         [Display(Name = "Students")]
         public List<CheckBoxVM> StudentCheckBoxes { get; set; }
-
-        [Display(Name ="Choose a Report")]
-        public List<CheckBoxVM> ReportRadioButtons { get; set; }
 
         public IndexModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
         {
@@ -49,15 +51,6 @@ namespace HomeSchoolDayBook.Pages.Reports
                 .Select(st => new CheckBoxVM(st.ID, st.Name, false))
                 .ToListAsync();
 
-            ReportRadioButtons = new List<CheckBoxVM>
-            {
-                new CheckBoxVM(1, "Attendance", false),
-                new CheckBoxVM(2, "Entries in Brief", false),
-                new CheckBoxVM(3, "Entries in Full", false),
-                new CheckBoxVM(4, "Time Spent per Day", false),
-                new CheckBoxVM(5, "Time Spent per Subject", false)
-            };
-
             return Page();            
         }
 
@@ -69,26 +62,11 @@ namespace HomeSchoolDayBook.Pages.Reports
 
             string selectedStudentsAsString = String.Join(',', selectedStudents);
 
-            switch (selectedReport)
+            if (ReportViews.Contains(selectedReport))
             {
-                case "1":
-                    return RedirectToPage("./Attendance", new { start = startDate, end = endDate, studentIDs = selectedStudentsAsString});
-                    
-                case "2":
-                    return RedirectToPage("./EntriesInBrief", new { start = startDate, end = endDate, studentIDs = selectedStudentsAsString});
-                    
-                case "3":
-                    return RedirectToPage("./EntriesInFull", new { start = startDate, end = endDate, studentIDs = selectedStudentsAsString });
-
-                case "4":
-                    return RedirectToPage("./TimeSpentPerDay", new { start = startDate, end = endDate, studentIDs = selectedStudentsAsString });
-
-                case "5":
-                    return RedirectToPage("./TimeSpentPerSubject", new { start = startDate, end = endDate, studentIDs = selectedStudentsAsString });
-
-                default:
-                    return RedirectToPage("./NoReport");
-            }         
+                return RedirectToPage(selectedReport, new { start = startDate, end = endDate, studentIDs = selectedStudentsAsString });
+            }
+            else return RedirectToPage("./NoReport");
         }
     }
 }
