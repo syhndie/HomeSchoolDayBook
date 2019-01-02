@@ -6,13 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using HomeSchoolDayBook.Models.ViewModels;
-using System.Text.RegularExpressions;
-
-
 using Microsoft.EntityFrameworkCore;
-using HomeSchoolDayBook.Data;
-using HomeSchoolDayBook.Models;
-
 namespace HomeSchoolDayBook.Pages.Reports
 {
     public class IndexModel : PageModel
