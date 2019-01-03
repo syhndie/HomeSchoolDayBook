@@ -52,7 +52,7 @@ namespace HomeSchoolDayBook.Pages.Students
                 return RedirectToPage("./Index");
             }
 
-            bool modelDidUpdate = await TryUpdateModelAsync<Student>(Student, "student");
+            bool modelDidUpdate = await TryUpdateModelAsync<Student>(Student);
 
             if (ModelState.IsValid && modelDidUpdate)
             {

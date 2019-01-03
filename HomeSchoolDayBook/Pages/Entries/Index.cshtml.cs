@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HomeSchoolDayBook.Pages.Entries
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
