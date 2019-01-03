@@ -30,7 +30,6 @@ namespace HomeSchoolDayBook.Pages.Students
             Student = new Student();
 
             bool modelDidUpdate = await TryUpdateModelAsync<Student>(Student);
-//            bool modelDidUpdate = await TryUpdateModelAsync<Student>(Student, "student");
 
             if (ModelState.IsValid && modelDidUpdate) 
             {

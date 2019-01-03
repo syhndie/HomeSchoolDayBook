@@ -53,7 +53,7 @@ namespace HomeSchoolDayBook.Pages.Subjects
                 return RedirectToPage("./Index");
             }
 
-            bool modelDidUpdate = await TryUpdateModelAsync<Subject>(Subject, "subject");
+            bool modelDidUpdate = await TryUpdateModelAsync<Subject>(Subject);
 
             if (ModelState.IsValid && modelDidUpdate)
             {

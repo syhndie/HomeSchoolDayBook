@@ -32,7 +32,7 @@ namespace HomeSchoolDayBook.Pages.Subjects
         {
             Subject = new Subject();
 
-            bool modelDidUpdate = await TryUpdateModelAsync<Subject>(Subject, "subject");
+            bool modelDidUpdate = await TryUpdateModelAsync<Subject>(Subject);
 
             if (ModelState.IsValid && modelDidUpdate)
             {
