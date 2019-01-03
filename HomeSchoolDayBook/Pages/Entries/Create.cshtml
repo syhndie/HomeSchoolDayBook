@@ -13,75 +13,7 @@
 
 <h2>Create</h2>
 
-<h4>Entry</h4>
-<hr />
-<div class="row">
-    <div class="col-md-6">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="EntryVM.Entry.Date" class="control-label"></label>
-                <input asp-for="EntryVM.Entry.Date" type="text" class="form-control"  />
-                <span asp-validation-for="EntryVM.Entry.Date" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EntryVM.Entry.Title" class="control-label"></label>
-                <input asp-for="EntryVM.Entry.Title" class="form-control" autofocus/>
-                <span asp-validation-for="EntryVM.Entry.Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EntryVM.StudentCheckBoxes" class="control-label"></label>
-                <div class="row">
-                    @foreach (var checkbox in Model.EntryVM.StudentCheckBoxes)
-                    {
-                        string isChecked = checkbox.Assigned ? "checked" : "";
-
-                        <div class="col-md-6">
-                            <label class="notbold">
-                                <input type="checkbox" name="selectedStudents" value="@checkbox.ID" @isChecked />
-                                @checkbox.Name
-                            </label>
-                        </div>
-                     }
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="EntryVM.Entry.Description" class="control-label"></label>
-                <textarea asp-for="EntryVM.Entry.Description" class="form-control"></textarea>
-                <span asp-validation-for="EntryVM.Entry.Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EntryVM.EnteredHours" class="control-label"></label>
-                <input asp-for="EntryVM.EnteredHours" class="form-control" /> hours
-                <span asp-validation-for="EntryVM.EnteredHours" class="text-danger"></span>
-                <input asp-for="EntryVM.EnteredMinutes" class="form-control" /> minutes
-                <span asp-validation-for="EntryVM.EnteredMinutes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EntryVM.SubjectCheckBoxes" class="control-label"></label>
-                <div class="row">
-                    @foreach (var checkbox in Model.EntryVM.SubjectCheckBoxes)
-                    {
-                        string isChecked = checkbox.Assigned ? "checked" : "";
-
-                        <div class="col-md-6">
-                            <label class="notbold">
-                                <input type="checkbox" name="selectedSubjects" value="@checkbox.ID" @isChecked /> 
-                                @checkbox.Name
-                            </label>
-                        </div>
-                     }
-                </div>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
-</div>
-<div>
-    <a asp-page="Index">Back to List</a>
-</div>
+<partial name="EntryPartial" model="Model.EntryVM" />
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

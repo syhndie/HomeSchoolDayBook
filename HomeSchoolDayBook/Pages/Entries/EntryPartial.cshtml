@@ -1,0 +1,71 @@
+﻿@model HomeSchoolDayBook.Models.ViewModels.EntryVM
+
+<h4>Entry</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Entry.Date" class="control-label"></label>
+                <input asp-for="Entry.Date" type="text" class="form-control" />
+                <span asp-validation-for="Entry.Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Entry.Title" class="control-label"></label>
+                <input asp-for="Entry.Title" class="form-control" autofocus />
+                <span asp-validation-for="Entry.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StudentCheckBoxes" class="control-label"></label>
+                <div class="row">
+                    @foreach (var checkbox in Model.StudentCheckBoxes)
+                    {
+                        string isChecked = checkbox.Assigned ? "checked" : "";
+
+                        <div class="col-md-6">
+                            <label class="notbold">
+                                <input type="checkbox" name="selectedStudents" value="@checkbox.ID" @isChecked />
+                                @checkbox.Name
+                            </label>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Entry.Description" class="control-label"></label>
+                <textarea asp-for="Entry.Description" class="form-control"></textarea>
+                <span asp-validation-for="Entry.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EnteredHours" class="control-label"></label>
+                <input asp-for="EnteredHours" class="form-control" /> hours
+                <span asp-validation-for="EnteredHours" class="text-danger"></span>
+                <input asp-for="EnteredMinutes" class="form-control" /> minutes
+                <span asp-validation-for="EnteredMinutes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubjectCheckBoxes" class="control-label"></label>
+                <div class="row">
+                    @foreach (var checkbox in Model.SubjectCheckBoxes)
+                    {
+                        string isChecked = checkbox.Assigned ? "checked" : "";
+
+                        <div class="col-md-6">
+                            <label class="notbold">
+                                <input type="checkbox" name="selectedSubjects" value="@checkbox.ID" @isChecked />
+                                @checkbox.Name
+                            </label>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>

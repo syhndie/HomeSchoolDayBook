@@ -98,7 +98,7 @@ namespace HomeSchoolDayBook.Pages.Entries
 
             EntryVM = new EntryVM(editedEntry, _context);
 
-            bool modelDidUpdate = await TryUpdateModelAsync<EntryVM>(EntryVM, "entryVM");
+            bool modelDidUpdate = await TryUpdateModelAsync<EntryVM>(EntryVM);
 
             EntryVM.Entry.MinutesSpent = EntryVM.EnteredTotalMinutes;
 
