@@ -1,3 +1,5 @@
 ﻿add multi-userness
 
-Research view components for entry edit and create pages
+AspNetRoles		ID, Name
+AspNetUserRoles UserID, RoleID
+AspNetUsers		ID, UserName
