@@ -7,22 +7,28 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace HomeSchoolDayBook.Pages.Students
 {
     public class IndexModel : PageModel
     {
+        private readonly UserManager<IdentityUser> _userManager;
+
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
 
         public IList<Student> Students { get; set; }
 
-        public IndexModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
+        public IndexModel(HomeSchoolDayBook.Data.ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
+            string userId = _userManager.GetUserId(User);
+
             Students = await _context.Students.ToListAsync();
 
             return Page();
