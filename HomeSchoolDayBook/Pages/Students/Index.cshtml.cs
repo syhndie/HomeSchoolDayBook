@@ -29,9 +29,19 @@ namespace HomeSchoolDayBook.Pages.Students
         {
             string userId = _userManager.GetUserId(User);
 
-            Students = await _context.Students
-                .Where(st => st.UserID == userId)
-                .ToListAsync();
+            var adminList = await _userManager.GetUsersInRoleAsync("Admin");
+
+            if (adminList.Select(u => u.Id).Contains(userId))
+            {
+                Students = await _context.Students
+                    .ToListAsync();
+            }
+            else
+            {
+                Students = await _context.Students
+                    .Where(st => st.UserID == userId)
+                    .ToListAsync();
+            }       
 
             return Page();
         }
