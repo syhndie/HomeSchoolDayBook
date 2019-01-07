@@ -29,7 +29,9 @@ namespace HomeSchoolDayBook.Pages.Students
         {
             string userId = _userManager.GetUserId(User);
 
-            Students = await _context.Students.ToListAsync();
+            Students = await _context.Students
+                .Where(st => st.UserID == userId)
+                .ToListAsync();
 
             return Page();
         }
