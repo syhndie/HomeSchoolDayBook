@@ -3,3 +3,11 @@
 AspNetRoles		ID, Name
 AspNetUserRoles UserID, RoleID
 AspNetUsers		ID, UserName
+
+            var adminList = await _userManager.GetUsersInRoleAsync(Constants.AdminRoleName);
+
+            if (adminList.Select(u => u.Id).Contains(userId))
+            {
+                Students = await _context.Students
+                    .ToListAsync();
+            }
