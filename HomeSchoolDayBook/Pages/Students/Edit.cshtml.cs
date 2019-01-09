@@ -8,12 +8,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace HomeSchoolDayBook.Pages.Students
 {
     public class EditModel : PageModel
     {
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
+
+        private readonly UserManager<IdentityUser> _userManager;
 
         public Student Student { get; set; }
 
@@ -22,13 +25,16 @@ namespace HomeSchoolDayBook.Pages.Students
 
         public string DidNotSaveMessage { get; set; }
 
-        public EditModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
+        public EditModel(HomeSchoolDayBook.Data.ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            string userId = _userManager.GetUserId(User);
+
             Student = await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
 
             if (Student == null)
@@ -38,16 +44,32 @@ namespace HomeSchoolDayBook.Pages.Students
                 return RedirectToPage("./Index");
             }
 
+            if(Student.UserID != userId)
+            {
+                NotFoundMessage = "You are not authorized to edit this Student.";
+
+                return RedirectToPage("./Index");
+            }
+
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
+            string userId = _userManager.GetUserId(User);
+
             Student = await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
 
             if (Student == null)
             {
                 NotFoundMessage = "Student not found. The Student you selected is not longer in the database.";
+
+                return RedirectToPage("./Index");
+            }
+
+            if (Student.UserID != userId)
+            {
+                NotFoundMessage = "You are not authorized to edit this Student.";
 
                 return RedirectToPage("./Index");
             }
