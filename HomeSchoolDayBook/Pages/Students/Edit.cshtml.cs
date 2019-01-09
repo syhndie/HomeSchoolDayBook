@@ -35,18 +35,13 @@ namespace HomeSchoolDayBook.Pages.Students
         {
             string userId = _userManager.GetUserId(User);
 
-            Student = await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
+            Student = await _context.Students
+                .Where(st => st.UserID == userId)
+                .FirstOrDefaultAsync(m => m.ID == id);
 
             if (Student == null)
             {
                 NotFoundMessage = "Student not found. The Student you selected is no longer in the database.";
-
-                return RedirectToPage("./Index");
-            }
-
-            if(Student.UserID != userId)
-            {
-                NotFoundMessage = "You are not authorized to edit this Student.";
 
                 return RedirectToPage("./Index");
             }
