@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Models;
 using Microsoft.AspNetCore.Identity;
+using HomeSchoolDayBook.Helpers;
 
 namespace HomeSchoolDayBook.Pages.Students
 {
@@ -29,7 +30,7 @@ namespace HomeSchoolDayBook.Pages.Students
         {
             string userId = _userManager.GetUserId(User);
 
-            var adminList = await _userManager.GetUsersInRoleAsync("Admin");
+            var adminList = await _userManager.GetUsersInRoleAsync(Constants.AdminRoleName);
 
             if (adminList.Select(u => u.Id).Contains(userId))
             {

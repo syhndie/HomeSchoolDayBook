@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using HomeSchoolDayBook.Helpers;
 
 namespace HomeSchoolDayBook.Data
 {
@@ -15,8 +16,8 @@ namespace HomeSchoolDayBook.Data
             using (var context = new ApplicationDbContext(
                 serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
             {
-                var adminID = await EnsureUser(serviceProvider, adminPW, "admin@homeschooldaybook.com");
-                await EnsureRole(serviceProvider, adminID, "Admin");                
+                var adminID = await EnsureUser(serviceProvider, adminPW, Constants.AdminName);
+                await EnsureRole(serviceProvider, adminID, Constants.AdminRoleName);                
             }
         }
 
