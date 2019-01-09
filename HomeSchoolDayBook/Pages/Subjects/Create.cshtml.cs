@@ -7,19 +7,23 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace HomeSchoolDayBook.Pages.Subjects
 {
     public class CreateModel : PageModel
     {
+        private readonly UserManager<IdentityUser> _userManager;
+
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
 
         public Subject Subject { get; set; }
 
         public string DidNotSaveMessage { get; set; }
 
-        public CreateModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
+        public CreateModel(HomeSchoolDayBook.Data.ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
 
@@ -30,7 +34,10 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
         public async Task<IActionResult> OnPostAsync()
         {
-            Subject = new Subject();
+            Subject = new Subject
+            {
+                UserID = _userManager.GetUserId(User)
+            };
 
             bool modelDidUpdate = await TryUpdateModelAsync<Subject>(Subject);
 
