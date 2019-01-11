@@ -7,11 +7,14 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace HomeSchoolDayBook.Pages.Entries
 {
     public class DeleteModel : PageModel
     {
+        private readonly UserManager<IdentityUser> _userManager;
+
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
 
         public Entry Entry { get; set; }
@@ -19,24 +22,29 @@ namespace HomeSchoolDayBook.Pages.Entries
         [TempData]
         public string NotFoundMessage { get; set; }
 
-        public DeleteModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
+        public DeleteModel(HomeSchoolDayBook.Data.ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            string userId = _userManager.GetUserId(User);
+
             Entry = await _context.Entries
+                .Where(ent => ent.UserID == userId)
+                .Where(ent => ent.ID == id)
                 .Include(ent => ent.Enrollments)
                     .ThenInclude(enr => enr.Student)
                 .Include(ent => ent.SubjectAssignments)
                     .ThenInclude(sa => sa.Subject)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync();
 
             if (Entry == null)
             {
-                NotFoundMessage = "Entry not found. The Entry you selected is no longer in the database.";
+                NotFoundMessage = "Entry not found.";
 
                 return RedirectToPage("./Index");
             }
@@ -46,9 +54,13 @@ namespace HomeSchoolDayBook.Pages.Entries
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
+            string userId = _userManager.GetUserId(User);
+
             Entry = await _context.Entries
+                .Where(ent => ent.UserID == userId)
+                .Where(ent => ent.ID == id)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(e => e.ID == id);
+                .FirstOrDefaultAsync();
 
             if (Entry == null)
             {
