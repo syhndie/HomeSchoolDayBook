@@ -34,20 +34,25 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
         public async Task<IActionResult> OnPostAsync()
         {
+            string userId = _userManager.GetUserId(User);
+
             Subject = new Subject
             {
-                UserID = _userManager.GetUserId(User)
+                UserID = userId
             };
 
             bool modelDidUpdate = await TryUpdateModelAsync<Subject>(Subject);
 
             if (ModelState.IsValid && modelDidUpdate)
             {
-                List<string> usedNames = _context.Subjects.Select(s => s.Name).ToList();
+                List<string> usedNames = _context.Subjects
+                    .Where(su => su.UserID == userId)
+                    .Select(s => s.Name)
+                    .ToList();
 
                 if (usedNames.Contains(Subject.Name))
                 {
-                    DidNotSaveMessage = "This Subject is already in the database.";
+                    DidNotSaveMessage = "This Subject name is already used.";
 
                     return Page();
                 }

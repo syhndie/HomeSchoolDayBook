@@ -31,20 +31,25 @@ namespace HomeSchoolDayBook.Pages.Students
 
         public async Task<IActionResult> OnPostAsync()
         {
+            string userId = _userManager.GetUserId(User);
+
             Student = new Student
             {
-                UserID = _userManager.GetUserId(User)
+                UserID = userId
             };
 
             bool modelDidUpdate = await TryUpdateModelAsync<Student>(Student);
 
             if (ModelState.IsValid && modelDidUpdate) 
             {
-                List<string> usedNames = _context.Students.Select(s => s.Name).ToList();
+                List<string> usedNames = _context.Students
+                    .Where(st => st.UserID == userId)
+                    .Select(st => st.Name)
+                    .ToList();
 
                 if (usedNames.Contains(Student.Name))
                 {
-                    DidNotSaveMessage = "This Student is already in the database.";
+                    DidNotSaveMessage = "This Student name is already used.";
 
                     return Page();
                 }

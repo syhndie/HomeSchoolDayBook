@@ -37,11 +37,12 @@ namespace HomeSchoolDayBook.Pages.Students
 
             Student = await _context.Students
                 .Where(st => st.UserID == userId)
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .Where(st => st.ID == id)
+                .FirstOrDefaultAsync();
 
             if (Student == null)
             {
-                NotFoundMessage = "Student not found. The Student you selected is no longer in the database.";
+                NotFoundMessage = "Student not found.";
 
                 return RedirectToPage("./Index");
             }
@@ -53,18 +54,14 @@ namespace HomeSchoolDayBook.Pages.Students
         {
             string userId = _userManager.GetUserId(User);
 
-            Student = await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
+            Student = await _context.Students
+                .Where(st => st.UserID == userId)
+                .Where(st => st.ID == id)
+                .FirstOrDefaultAsync();
 
             if (Student == null)
             {
-                NotFoundMessage = "Student not found. The Student you selected is not longer in the database.";
-
-                return RedirectToPage("./Index");
-            }
-
-            if (Student.UserID != userId)
-            {
-                NotFoundMessage = "You are not authorized to edit this Student.";
+                NotFoundMessage = "Student not found.";
 
                 return RedirectToPage("./Index");
             }
@@ -73,11 +70,14 @@ namespace HomeSchoolDayBook.Pages.Students
 
             if (ModelState.IsValid && modelDidUpdate)
             {
-                List<string> otherUsedNames = _context.Students.Where(s => s.ID != id).Select(s=> s.Name).ToList();
+                List<string> otherUsedNames = _context.Students
+                    .Where(st => st.ID != id)
+                    .Where(st => st.UserID == userId)
+                    .Select(st=> st.Name).ToList();
 
                 if (otherUsedNames.Contains(Student.Name))
                 {
-                    DidNotSaveMessage = "This Student is already in the database.";
+                    DidNotSaveMessage = "This Student name is already used.";
 
                     return Page();
                 }

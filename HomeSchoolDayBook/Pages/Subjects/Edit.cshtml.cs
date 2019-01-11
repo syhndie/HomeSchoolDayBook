@@ -8,12 +8,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace HomeSchoolDayBook.Pages.Subjects
 {
     public class EditModel : PageModel
     {
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
+
+        private readonly UserManager<IdentityUser> _userManager;
 
         public Subject Subject { get; set; }
 
@@ -22,18 +25,24 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
         public string DidNotSaveMessage { get; set; }
 
-        public EditModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
+        public EditModel(HomeSchoolDayBook.Data.ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }   
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            Subject = await _context.Subjects.FirstOrDefaultAsync(m => m.ID == id);
+            string userId = _userManager.GetUserId(User);
+
+            Subject = await _context.Subjects
+                .Where(su => su.UserID == userId)
+                .Where(su => su.ID == id)
+                .FirstOrDefaultAsync();
 
             if (Subject == null)
             {
-                NotFoundMessage = "Subject not found. The Subject you selected is no longer in the database.";
+                NotFoundMessage = "Subject not found.";
 
                 return RedirectToPage("./Index");
             }
@@ -44,11 +53,16 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            Subject = await _context.Subjects.FirstOrDefaultAsync(m => m.ID == id);
+            string userId = _userManager.GetUserId(User);
+
+            Subject = await _context.Subjects
+                .Where(su => su.UserID == userId)
+                .Where(su => su.ID == id)
+                .FirstOrDefaultAsync();
 
             if (Subject == null)
             {
-                NotFoundMessage = "Subject not found. The Subject you selected is no longer in the database.";
+                NotFoundMessage = "Subject not found.";
 
                 return RedirectToPage("./Index");
             }
@@ -57,11 +71,15 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
             if (ModelState.IsValid && modelDidUpdate)
             {
-                List<string> otherUsedNames = _context.Subjects.Where(s => s.ID != id).Select(s => s.Name).ToList();
+                List<string> otherUsedNames = _context.Subjects
+                    .Where(su => su.ID != id)
+                    .Where(su => su.UserID == userId)
+                    .Select(su => su.Name)
+                    .ToList();
 
                 if (otherUsedNames.Contains(Subject.Name))
                 {
-                    DidNotSaveMessage = "This Subject is already in the database.";
+                    DidNotSaveMessage = "This Subject name is already used.";
 
                     return Page();
                 }
