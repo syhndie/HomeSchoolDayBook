@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using HomeSchoolDayBook.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace HomeSchoolDayBook.Pages.Entries
 {
-    [Authorize]
     public class IndexModel : PageModel
     {
+        private readonly UserManager<IdentityUser> _userManager;
+
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
 
-        public IndexModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
+        public IndexModel(HomeSchoolDayBook.Data.ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
 
@@ -24,7 +27,10 @@ namespace HomeSchoolDayBook.Pages.Entries
 
         public async Task OnGetAsync()
         {
+            string userId = _userManager.GetUserId(User);
+
             Entries = await _context.Entries
+                .Where(ent => ent.UserID == userId)
                 .Include(ent => ent.Enrollments)
                     .ThenInclude(enr => enr.Student)
                 .Include(ent => ent.SubjectAssignments)
