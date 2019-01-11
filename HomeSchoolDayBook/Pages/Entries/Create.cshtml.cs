@@ -47,7 +47,7 @@ namespace HomeSchoolDayBook.Pages.Entries
                 SubjectAssignments = new List<SubjectAssignment>()
             };
 
-            foreach (Subject subject in _context.Subjects)
+            foreach (Subject subject in _context.Subjects.Where(su =>su.UserID == userId))
             {
                 if (selectedSubjects.Contains(subject.ID.ToString()))
                 {
@@ -61,7 +61,7 @@ namespace HomeSchoolDayBook.Pages.Entries
 
             newEntry.Enrollments = new List<Enrollment>();
 
-            foreach (Student student in _context.Students)
+            foreach (Student student in _context.Students.Where(st => st.UserID == userId))
             {
                 if (selectedStudents.Contains(student.ID.ToString()))
                 {
