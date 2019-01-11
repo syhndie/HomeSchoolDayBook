@@ -8,32 +8,44 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Models;
 using HomeSchoolDayBook.Models.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace HomeSchoolDayBook.Pages.Entries
 {
     public class CreateModel : PageModel
     {
+        private readonly UserManager<IdentityUser> _userManager;
+
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
 
         public EntryVM EntryVM { get; set; }
 
         public string DidNotSaveMessage { get; set; }
 
-        public CreateModel(HomeSchoolDayBook.Data.ApplicationDbContext context)
+        public CreateModel(HomeSchoolDayBook.Data.ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
 
         public IActionResult OnGet()
         {
-            EntryVM = new EntryVM(_context);
+            string userId = _userManager.GetUserId(User);
+
+            EntryVM = new EntryVM(_context, userId);
 
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string[] selectedSubjects, string[] selectedStudents)
         {
-            Entry newEntry = new Entry { SubjectAssignments = new List<SubjectAssignment>() };
+            string userId = _userManager.GetUserId(User);
+
+            Entry newEntry = new Entry
+            {
+                UserID = userId,
+                SubjectAssignments = new List<SubjectAssignment>()
+            };
 
             foreach (Subject subject in _context.Subjects)
             {
@@ -61,7 +73,7 @@ namespace HomeSchoolDayBook.Pages.Entries
                 }
             }
 
-            EntryVM = new EntryVM(newEntry, _context);
+            EntryVM = new EntryVM(newEntry, _context, userId);
 
             bool modelDidUpdate = await TryUpdateModelAsync<EntryVM>(EntryVM);
 

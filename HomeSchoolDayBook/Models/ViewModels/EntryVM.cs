@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Models;
+using Microsoft.AspNetCore.Identity;
 
 
 namespace HomeSchoolDayBook.Models.ViewModels
@@ -42,19 +43,26 @@ namespace HomeSchoolDayBook.Models.ViewModels
         }
 
         //constructor for Create page
-        public EntryVM (ApplicationDbContext context)
+        public EntryVM (ApplicationDbContext context, string userId )
         {
-            Entry = new Entry { Date = DateTime.Today };
+
+            Entry = new Entry
+            {
+                Date = DateTime.Today,
+                UserID = userId
+            };
 
             SubjectCheckBoxes = context
                 .Subjects
-                .Where(s => s.IsActive)
-                .OrderBy(s => s.Name)
-                .Select(s => new CheckBoxVM(s.ID, s.Name, false ))
+                .Where(su => su.UserID == userId)
+                .Where(su => su.IsActive)
+                .OrderBy(su => su.Name)
+                .Select(su => new CheckBoxVM(su.ID, su.Name, false ))
                 .ToList();
 
             StudentCheckBoxes = context
                 .Students
+                .Where(st => st.UserID == userId)
                 .Where(st => st.IsActive)
                 .OrderBy(st => st.Name)
                 .Select(st => new CheckBoxVM(st.ID, st.Name, false))
@@ -62,7 +70,7 @@ namespace HomeSchoolDayBook.Models.ViewModels
         }
 
         //constructor for Edit page
-        public EntryVM (Entry entry, ApplicationDbContext context)
+        public EntryVM (Entry entry, ApplicationDbContext context, string userId)
         {
             Entry = entry;
             EnteredHours = entry.ComputedHours;
@@ -75,9 +83,10 @@ namespace HomeSchoolDayBook.Models.ViewModels
 
             SubjectCheckBoxes = context
                 .Subjects
-                .Where(s => s.IsActive || entrySubjectIDs.Contains(s.ID))
-                .OrderBy(s => s.Name)
-                .Select(s => new CheckBoxVM(s.ID, s.Name, entrySubjectIDs.Contains(s.ID)))                
+                .Where(su => su.UserID == userId)
+                .Where(su => su.IsActive || entrySubjectIDs.Contains(su.ID))
+                .OrderBy(su => su.Name)
+                .Select(su => new CheckBoxVM(su.ID, su.Name, entrySubjectIDs.Contains(su.ID)))                
                 .ToList();
 
             HashSet<int> entryStudentIDs = entry
@@ -87,6 +96,7 @@ namespace HomeSchoolDayBook.Models.ViewModels
 
             StudentCheckBoxes = context
                 .Students
+                .Where(st => st.UserID == userId)
                 .Where(st => st.IsActive || entryStudentIDs.Contains(st.ID))
                 .OrderBy(st => st.Name)
                 .Select(st => new CheckBoxVM(st.ID, st.Name, entryStudentIDs.Contains(st.ID)))
