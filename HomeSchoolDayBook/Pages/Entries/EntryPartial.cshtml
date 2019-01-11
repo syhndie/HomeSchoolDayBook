@@ -20,6 +20,11 @@
             <div class="form-group">
                 <label asp-for="StudentCheckBoxes" class="control-label"></label>
                 <div class="row">
+                    @if(Model.StudentCheckBoxes.Count == 0)
+                    {                    
+                        <p class="text-danger">You have no saved Students. Go to <a asp-page="../Students/Index">My Students</a> to Create a Student</p>
+                    }
+
                     @foreach (var checkbox in Model.StudentCheckBoxes)
                     {
                         string isChecked = checkbox.Assigned ? "checked" : "";
@@ -48,6 +53,11 @@
             <div class="form-group">
                 <label asp-for="SubjectCheckBoxes" class="control-label"></label>
                 <div class="row">
+                    @if (Model.SubjectCheckBoxes.Count == 0)
+                    {
+                        <p class="text-danger">You have no saved Subjects. Go to <a asp-page="../Subjects/Index">My Subjects</a> to Create a Subject</p>
+                    }
+
                     @foreach (var checkbox in Model.SubjectCheckBoxes)
                     {
                         string isChecked = checkbox.Assigned ? "checked" : "";
