@@ -30,8 +30,7 @@ namespace HomeSchoolDayBook.Pages.Entries
         public EditModel(HomeSchoolDayBook.Data.ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
-            _context = context;
-            
+            _context = context;            
         }
 
         public async Task<IActionResult> OnGetAsync(int? id)

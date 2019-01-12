@@ -14,6 +14,10 @@ namespace HomeSchoolDayBook.Models.ViewModels
     {
         public Entry Entry { get; set; }
 
+        public string NoStudentsMessage { get; set; }
+
+        public string NoSubjectsMessage { get; set; }
+
         [Display(Name = "Time Spent")]
         [Range(0, 24, ErrorMessage ="Hours must be positive and less than 24.")]
         public double? EnteredHours { get; set; }
@@ -37,15 +41,9 @@ namespace HomeSchoolDayBook.Models.ViewModels
         [Display(Name = "Students")]
         public List<CheckBoxVM> StudentCheckBoxes { get; set; }
 
-        public EntryVM()
-        {
-
-        }
-
-        //constructor for Create page
+        //constructor for Create OnGet
         public EntryVM (ApplicationDbContext context, string userId )
         {
-
             Entry = new Entry
             {
                 Date = DateTime.Today,
@@ -60,6 +58,11 @@ namespace HomeSchoolDayBook.Models.ViewModels
                 .Select(su => new CheckBoxVM(su.ID, su.Name, false ))
                 .ToList();
 
+            if (SubjectCheckBoxes.Count == 0)
+            {
+                NoSubjectsMessage = "You have no saved Subjects.";
+            }
+
             StudentCheckBoxes = context
                 .Students
                 .Where(st => st.UserID == userId)
@@ -67,9 +70,14 @@ namespace HomeSchoolDayBook.Models.ViewModels
                 .OrderBy(st => st.Name)
                 .Select(st => new CheckBoxVM(st.ID, st.Name, false))
                 .ToList();
+
+            if (StudentCheckBoxes.Count == 0)
+            {
+                NoStudentsMessage = "You have no saved Students.";
+            }
         }
 
-        //constructor for Edit page
+        //constructor for Create OnPost, and Edit
         public EntryVM (Entry entry, ApplicationDbContext context, string userId)
         {
             Entry = entry;

@@ -1,8 +1,8 @@
-﻿add multi-userness
+﻿add multi-userness to Reports
 
-AspNetRoles		ID, Name
-AspNetUserRoles UserID, RoleID
-AspNetUsers		ID, UserName
+add Admin pages
+
+	here is some related code:
 
             var adminList = await _userManager.GetUsersInRoleAsync(Constants.AdminRoleName);
 
