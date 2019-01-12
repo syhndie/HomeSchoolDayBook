@@ -20,7 +20,7 @@ namespace HomeSchoolDayBook.Models.ViewModels
 
         public List<Entry> Entries { get; set; }
 
-        public EntriesReportVM(string start, string end, string studentIDs, ApplicationDbContext context)
+        public EntriesReportVM(string start, string end, string studentIDs, ApplicationDbContext context, string userId)
         {
             StartDate = Convert.ToDateTime(start);
 
@@ -33,7 +33,8 @@ namespace HomeSchoolDayBook.Models.ViewModels
                 .ToList();
 
             var studentNamesList = context.Students
-                .Where(s => studentIntIDs.Contains(s.ID))
+                .Where(st => st.UserID == userId)
+                .Where(st => studentIntIDs.Contains(st.ID))
                 .OrderBy(s => s.Name)
                 .Select(s => s.Name)
                 .ToList();
@@ -50,6 +51,7 @@ namespace HomeSchoolDayBook.Models.ViewModels
             }
 
             Entries = context.Entries
+                .Where(ent => ent.UserID == userId)
                 .Include(ent => ent.Enrollments)
                     .ThenInclude(enr => enr.Student)
                 .Include(ent => ent.SubjectAssignments)

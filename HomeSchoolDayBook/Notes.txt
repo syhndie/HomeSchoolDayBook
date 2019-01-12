@@ -1,4 +1,8 @@
 ﻿add multi-userness to Reports
+	Entries in Brief
+	Entries in Full
+	Time Spent per Day
+	Time Spent per Subject
 
 add Admin pages
 
