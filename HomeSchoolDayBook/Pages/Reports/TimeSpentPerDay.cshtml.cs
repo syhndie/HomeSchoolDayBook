@@ -8,11 +8,14 @@ using HomeSchoolDayBook.Data;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using HomeSchoolDayBook.Models.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace HomeSchoolDayBook.Pages.Reports
 {
     public class TimeSpentPerDayModel : PageModel
     {
+        private readonly UserManager<IdentityUser> _userManager;
+
         private readonly ApplicationDbContext _context;
 
         [DataType(DataType.Date)]
@@ -23,13 +26,16 @@ namespace HomeSchoolDayBook.Pages.Reports
 
         public List<TimeSpentPerDayVM> StudentTimeSpents { get; set; }
 
-        public TimeSpentPerDayModel(ApplicationDbContext context)
+        public TimeSpentPerDayModel(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
 
         public void OnGet(string start, string end, string studentIDs)
         {
+            string userId = _userManager.GetUserId(User);
+
             StartDate = Convert.ToDateTime(start);
 
             EndDate = Convert.ToDateTime(end);
@@ -39,7 +45,8 @@ namespace HomeSchoolDayBook.Pages.Reports
             {
                 StudentTimeSpents = studentIDs.Split(',')
                     .Select(Int32.Parse)
-                    .Select(i => new TimeSpentPerDayVM(_context, i, StartDate, EndDate))
+                    .Select(id => new TimeSpentPerDayVM(_context, id, StartDate, EndDate, userId))
+                    .Where(stp => stp.Student != null)
                     .OrderBy(vm => vm.Student.Name)
                     .ToList();
             }
