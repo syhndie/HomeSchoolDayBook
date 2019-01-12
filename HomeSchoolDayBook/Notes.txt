@@ -1,10 +1,4 @@
-﻿add multi-userness to Reports
-	Entries in Brief
-	Entries in Full
-	Time Spent per Day
-	Time Spent per Subject
-
-add Admin pages
+﻿add Admin pages
 
 	here is some related code:
 
