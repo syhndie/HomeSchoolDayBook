@@ -13,14 +13,18 @@ namespace HomeSchoolDayBook.Models.ViewModels
 
         public Dictionary<Subject, int?> TimePerSubjectLookup { get; set; }
 
-        public TimeSpentPerSubjectVM(ApplicationDbContext context, int studentID, DateTime startDate, DateTime endDate)
+        public TimeSpentPerSubjectVM(ApplicationDbContext context, int studentID, DateTime startDate, DateTime endDate, string userID)
         {
-            Student = context.Students.FirstOrDefault(m => m.ID == studentID);
+            Student = context.Students
+                .Where(st => st.UserID == userID)
+                .Where(st => st.ID == studentID)
+                .FirstOrDefault();
 
             TimePerSubjectLookup = context.Entries
                 .Include(ent => ent.SubjectAssignments)
                 .ThenInclude(sa => sa.Subject)
                 .Include(ent => ent.Enrollments)
+                .Where(ent => ent.UserID == userID)
                 .Where(ent => startDate <= ent.Date && ent.Date <= endDate)
                 .Where(ent => ent.Enrollments.Select(enr => enr.StudentID).Contains(studentID))
                 .Where(ent => ent.MinutesSpent > 0)

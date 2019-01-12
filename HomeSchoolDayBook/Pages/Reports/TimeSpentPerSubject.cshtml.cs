@@ -7,11 +7,14 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using HomeSchoolDayBook.Data;
 using System.ComponentModel.DataAnnotations;
 using HomeSchoolDayBook.Models.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace HomeSchoolDayBook.Pages.Reports
 {
     public class TimeSpentPerSubjectModel : PageModel
     {
+        private readonly UserManager<IdentityUser> _userManager;
+
         private readonly ApplicationDbContext _context;
 
         [DataType(DataType.Date)]
@@ -22,13 +25,16 @@ namespace HomeSchoolDayBook.Pages.Reports
 
         public List<TimeSpentPerSubjectVM> StudentTimeSpents { get; set; }
 
-        public TimeSpentPerSubjectModel(ApplicationDbContext context)
+        public TimeSpentPerSubjectModel(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
 
         public void OnGet(string start, string end, string studentIDs)
         {
+            string userId = _userManager.GetUserId(User);
+
             StartDate = Convert.ToDateTime(start);
 
             EndDate = Convert.ToDateTime(end);
@@ -38,7 +44,8 @@ namespace HomeSchoolDayBook.Pages.Reports
             {
                 StudentTimeSpents = studentIDs.Split(',')
                     .Select(Int32.Parse)
-                    .Select(i => new TimeSpentPerSubjectVM(_context, i, StartDate, EndDate))
+                    .Select(i => new TimeSpentPerSubjectVM(_context, i, StartDate, EndDate, userId))
+                    .Where(stp => stp.Student != null)
                     .OrderBy(vm => vm.Student.Name)
                     .ToList();
             }
