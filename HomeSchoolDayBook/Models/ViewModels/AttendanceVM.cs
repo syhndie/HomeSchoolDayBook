@@ -15,19 +15,31 @@ namespace HomeSchoolDayBook.Models.ViewModels
 
         public int TotalDays { get; set; }
 
-        public AttendanceVM (ApplicationDbContext context, int studentID, DateTime startDate, DateTime endDate)
+        public AttendanceVM (ApplicationDbContext context, int studentID, DateTime startDate, DateTime endDate, string userId)
         {
-            Student = context.Students.FirstOrDefault(m => m.ID == studentID);
+            Student = context.Students
+                .Where(st => st.UserID == userId)
+                .Where(st => st.ID == studentID)
+                .FirstOrDefault();
 
-            DaysAttended = context.Entries
-                .Include(ent => ent.Enrollments)
-                .Where(ent => startDate <= ent.Date && ent.Date <= endDate)
-                .Where(ent => ent.Enrollments.Select(enr => enr.StudentID).Contains(studentID))
-                .Select(ent => ent.Date)
-                .Distinct()
-                .Count();
+            if (Student == null)
+            {
+                DaysAttended = 0;
+                TotalDays = 0;
+            }
+            else
+            {
+                DaysAttended = context.Entries
+                    .Include(ent => ent.Enrollments)
+                    .Where(ent => ent.UserID == userId)
+                    .Where(ent => startDate <= ent.Date && ent.Date <= endDate)
+                    .Where(ent => ent.Enrollments.Select(enr => enr.StudentID).Contains(studentID))
+                    .Select(ent => ent.Date)
+                    .Distinct()
+                    .Count();
 
-            TotalDays = (int)(endDate - startDate).TotalDays;
+                TotalDays = (int)(endDate - startDate).TotalDays;
+            }
         }
     }
 }

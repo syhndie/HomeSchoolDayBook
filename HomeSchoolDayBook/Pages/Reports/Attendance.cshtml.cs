@@ -8,11 +8,14 @@ using System.ComponentModel.DataAnnotations;
 using HomeSchoolDayBook.Models;
 using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Models.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace HomeSchoolDayBook.Pages.Reports
 {
     public class AttendanceModel : PageModel
     {
+        private readonly UserManager<IdentityUser> _userManager;
+
         private readonly ApplicationDbContext _context;
 
         [DataType(DataType.Date)]
@@ -23,14 +26,16 @@ namespace HomeSchoolDayBook.Pages.Reports
 
         public List<AttendanceVM> StudentAttendances { get; set; }
 
-        public AttendanceModel(ApplicationDbContext context)
+        public AttendanceModel(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
 
-
         public void OnGet(string start, string end, string studentIDs)
         {
+            string userId = _userManager.GetUserId(User);
+
             StartDate = Convert.ToDateTime(start);
 
             EndDate = Convert.ToDateTime(end);
@@ -40,11 +45,11 @@ namespace HomeSchoolDayBook.Pages.Reports
             {
                 StudentAttendances = studentIDs.Split(',')
                     .Select(Int32.Parse)
-                    .Select(i => new AttendanceVM(_context, i, StartDate, EndDate))
+                    .Select(id => new AttendanceVM(_context, id, StartDate, EndDate, userId))
+                    .Where(sa => sa.Student != null)
                     .OrderBy(sa => sa.Student.Name)
-                    .ToList();
+                    .ToList();                
             }
-
         }
     }
 }
