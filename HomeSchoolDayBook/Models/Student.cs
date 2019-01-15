@@ -13,7 +13,6 @@ namespace HomeSchoolDayBook.Models
 
         public string UserID { get; set; }
         
-        [Display(Name ="Student")]
         [Required]
         public string Name { get; set; }
 
