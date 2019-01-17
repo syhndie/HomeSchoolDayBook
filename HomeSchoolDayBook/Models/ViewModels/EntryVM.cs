@@ -18,10 +18,11 @@ namespace HomeSchoolDayBook.Models.ViewModels
 
         public string NoSubjectsMessage { get; set; }
 
-        [Display(Name = "Time Spent")]
+        [Display(Name = "Hours")]
         [Range(0, 24, ErrorMessage ="Hours must be positive and less than 24.")]
         public double? EnteredHours { get; set; }
 
+        [Display(Name = "Minutes")]
         [Range(0, 1440, ErrorMessage ="Minutes must be positive and less than 1440")]
         public double? EnteredMinutes { get; set; }
 
