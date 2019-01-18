@@ -12,68 +12,69 @@
 
 <h2>@ViewData["Title"]</h2>
 <hr />
-<div class="row">
-    <div class="col-md-6">
-        <form method="post" target="_blank" id="reportForm">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="form-group">
-                <label asp-for="FromDate" class="control-label"></label>
-                <input asp-for="FromDate" type="text" class="form-control" />
-                <span asp-validation-for="FromDate" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="ToDate" class="control-label"></label>
-                <input asp-for="ToDate" type="text" class="form-control" />
-                <span asp-validation-for="ToDate" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="StudentCheckBoxes" class="control-label"></label>
-                <span id="studentValidationMessage" class="text-danger"></span>
-                <p class="text-danger">@Model.NoStudentsMessage</p>
-                <div class="row">
-                    @foreach (var checkbox in Model.StudentCheckBoxes)
-                    {
-                        string isChecked = checkbox.Assigned ? "checked" : "";
-
-                        <div class="col-md-6 ">
-                            <label class="notbold">
-                                <input type="checkbox" name="selectedStudents" value="@checkbox.ID" @isChecked />
-                                @checkbox.Name
-                            </label>
-                        </div>
-                     }
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label">Choose a Report</label>
-                <span id="reportValidationMessage" class=" text-danger"></span>
-                <div class="row">
-                    @foreach (var reportView in Model.ReportViews)
-                    {
-                        string reportNameCamel = Regex.Replace(reportView, "[^a-zA-Z]", "");
-                        string reportName = Regex.Replace(reportNameCamel, "(?!^)([A-Z])", " $1");
-
-                        <div class="col-md-6">
-                            <label class="notbold">
-                                <input type="radio" name="selectedReport" value="@reportView" />
-                                @reportName
-                            </label>
-                        </div>
-                    }
-                </div>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Create Report" class="btn btn-default" />
-            </div>
-
-        </form>
+<form method="post" class="sidemargins" target="_blank" id="reportForm">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="form-group col-md-2 col-sm-3 col-xs-5">
+            <label asp-for="FromDate" class="control-label"></label>
+            <input asp-for="FromDate" type="text" class="form-control" />
+            <span asp-validation-for="FromDate" class="text-danger"></span>
+        </div>
     </div>
-</div>
+    <div class="row">
+        <div class="form-group col-md-2 col-sm-3 col-xs-5">
+            <label asp-for="ToDate" class="control-label"></label>
+            <input asp-for="ToDate" type="text" class="form-control" />
+            <span asp-validation-for="ToDate" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-8 col-sm-10">
+            <label asp-for="StudentCheckBoxes" class="control-label"></label>
+            <span id="studentValidationMessage" class="text-danger"></span>
+            <p class="text-danger">@Model.NoStudentsMessage</p>
+            <div class="row">
+                @foreach (var checkbox in Model.StudentCheckBoxes)
+                {
+                    string isChecked = checkbox.Assigned ? "checked" : "";
+
+                    <div class="col-sm-4">
+                        <label class="notbold">
+                            <input type="checkbox" name="selectedStudents" value="@checkbox.ID" @isChecked />
+                            @checkbox.Name
+                        </label>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group  col-md-8 col-sm-10">
+            <label class="control-label">Choose a Report</label>
+            <span id="reportValidationMessage" class=" text-danger"></span>
+            <div class="row">
+                @foreach (var reportView in Model.ReportViews)
+                {
+                    string reportNameCamel = Regex.Replace(reportView, "[^a-zA-Z]", "");
+                    string reportName = Regex.Replace(reportNameCamel, "(?!^)([A-Z])", " $1");
+
+                    <div class="col-sm-4">
+                        <label class="notbold">
+                            <input type="radio" name="selectedReport" value="@reportView" />
+                            @reportName
+                        </label>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-xs-12">
+            <input type="submit" value="Create Report" class="btn btn-default" />
+        </div>
+    </div>
+
+</form>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
@@ -83,11 +84,11 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $("#FromDate").datepicker({
-                orientation: "bottom right"
+                orientation: "bottom"
             });
 
             $("#ToDate").datepicker({
-                orientation: "bottom right"
+                orientation: "bottom"
             });
             
             $('#reportForm').submit(function () {
