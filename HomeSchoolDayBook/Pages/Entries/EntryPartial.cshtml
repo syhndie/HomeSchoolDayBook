@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-2 col-sm-3 col-xs-4">
+        <div class="col-md-2 col-sm-3 col-xs-5">
             <div class="form-group">
                 <label asp-for="Entry.Date" class="control-label"></label>
                 <input asp-for="Entry.Date" type="text" class="form-control" />
@@ -72,8 +72,8 @@
             <label class="control-label">Time Spent</label>
         </div>
     </div>
-    <div class="row">
-        <div class="form-group">
+    <div class="form-group row">
+        
             <div class="col-sm-2 col-xs-4">
                 <input asp-for="EnteredHours" class="form-control" placeholder="Hours"/> 
                 <span asp-validation-for="EnteredHours" class="text-danger"></span>
@@ -82,7 +82,7 @@
                 <input asp-for="EnteredMinutes" class="form-control" placeholder="Minutes" /> 
                 <span asp-validation-for="EnteredMinutes" class="text-danger"></span>
             </div>
-        </div>
+        
     </div>
     <div class="row">
         <div class="form-group col-xs-12 topmargins">
