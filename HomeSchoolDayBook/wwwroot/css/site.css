@@ -15,20 +15,6 @@
     margin-top: 14px;
 }
 
-@media screen and (min-width: 768px) {
-    .page-content {
-        padding-top: 50px;
-    }
-}
-
-@media screen and (min-width: 992px) {
-    .page-content {
-        padding-top: 0;
-    }
-}
-
-
-
 
     /* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification 
 for details on configuring this project to bundle and minify static web assets. */
