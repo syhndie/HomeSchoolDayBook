@@ -5,15 +5,12 @@
     <link rel="stylesheet" href="~/lib/datatables/datatables.min.css" />
 }
 
-@{
-    ViewData["Title"] = "My Subjects";
-}
-
-<h2>@ViewData["Title"]</h2>
+<h2>My Subjects</h2>
 
 <p>
     <a asp-page="Create">Create New Subject</a>
 </p>
+<hr />
 <table class="table" id="subjectindex">
     <thead>
         <tr>
@@ -45,6 +42,8 @@
         }
     </tbody>
 </table>
+<hr />
+<a asp-page="../Entries/Index">My Entries</a>
 
 
 @section Scripts {

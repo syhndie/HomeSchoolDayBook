@@ -5,15 +5,12 @@
     <link rel="stylesheet" href="~/lib/datatables/datatables.min.css" />
 }
 
-@{
-    ViewData["Title"] = "My Students";
-}
-
-<h2>@ViewData["Title"]</h2>
+<h2>My Students</h2>
 
 <p>
     <a asp-page="Create">Create New Student</a>
 </p>
+<hr />
 <table class="table" id="studentindex">
     <thead>
         <tr>
@@ -37,14 +34,14 @@
                     @(item.IsActive ? "Yes" : "No")
                 </td>
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> @*|
-                        <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
-                        <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>*@
+                    <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<hr />
+<a asp-page="../Entries/Index">My Entries</a>
 
 @section Scripts {
     <script src="~/lib/datatables/datatables.min.js"></script>
