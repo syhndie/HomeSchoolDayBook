@@ -9,6 +9,8 @@
 
 .navsidemargins {
     margin-left: 0;
+    margin-right: 15px;
+    width: auto;
 }
 
 .topmargins {
