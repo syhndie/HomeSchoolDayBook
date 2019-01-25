@@ -1,15 +1,23 @@
-﻿add Admin pages
+﻿25Jan2019
+	right now the application is broken because line 76 in Login.cshtml.cs always returns false
+		even when email and password entered matches email and password registered with
+		here is the line: 
+			var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+	another issue that may or may not be related is that IIS Express runs four applications whenever it runs HomeschoolDayBook.
+		look in launchSettings.json, lines 6-7
+		also note documents/visual studio 2017/projects/homeschooldaybook/.vs/config/applicationhost.config, lines 160-170
 
-	here is some related code:
 
+
+??? should I do these things:
+	add Admin pages
+		Admins need to be able to 
+			view, edit, and delete Users, Entries, Students, and Subjects
+			see which User owns each Entry, Student, Subject
+		here is some related code:
             var adminList = await _userManager.GetUsersInRoleAsync(Constants.AdminRoleName);
-
             if (adminList.Select(u => u.Id).Contains(userId))
             {
                 Students = await _context.Students
                     .ToListAsync();
             }
-
-Admins need to be able to:
-	view, edit, and delete Users, Entries, Students, and Subjects
-	see which User owns each Entry, Student, Subject
