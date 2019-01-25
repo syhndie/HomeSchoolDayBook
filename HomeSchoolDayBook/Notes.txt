@@ -3,6 +3,9 @@
 		even when email and password entered matches email and password registered with
 		here is the line: 
 			var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+		this blog post might help for debugging this issue:
+			https://andrewlock.net/exploring-the-asp-net-core-identity-passwordhasher/
+
 	another issue that may or may not be related is that IIS Express runs four applications whenever it runs HomeschoolDayBook.
 		look in launchSettings.json, lines 6-7
 		also note documents/visual studio 2017/projects/homeschooldaybook/.vs/config/applicationhost.config, lines 160-170
