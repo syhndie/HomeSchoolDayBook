@@ -38,7 +38,7 @@ namespace HomeSchoolDayBook.Models.ViewModels
                     .Distinct()
                     .Count();
 
-                TotalDays = (int)(endDate - startDate).TotalDays;
+                TotalDays = ((int)(endDate - startDate).TotalDays) + 1;
             }
         }
     }
