@@ -5,5 +5,16 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+@using Microsoft.AspNetCore.Identity
 
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <partial name="IndexSignedInPartial" />
+}
+else
+{
+    <partial name="IndexNotSignedInPartial" />
+}
