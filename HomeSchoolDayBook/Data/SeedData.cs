@@ -28,7 +28,7 @@ namespace HomeSchoolDayBook.Data
             var user = await userManager.FindByNameAsync(UserName);
             if (user == null)
             {
-                user = new IdentityUser { UserName = UserName };
+                user = new IdentityUser { UserName = UserName, Email = UserName};
                 await userManager.CreateAsync(user, adminPW);
             }
 
