@@ -10,6 +10,10 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
+<h1>HomeSchoolDayBook</h1>
+<h3>Relaxed HomeSchool Record Keeping</h3>
+<hr />
+
 @if (SignInManager.IsSignedIn(User))
 {
     <partial name="IndexSignedInPartial" />
@@ -18,3 +22,11 @@ else
 {
     <partial name="IndexNotSignedInPartial" />
 }
+
+<hr />
+<address>    
+    <strong>Questions? Need help? <br> 
+    Contact us at:</strong> <a href="mailto:Cindy@homeschooldaybook.com">Cindy@homeschooldaybook.com</a><br />
+</address>
+
+
