@@ -1,12 +1,4 @@
-﻿need to update content of 
-	homepage - dashboard style?
-	login
-	register
-need add checkboxes to hide inactive students/subjects
-
-
-
-??? should I do these things:
+﻿??? should I do these things:
 	add Admin pages
 		Admins need to be able to 
 			view, edit, and delete Users, Entries, Students, and Subjects
