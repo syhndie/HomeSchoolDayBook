@@ -12,22 +12,20 @@
 
 <h1>HomeSchoolDayBook</h1>
 <h4>Relaxed HomeSchool Record Keeping</h4>
-<br />
 <hr />
+<div class="row">
+    <div class="col-md-6 col-sm-8">
+        
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <partial name="IndexSignedInPartial" />
+        }
+        else
+        {
+            <partial name="IndexNotSignedInPartial" />
+        }
 
-@if (SignInManager.IsSignedIn(User))
-{
-    <partial name="IndexSignedInPartial" />
-}
-else
-{
-    <partial name="IndexNotSignedInPartial" />
-}
-
-<br />
-<address>    
-    <strong>Questions? Need help? <br> 
-    Contact us at:</strong> <a href="mailto:Cindy@homeschooldaybook.com">Cindy@homeschooldaybook.com</a><br />
-</address>
-
-
+        <hr />
+        <h3>Contact us at: <a href="mailto:Cindy@homeschooldaybook.com">cindy@homeschooldaybook.com</a></h3>
+    </div>
+</div>
