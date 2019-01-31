@@ -13,15 +13,18 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
+        private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IEmailSender _emailSender;
 
         public IndexModel(
+            HomeSchoolDayBook.Data.ApplicationDbContext context,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             IEmailSender emailSender)
         {
+            _context = context; 
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
@@ -80,17 +83,29 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            //add stuff here to change username when email address gets changed
-            var email = await _userManager.GetEmailAsync(user);
-            if (Input.Email != email)
+            using (var transaction = _context.Database.BeginTransaction())
             {
-                var setEmailResult = await _userManager.SetEmailAsync(user, Input.Email);
-                if (!setEmailResult.Succeeded)
+                try
                 {
-                    var userId = await _userManager.GetUserIdAsync(user);
-                    throw new InvalidOperationException($"Unexpected error occurred setting email for user with ID '{userId}'.");
+                    var email = await _userManager.GetEmailAsync(user);
+                    if (Input.Email != email)
+                    {
+                        var setEmailResult = await _userManager.SetEmailAsync(user, Input.Email);
+                        var setUserNameResult = await _userManager.SetUserNameAsync(user, Input.Email);
+
+                        if (setEmailResult.Succeeded && setUserNameResult.Succeeded)
+                        {
+                            transaction.Commit();
+                        }
+                    }
                 }
-            }
+                catch (Exception)
+                {
+                    StatusMessage = "An error occurred when updating your email address.";
+                    return RedirectToPage();
+                }
+
+            }              
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
