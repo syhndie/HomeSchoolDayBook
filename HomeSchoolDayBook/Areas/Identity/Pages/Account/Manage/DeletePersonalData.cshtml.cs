@@ -66,16 +66,16 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            var result = await _userManager.DeleteAsync(user);
-            var userId = await _userManager.GetUserIdAsync(user);
-            if (!result.Succeeded)
-            {
-                throw new InvalidOperationException($"Unexpected error occurred deleteing user with ID '{userId}'.");
-            }
-
-            await _signInManager.SignOutAsync();
-
-            _logger.LogInformation("User with ID '{UserId}' deleted themselves.", userId);
+//            var result = await _userManager.DeleteAsync(user);
+//            var userId = await _userManager.GetUserIdAsync(user);
+//            if (!result.Succeeded)
+//            {
+//                throw new InvalidOperationException($"Unexpected error occurred deleteing user with ID '{userId}'.");
+//            }
+//
+//            await _signInManager.SignOutAsync();
+//
+//            _logger.LogInformation("User with ID '{UserId}' deleted themselves.", userId);
 
             return Redirect("~/");
         }
