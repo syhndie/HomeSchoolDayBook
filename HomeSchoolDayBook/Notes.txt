@@ -1,6 +1,20 @@
-﻿??? should I do these things:
+﻿section that covers navbar asking user to accept cookie and privacy policy or to get more info
+	right now it has "use this section to" wording
+privacy policy page
+	right now it has "use this section to" wording
+
+set up local email server
+	ask matt about postfix and mutt
+set up automatic sending of verification emails
+	on registration
+	on email address change
+make confirmed email a requirement to login
+
+
+??? should I do these things:
 	add Admin pages
 		Admins need to be able to 
+			delete users and all users data
 			view, edit, and delete Users, Entries, Students, and Subjects
 			see which User owns each Entry, Student, Subject
 		here is some related code:

@@ -17,6 +17,7 @@ hr {
     border-color:crimson;
 }
 
+
 /*my own classes*/
 .notbold {
     font-weight: 400;
@@ -35,6 +36,10 @@ hr {
 
 .topmargins {
     margin-top: 14px;
+}
+
+.index-end {
+    margin-bottom: 30px;
 }
 
     /* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification 
