@@ -15,6 +15,8 @@ using Microsoft.Extensions.DependencyInjection;
 using HomeSchoolDayBook;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using HomeSchoolDayBook.Services;
 
 namespace HomeSchoolDayBook
 {
@@ -57,12 +59,24 @@ namespace HomeSchoolDayBook
                 options.Password.RequiredLength = 6;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredUniqueChars = 1;
-                options.SignIn.RequireConfirmedEmail = false;
+                options.SignIn.RequireConfirmedEmail = true;
                 options.User.RequireUniqueEmail = true;
             }
                 )
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            string emailPassword = Configuration["EmailSender:Password"].Replace("emailPassword", Secrets.emailPassword);
+            string emailUserName = Configuration["EmailSender:UserName"].Replace("emailUserName", Secrets.emailUserName);
+
+            services.AddTransient<IEmailSender, EmailSender>(i =>
+                new EmailSender(
+                    Configuration["EmailSender:Host"],
+                    Configuration.GetValue<int>("EmailSender:Port"),
+                    Configuration.GetValue<bool>("EmailSender:EnableSSL"),
+                    emailUserName,
+                    emailPassword
+                    ));
 
             services.AddMvc(config =>
             {

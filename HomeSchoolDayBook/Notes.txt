@@ -3,12 +3,10 @@
 privacy policy page
 	right now it has "use this section to" wording
 
-set up local email server
-	ask matt about postfix and mutt
+
 set up automatic sending of verification emails
-	on registration
+	on registration - done!
 	on email address change
-make confirmed email a requirement to login
 
 
 ??? should I do these things:
