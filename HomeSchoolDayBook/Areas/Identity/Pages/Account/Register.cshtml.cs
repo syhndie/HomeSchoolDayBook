@@ -32,6 +32,9 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
             _emailSender = emailSender;
         }
 
+        [TempData]
+        public string StatusMessage { get; set; }
+               
         [BindProperty]
         public InputModel Input { get; set; }
 
@@ -76,13 +79,17 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
-                        values: new { userId = user.Id, code = code },
+                        values: new { userId = user.Id, code },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your HomeSchoolDayBook acount email address",
+                        $"Please confirm the email you provided to HomeSchoolDayBook by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    //                    await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    StatusMessage = "An email has been sent to the address you provided. " +
+                        "Please click on the link in that email to verify your address. " +
+                        "Once your address has been verified, you may login";
                     return LocalRedirect(returnUrl);
                 }
                 foreach (var error in result.Errors)
