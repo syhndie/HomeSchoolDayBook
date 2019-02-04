@@ -33,7 +33,7 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
         }
 
         [TempData]
-        public string StatusMessage { get; set; }
+        public string ConfirmMessage { get; set; }
                
         [BindProperty]
         public InputModel Input { get; set; }
@@ -87,7 +87,7 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
 
                     //                    await _signInManager.SignInAsync(user, isPersistent: false);
 
-                    StatusMessage = "An email has been sent to the address you provided. " +
+                    ConfirmMessage = "An email has been sent to the address you provided. " +
                         "Please click on the link in that email to verify your address. " +
                         "Once your address has been verified, you may login";
                     return LocalRedirect(returnUrl);

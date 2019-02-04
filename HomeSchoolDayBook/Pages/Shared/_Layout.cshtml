@@ -47,7 +47,7 @@
     <partial name="_CookieConsentPartial" />
 
     <div class="container body-content page-content">
-        <h4 class="text-danger">@TempData["NotFoundMessage"]</h4>
+        <h4 class="text-danger">@TempData["NotFoundMessage"] @TempData["ConfirmMessage"]</h4>
         @RenderBody()
         <hr />
         <footer>
