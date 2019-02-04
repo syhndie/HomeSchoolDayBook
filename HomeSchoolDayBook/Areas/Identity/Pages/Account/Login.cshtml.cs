@@ -81,12 +81,20 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
                 }
                 if (result.RequiresTwoFactor)
                 {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, Input.RememberMe });
                 }
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
+                }
+                if (result.IsNotAllowed)
+                {
+                    _logger.LogWarning("User not allowed to sign in.");
+                    ModelState.AddModelError(string.Empty, "An email has been sent to the address you provided. " +
+                        "Please click on the link in that email to verify your address. " +
+                        "Once your address has been verified, you may login");
+                    return Page();
                 }
                 else
                 {
