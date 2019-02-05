@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 
 namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
 {
@@ -17,17 +18,20 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IEmailSender _emailSender;
+        private readonly ILogger<IndexModel> _logger;
 
         public IndexModel(
             HomeSchoolDayBook.Data.ApplicationDbContext context,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            ILogger<IndexModel> logger)
         {
             _context = context; 
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _logger = logger;
         }
 
         public string Username { get; set; }
@@ -36,6 +40,9 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
 
         [TempData]
         public string StatusMessage { get; set; }
+
+        [TempData]
+        public string ConfirmMessage { get; set; }
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -96,6 +103,25 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
                         if (setEmailResult.Succeeded && setUserNameResult.Succeeded)
                         {
                             transaction.Commit();
+
+                            _logger.LogInformation("User changed email address");
+
+                            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                            var callbackUrl = Url.Page(
+                                "/Account/ConfirmEmail",
+                                pageHandler: null,
+                                values: new { userId = user.Id, code },
+                                protocol: Request.Scheme);
+
+                            await _emailSender.SendEmailAsync(Input.Email, "Confirm your HomeSchoolDayBook acount email address",
+                                $"Please confirm the email you provided to HomeSchoolDayBook by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                            ConfirmMessage = "An email has been sent to the address you provided. " +
+                                "Please click on the link in that email to verify your address. " +
+                                "Once your address has been verified, you may login";
+
+                            
+
                         }
                     }
                 }
@@ -132,7 +158,7 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
             var callbackUrl = Url.Page(
                 "/Account/ConfirmEmail",
                 pageHandler: null,
-                values: new { userId = userId, code = code },
+                values: new { userId, code },
                 protocol: Request.Scheme);
             await _emailSender.SendEmailAsync(
                 email,

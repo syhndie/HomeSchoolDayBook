@@ -4,10 +4,6 @@ privacy policy page
 	right now it has "use this section to" wording
 
 
-set up automatic sending of verification emails
-	on registration - done!
-	on email address change
-
 
 ??? should I do these things:
 	add Admin pages
