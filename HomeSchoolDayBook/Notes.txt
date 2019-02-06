@@ -1,13 +1,23 @@
-﻿section that covers navbar asking user to accept cookie and privacy policy or to get more info
+﻿reports tables don't line up right because each student is its own table and each table is autosizing its columns
+
+make userids foreign keys
+
+section that covers navbar asking user to accept cookie and privacy policy or to get more info
 	right now it has "use this section to" wording
 privacy policy page
 	right now it has "use this section to" wording
 
+problem - when user changes email address, it changes immediately rather than after the user has confirmed new email
+	find out how to change identity user model
 
+should there be a link on the login page to resend confirmation email, in case user loses first one?
+	after 24 hours, delete any unconfirmed account - note in confirmation email - this allows user to start registration over
 
 ??? should I do these things:
 	add Admin pages
 		Admins need to be able to 
+			confirm email addresses manually
+			resend confirmation email?
 			delete users and all users data
 			view, edit, and delete Users, Entries, Students, and Subjects
 			see which User owns each Entry, Student, Subject
