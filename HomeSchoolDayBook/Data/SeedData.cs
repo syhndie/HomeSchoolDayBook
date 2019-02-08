@@ -16,6 +16,7 @@ namespace HomeSchoolDayBook.Data
             using (var context = new ApplicationDbContext(
                 serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
             {
+
                 var adminID = await EnsureUser(serviceProvider, adminPW, Constants.AdminName);
                 await EnsureRole(serviceProvider, adminID, Constants.AdminRoleName);                
             }
@@ -28,7 +29,7 @@ namespace HomeSchoolDayBook.Data
             var user = await userManager.FindByNameAsync(UserName);
             if (user == null)
             {
-                user = new IdentityUser { UserName = UserName, Email = UserName};
+                user = new IdentityUser { UserName = UserName, Email = UserName, EmailConfirmed = true};
                 await userManager.CreateAsync(user, adminPW);
             }
 
