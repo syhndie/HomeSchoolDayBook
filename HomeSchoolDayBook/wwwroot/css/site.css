@@ -17,7 +17,6 @@ hr {
     border-color:crimson;
 }
 
-
 /*my own classes*/
 .notbold {
     font-weight: 400;
@@ -40,6 +39,14 @@ hr {
 
 .index-end {
     margin-bottom: 30px;
+}
+
+.indented-report {
+    padding-left: 30px;
+}
+
+.body-report {
+    margin-top: 0;
 }
 
     /* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification 

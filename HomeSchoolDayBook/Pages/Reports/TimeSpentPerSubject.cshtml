@@ -5,29 +5,31 @@
     Layout = "~/Pages/Reports/_ReportsLayout.cshtml";
 }
 <h3>Time Spent per Subject, @Html.DisplayFor(model => model.StartDate) to @Html.DisplayFor(model => model.EndDate) </h3>
+
 <hr />
 
 @foreach (var student in Model.StudentTimeSpents)
 {
-    <h4>@student.Student.Name:</h4>
-    <table class="table">
-        <tbody>
-            @foreach (var subject in student.TimePerSubjectLookup.OrderBy(d => d.Key.Name))
-            {
-                string formattedSubject = subject.Key.Name;
+    <div class="row">
+        <div class="col-xs-12">
+            <h4>@student.Student.Name</h4>
+        </div>
+    </div>
 
-                string formattedTimeSpent = Helpers.Helpers.GetTimeSpentDisplay(subject.Value);
+    @foreach (var subject in student.TimePerSubjectLookup.OrderBy(d => d.Key.Name))
+    {
+        string formattedSubject = subject.Key.Name;
 
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => formattedSubject)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => formattedTimeSpent)
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+        string formattedTimeSpent = Helpers.Helpers.GetTimeSpentDisplay(subject.Value);
+
+        <div class="row">
+            <div class="col-xs-7 indented-report">
+                @Html.DisplayFor(modelItem => formattedSubject)
+            </div>
+            <div class="col-xs-5">
+                @Html.DisplayFor(modelItem => formattedTimeSpent)
+            </div>
+        </div>
+    }
     <hr />
 }
