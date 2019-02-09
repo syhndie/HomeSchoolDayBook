@@ -5,31 +5,34 @@
     Layout = "~/Pages/Reports/_ReportsLayout.cshtml";
 }
 
-<h3>Time Spent per Day, @Html.DisplayFor(model => model.StartDate) to @Html.DisplayFor(model => model.EndDate) </h3>
-<h4>All Subjects</h4>
+<h3>Time Spent per Day, All Subjects</h3>
+<h4>@Html.DisplayFor(model => model.StartDate) to @Html.DisplayFor(model => model.EndDate) </h4>
+
 <hr />
 
-        @foreach (var student in Model.StudentTimeSpents)
-        {
-            <h4>@student.Student.Name:</h4>
-            <table class="table">
-                <tbody>
-                    @foreach (var day in student.TimePerDayLookup)
-                    {
-                        string formattedDate = $"{day.Key.ToShortDateString()} ({day.Key.DayOfWeek})";
+@foreach (var student in Model.StudentTimeSpents)
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <h4>@student.Student.Name</h4>
+        </div>
+    </div>
 
-                        string formattedTimeSpent = Helpers.Helpers.GetTimeSpentDisplay(day.Value);
+    @foreach (var day in student.TimePerDayLookup)
+    {
+        string formattedDate = $"{day.Key.ToShortDateString()} ({day.Key.DayOfWeek})";
 
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelitem => formattedDate)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelitem => formattedTimeSpent)
-                            </td>
-                        </tr>
-                    }
-                    </tbody>
-            </table>
-            <hr />
-        }
+        string formattedTimeSpent = Helpers.Helpers.GetTimeSpentDisplay(day.Value);
+    
+        <div class="row">
+            <div class="col-xs-7 indented-report">
+                @Html.DisplayFor(modelItem => formattedDate)
+            </div>
+            <div class="col-xs-5">
+                @Html.DisplayFor(modelItem => formattedTimeSpent)
+            </div>
+        </div>
+    }
+
+    <hr />
+}

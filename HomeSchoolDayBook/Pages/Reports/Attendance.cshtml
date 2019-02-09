@@ -7,12 +7,14 @@
 
 <h3>Attendance</h3>
 <h4>@Html.DisplayFor(model => model.StartDate) to @Html.DisplayFor(model => model.EndDate) </h4>
+
 <hr />
+
 @foreach (var student in Model.StudentAttendances)
 {
     <div class="row">
         <div class="col-xs-12">
-            <h4>@student.Student.Name: </h4>
+            <h4>@student.Student.Name </h4>
         </div>
     </div>
     <div class="row">
