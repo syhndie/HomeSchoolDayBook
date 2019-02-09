@@ -5,25 +5,34 @@
     Layout = "~/Pages/Reports/_ReportsLayout.cshtml";
 }
 
-<h3>Entries In Full, @Html.DisplayFor(model => model.EntriesReportVM.StartDate) to @Html.DisplayFor(model => model.EntriesReportVM.EndDate)</h3>
-<h4>for @Html.DisplayFor(model => model.EntriesReportVM.StudentNames)</h4>
+<h3>Entries In Full</h3>
+<h4>@Html.DisplayFor(model => model.EntriesReportVM.StartDate) to @Html.DisplayFor(model => model.EntriesReportVM.EndDate)</h4>
+<h4>@Html.DisplayFor(model => model.EntriesReportVM.StudentNames)</h4>
+
 <hr />
 
-<div>
-    @foreach (var entry in Model.EntriesReportVM.Entries)
-    {
-       
-        <p>
-            @Html.DisplayFor(model => entry.Date)
-            <br />
-            <strong>@Html.DisplayFor(model => entry.Title):</strong>
-            @Html.DisplayFor(model => entry.Description)
-            <br />
-            @Model.StudentNameLookup[entry.ID]
-            <br />
-            @Html.DisplayFor(model => entry.ComputedTimeSpent)
-        </p>
-        <br />
-        
-    }
-</div>
+@foreach (var entry in Model.EntriesReportVM.Entries)
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <h4>@Html.DisplayFor(model => entry.Date)</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 indented-report">
+            <p>
+                <strong>@Html.DisplayFor(model => entry.Title):</strong>
+                @Html.DisplayFor(model => entry.Description)
+                <br />
+                @Html.DisplayNameFor(model => Model.StudentNameLookup):
+                @Html.DisplayFor(modelItem => Model.StudentNameLookup[entry.ID])
+                <br />
+                @Html.DisplayNameFor(model => Model.SubjectNameLookup):
+                @Html.DisplayFor(modelItem => Model.SubjectNameLookup[entry.ID])
+                <br />
+                @Html.DisplayNameFor(model => entry.ComputedTimeSpent):
+                @Html.DisplayFor(model => entry.ComputedTimeSpent)
+            </p>
+        </div>
+    </div>
+}
