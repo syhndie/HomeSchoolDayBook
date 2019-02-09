@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Entries in Full";
     Layout = "~/Pages/Reports/_ReportsLayout.cshtml";
+
+    DateTime lastDisplayedDate = DateTime.MinValue;
 }
 
 <h3>Entries In Full</h3>
@@ -13,11 +15,17 @@
 
 @foreach (var entry in Model.EntriesReportVM.Entries)
 {
-    <div class="row">
-        <div class="col-xs-12">
-            <h4>@Html.DisplayFor(model => entry.Date)</h4>
+    @if (entry.Date != lastDisplayedDate)
+    {
+        <div class="row">
+            <div class="col-xs-12">
+                <h4>@Html.DisplayFor(model => entry.Date)</h4>
+            </div>
         </div>
-    </div>
+        {
+            lastDisplayedDate = entry.Date;
+        }
+    }
     <div class="row">
         <div class="col-xs-12 indented-report">
             <p>
