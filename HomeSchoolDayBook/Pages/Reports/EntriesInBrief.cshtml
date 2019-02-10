@@ -5,51 +5,47 @@
     Layout = "~/Pages/Reports/_ReportsLayout.cshtml";
 }
 
-<h3>Entries In Brief, @Html.DisplayFor(model => model.EntriesReportVM.StartDate) to @Html.DisplayFor(model => model.EntriesReportVM.EndDate)</h3>
-<h4>for @Html.DisplayFor(model => model.EntriesReportVM.StudentNames)</h4>
+<h3>Entries In Brief</h3>
+<h4>@Html.DisplayFor(model => model.EntriesReportVM.StartDate) to @Html.DisplayFor(model => model.EntriesReportVM.EndDate)</h4>
+<h4>@Html.DisplayFor(model => model.EntriesReportVM.StudentNames)</h4>
+
 <hr />
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.EntriesReportVM.Entries[0].Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EntriesReportVM.Entries[0].Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EntriesReportVM.Entries[0].Enrollments.ToList()[0].Student.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EntriesReportVM.Entries[0].SubjectAssignments.ToList()[0].Subject.Name)
-            </th>
-        </tr>
+<div class="row table-row">
+    <div class="col-xs-1">
+        @Html.DisplayNameFor(model => model.EntriesReportVM.Entries[0].Date)
+    </div>
+    <div class="col-xs-5">
+        @Html.DisplayNameFor(model => model.EntriesReportVM.Entries[0].Title)
+    </div>
+    <div class="col-xs-3">
+        @Html.DisplayNameFor(model => model.EntriesReportVM.Entries[0].Enrollments.ToList()[0].Student.Name)
+    </div>
+    <div class="col-xs-3">
+        @Html.DisplayNameFor(model => model.EntriesReportVM.Entries[0].SubjectAssignments.ToList()[0].Subject.Name)
+    </div>
+</div>
 
-    </thead>
-    <tbody>
-        @foreach (var entry in Model.EntriesReportVM.Entries)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(model => entry.Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => entry.Title)
-                </td>
-                <td>
-                    @foreach (var enr in entry.Enrollments.OrderBy(enr => enr.Student.Name))
-                    {
-                        @Html.DisplayFor(model => enr.Student.Name) <br />
-                    }
-                </td>
-                <td>
-                    @foreach (var sa in entry.SubjectAssignments.OrderBy(sa => sa.Subject.Name))
-                    {
-                        @Html.DisplayFor(model => sa.Subject.Name) <br />
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+@foreach (var entry in Model.EntriesReportVM.Entries)
+{
+    <div class="row table-row">
+        <div class="col-xs-1">
+            @Html.DisplayFor(model => entry.Date)
+        </div>
+        <div class="col-xs-5">
+            @Html.DisplayFor(model => entry.Title)
+        </div>
+        <div class="col-xs-3">
+            @foreach (var enr in entry.Enrollments.OrderBy(enr => enr.Student.Name))
+            {
+                @Html.DisplayFor(model => enr.Student.Name) <br />
+            }
+        </div>
+        <div class="col-xs-3">
+            @foreach (var sa in entry.SubjectAssignments.OrderBy(sa => sa.Subject.Name))
+            {
+                @Html.DisplayFor(model => sa.Subject.Name) <br />
+            }
+        </div>
+    </div>
+}

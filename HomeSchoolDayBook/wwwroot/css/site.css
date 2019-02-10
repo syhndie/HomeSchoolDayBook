@@ -50,6 +50,16 @@ hr {
     padding-top: 0;
 }
 
+.table-row {
+    margin-left: 0;
+    margin-right: 0;
+    padding-bottom: 5px;
+    border-bottom:solid;
+    border-bottom-width : thin;
+    border-bottom-color: darkgrey;
+    
+}
+
     /* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification 
 for details on configuring this project to bundle and minify static web assets. */
     body {
