@@ -1,8 +1,4 @@
-﻿reports tables don't line up right because each student is its own table and each table is autosizing its columns
-
-make userids foreign keys
-
-section that covers navbar asking user to accept cookie and privacy policy or to get more info
+﻿section that covers navbar asking user to accept cookie and privacy policy or to get more info
 	right now it has "use this section to" wording
 privacy policy page
 	right now it has "use this section to" wording
