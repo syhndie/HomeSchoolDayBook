@@ -1,9 +1,4 @@
-﻿section that covers navbar asking user to accept cookie and privacy policy or to get more info
-	right now it has "use this section to" wording
-privacy policy page
-	right now it has "use this section to" wording
-
-problem - when user changes email address, it changes immediately rather than after the user has confirmed new email
+﻿problem - when user changes email address, it changes immediately rather than after the user has confirmed new email
 	find out how to change identity user model
 
 should there be a link on the login page to resend confirmation email, in case user loses first one?
