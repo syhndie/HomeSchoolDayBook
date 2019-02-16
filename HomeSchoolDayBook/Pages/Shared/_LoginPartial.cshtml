@@ -1,7 +1,8 @@
 @using Microsoft.AspNetCore.Identity
+@using HomeSchoolDayBook.Areas.Identity.Data;
 
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<HomeSchoolDayBookUser> SignInManager
+@inject UserManager<HomeSchoolDayBookUser> UserManager
 
 @if (SignInManager.IsSignedIn(User))
 {

@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Models;
 using Microsoft.AspNetCore.Identity;
+using HomeSchoolDayBook.Areas.Identity.Data;
 
 namespace HomeSchoolDayBook.Pages.Students
 {
@@ -16,7 +17,7 @@ namespace HomeSchoolDayBook.Pages.Students
     {
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
 
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<HomeSchoolDayBookUser> _userManager;
 
         public Student Student { get; set; }
 
@@ -25,7 +26,7 @@ namespace HomeSchoolDayBook.Pages.Students
 
         public string DidNotSaveMessage { get; set; }
 
-        public EditModel(HomeSchoolDayBook.Data.ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public EditModel(HomeSchoolDayBook.Data.ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
             _context = context;
             _userManager = userManager;

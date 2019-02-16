@@ -8,12 +8,13 @@ using HomeSchoolDayBook.Data;
 using System.ComponentModel.DataAnnotations;
 using HomeSchoolDayBook.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using HomeSchoolDayBook.Areas.Identity.Data;
 
 namespace HomeSchoolDayBook.Pages.Reports
 {
     public class TimeSpentPerSubjectModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<HomeSchoolDayBookUser> _userManager;
 
         private readonly ApplicationDbContext _context;
 
@@ -25,7 +26,7 @@ namespace HomeSchoolDayBook.Pages.Reports
 
         public List<TimeSpentPerSubjectVM> StudentTimeSpents { get; set; }
 
-        public TimeSpentPerSubjectModel(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public TimeSpentPerSubjectModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
             _userManager = userManager;
             _context = context;

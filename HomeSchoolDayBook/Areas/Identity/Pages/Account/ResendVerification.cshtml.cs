@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using HomeSchoolDayBook.Areas.Identity.Data;
 
 
 namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
@@ -13,10 +14,10 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class ResendEmailConfirmModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<HomeSchoolDayBookUser> _userManager;
         private readonly IEmailSender _emailSender;
 
-        public ResendEmailConfirmModel(UserManager<IdentityUser> userManager, IEmailSender emailSender)
+        public ResendEmailConfirmModel(UserManager<HomeSchoolDayBookUser> userManager, IEmailSender emailSender)
         {
             _userManager = userManager;
             _emailSender = emailSender;

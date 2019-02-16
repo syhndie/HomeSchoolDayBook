@@ -8,12 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Models;
 using Microsoft.AspNetCore.Identity;
+using HomeSchoolDayBook.Areas.Identity.Data;
 
 namespace HomeSchoolDayBook.Pages.Entries
 {
     public class DetailsModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<HomeSchoolDayBookUser> _userManager;
 
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
 
@@ -22,7 +23,7 @@ namespace HomeSchoolDayBook.Pages.Entries
         [TempData]
         public string NotFoundMessage { get; set; }
 
-        public DetailsModel(HomeSchoolDayBook.Data.ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public DetailsModel(HomeSchoolDayBook.Data.ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
             _userManager = userManager;
             _context = context;

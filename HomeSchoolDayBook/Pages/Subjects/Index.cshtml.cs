@@ -8,18 +8,19 @@ using Microsoft.EntityFrameworkCore;
 using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Models;
 using Microsoft.AspNetCore.Identity;
+using HomeSchoolDayBook.Areas.Identity.Data;
 
 namespace HomeSchoolDayBook.Pages.Subjects
 {
     public class IndexModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<HomeSchoolDayBookUser> _userManager;
 
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
 
         public IList<Subject> Subjects { get; set; }
 
-        public IndexModel(HomeSchoolDayBook.Data.ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public IndexModel(HomeSchoolDayBook.Data.ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
             _userManager = userManager;
             _context = context;

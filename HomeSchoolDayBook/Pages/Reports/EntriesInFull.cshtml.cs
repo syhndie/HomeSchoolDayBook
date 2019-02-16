@@ -10,12 +10,13 @@ using HomeSchoolDayBook.Data;
 using Microsoft.EntityFrameworkCore;
 using HomeSchoolDayBook.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using HomeSchoolDayBook.Areas.Identity.Data;
 
 namespace HomeSchoolDayBook.Pages.Reports
 {
     public class EntriesInFullModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<HomeSchoolDayBookUser> _userManager;
 
         private readonly ApplicationDbContext _context;
 
@@ -27,7 +28,7 @@ namespace HomeSchoolDayBook.Pages.Reports
         [Display(Name = "Subjects")]
         public Dictionary<int, string> SubjectNameLookup { get; set; }
         
-        public EntriesInFullModel(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public EntriesInFullModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
             _userManager = userManager;
             _context = context;

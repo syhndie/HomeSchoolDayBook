@@ -8,12 +8,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Models;
 using Microsoft.AspNetCore.Identity;
+using HomeSchoolDayBook.Areas.Identity.Data;
 
 namespace HomeSchoolDayBook.Pages.Subjects
 {
     public class CreateModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<HomeSchoolDayBookUser> _userManager;
 
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
 
@@ -21,7 +22,7 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
         public string DidNotSaveMessage { get; set; }
 
-        public CreateModel(HomeSchoolDayBook.Data.ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public CreateModel(HomeSchoolDayBook.Data.ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
             _userManager = userManager;
             _context = context;

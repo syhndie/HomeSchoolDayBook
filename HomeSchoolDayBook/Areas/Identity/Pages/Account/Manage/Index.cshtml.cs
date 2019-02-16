@@ -9,21 +9,22 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using HomeSchoolDayBook.Areas.Identity.Data;
 
 namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<HomeSchoolDayBookUser> _userManager;
+        private readonly SignInManager<HomeSchoolDayBookUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger<IndexModel> _logger;
 
         public IndexModel(
             HomeSchoolDayBook.Data.ApplicationDbContext context,
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<HomeSchoolDayBookUser> userManager,
+            SignInManager<HomeSchoolDayBookUser> signInManager,
             IEmailSender emailSender,
             ILogger<IndexModel> logger)
         {

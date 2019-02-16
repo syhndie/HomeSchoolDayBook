@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using HomeSchoolDayBook.Helpers;
+using HomeSchoolDayBook.Areas.Identity.Data;
 
 namespace HomeSchoolDayBook.Data
 {
@@ -24,12 +25,12 @@ namespace HomeSchoolDayBook.Data
 
         private static async Task<string> EnsureUser(IServiceProvider serviceProvider, string adminPW, string UserName)
         {
-            var userManager = serviceProvider.GetService<UserManager<IdentityUser>>();
+            var userManager = serviceProvider.GetService<UserManager<HomeSchoolDayBookUser>>();
 
             var user = await userManager.FindByNameAsync(UserName);
             if (user == null)
             {
-                user = new IdentityUser { UserName = UserName, Email = UserName, EmailConfirmed = true};
+                user = new HomeSchoolDayBookUser { UserName = UserName, Email = UserName, EmailConfirmed = true};
                 await userManager.CreateAsync(user, adminPW);
             }
 
@@ -51,7 +52,7 @@ namespace HomeSchoolDayBook.Data
                 IR = await roleManager.CreateAsync(new IdentityRole(role));
             }
 
-            var userManager = serviceProvider.GetService<UserManager<IdentityUser>>();
+            var userManager = serviceProvider.GetService<UserManager<HomeSchoolDayBookUser>>();
 
             var user = await userManager.FindByIdAsync(uid);
 
