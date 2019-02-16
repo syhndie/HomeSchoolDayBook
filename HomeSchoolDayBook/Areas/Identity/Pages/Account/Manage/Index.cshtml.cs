@@ -96,6 +96,13 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
 
             if (newEmail != oldEmail)
             {
+                if (_context.Users.Any(u => u.Email == newEmail))
+                {
+                    StatusMessage = "Error: Email address already in use.";
+                    return RedirectToPage();
+
+                }
+
                 user.PendingEmail = newEmail;
                 await _userManager.UpdateAsync(user);
 
@@ -115,10 +122,11 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
                 ConfirmMessage = "An email has been sent to the new address you provided." +
                     "Please click on the link in that email to verify your new address." +
                     "Once the new address has been verified, you may login with that address.";
+
+                StatusMessage = "Your profile has been updated";
             }           
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }
 

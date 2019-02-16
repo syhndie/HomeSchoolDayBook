@@ -92,9 +92,7 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
                 if (result.IsNotAllowed)
                 {
                     _logger.LogWarning("User not allowed to sign in.");
-                    ModelState.AddModelError(string.Empty, "An email has been sent to the address you provided. " +
-                        "Please click on the link in that email to verify your address. " +
-                        "Once your address has been verified, you may login.");
+                    ModelState.AddModelError(string.Empty, "Login not allowed. You may need to confirm your email address.");
                     return Page();
                 }
                 else
