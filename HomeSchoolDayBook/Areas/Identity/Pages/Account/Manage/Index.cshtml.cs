@@ -91,48 +91,31 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            using (var transaction = _context.Database.BeginTransaction())
+            var newEmail = Input.Email;
+            var oldEmail = await _userManager.GetEmailAsync(user);
+
+            if (newEmail != oldEmail)
             {
-                try
-                {
-                    var email = await _userManager.GetEmailAsync(user);
-                    if (Input.Email != email)
-                    {
-                        var setEmailResult = await _userManager.SetEmailAsync(user, Input.Email);
-                        var setUserNameResult = await _userManager.SetUserNameAsync(user, Input.Email);
+                user.PendingEmail = newEmail;
+                await _userManager.UpdateAsync(user);
 
-                        if (setEmailResult.Succeeded && setUserNameResult.Succeeded)
-                        {
-                            transaction.Commit();
+                var changeEmailToken = await _userManager.GenerateChangeEmailTokenAsync(user, newEmail);
 
-                            _logger.LogInformation("User changed email address");
+                _logger.LogInformation("User requested email change");
 
-                            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                            var callbackUrl = Url.Page(
-                                "/Account/ConfirmEmail",
-                                pageHandler: null,
-                                values: new { userId = user.Id, code },
-                                protocol: Request.Scheme);
+                var callbackUrl = Url.Page(
+                    "/Account/ConfirmChangedEmail",
+                    pageHandler: null,
+                    values: new { userID = user.Id, changeEmailToken, newEmail },
+                    protocol: Request.Scheme);
 
-                            await _emailSender.SendEmailAsync(Input.Email, "Confirm your HomeSchoolDayBook acount email address",
-                                $"Please confirm the email you provided to HomeSchoolDayBook by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                await _emailSender.SendEmailAsync(newEmail, "Confirm your HomeSchoolDayBook acount new email address.",
+                    $"Please confirm the new email you provided to HomeSchoolDayBook by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                            ConfirmMessage = "An email has been sent to the address you provided. " +
-                                "Please click on the link in that email to verify your address. " +
-                                "Once your address has been verified, you may login";
-
-                            
-
-                        }
-                    }
-                }
-                catch (Exception)
-                {
-                    StatusMessage = "An error occurred when updating your email address.";
-                    return RedirectToPage();
-                }
-
-            }              
+                ConfirmMessage = "An email has been sent to the new address you provided." +
+                    "Please click on the link in that email to verify your new address." +
+                    "Once the new address has been verified, you may login with that address.";
+            }           
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
@@ -151,7 +134,6 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-
 
             var userId = await _userManager.GetUserIdAsync(user);
             var email = await _userManager.GetEmailAsync(user);

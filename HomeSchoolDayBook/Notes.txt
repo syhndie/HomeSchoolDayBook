@@ -1,5 +1,7 @@
-﻿problem - when user changes email address, it changes immediately rather than after the user has confirmed new email
-	find out how to change identity user model
+﻿
+
+problem -
+don't let users try to change email address to one already in the database!!!!!!!!
 
 should there be a link on the login page to resend confirmation email, in case user loses first one?
 	after 24 hours, delete any unconfirmed account - note in confirmation email - this allows user to start registration over
