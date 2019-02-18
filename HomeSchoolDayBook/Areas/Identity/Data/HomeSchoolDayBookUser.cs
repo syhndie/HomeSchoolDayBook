@@ -10,5 +10,6 @@ namespace HomeSchoolDayBook.Areas.Identity.Data
     public class HomeSchoolDayBookUser : IdentityUser
     {
         public string PendingEmail { get; set; }
+        public DateTime AccountCreatedTimeStamp { get; set; }
     }
 }

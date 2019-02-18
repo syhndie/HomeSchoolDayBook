@@ -70,7 +70,7 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new HomeSchoolDayBookUser { UserName = Input.Email, Email = Input.Email };
+                var user = new HomeSchoolDayBookUser { UserName = Input.Email, Email = Input.Email, AccountCreatedTimeStamp = DateTime.Now };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

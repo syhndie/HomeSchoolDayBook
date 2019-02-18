@@ -1,10 +1,8 @@
-﻿
+﻿limit number of verification emails user can send
 
-problem -
-don't let users try to change email address to one already in the database!!!!!!!!
+after 24 hours, delete any unconfirmed account - note in confirmation email - this allows user to start registration over
 
-should there be a link on the login page to resend confirmation email, in case user loses first one?
-	after 24 hours, delete any unconfirmed account - note in confirmation email - this allows user to start registration over
+error, status, confirmed, etc. messages are all over the place - need to be standardized
 
 ??? should I do these things:
 	add Admin pages
