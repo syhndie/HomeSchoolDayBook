@@ -86,6 +86,9 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your HomeSchoolDayBook acount email address",
                         $"Please confirm the email you provided to HomeSchoolDayBook by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
+                    user.EmailConfirmsCount++;
+                    await _userManager.UpdateAsync(user);
+
                     ConfirmMessage = "An email has been sent to the address you provided. " +
                         "Please click on the link in that email to verify your address. " +
                         "Once your address has been verified, you may login";

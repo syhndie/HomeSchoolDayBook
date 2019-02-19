@@ -23,6 +23,14 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
             _emailSender = emailSender;
         }
 
+        private const int maxAllowedEmails = 5;
+
+        [TempData]
+        public string ConfirmMessage { get; set; }
+
+        [TempData]
+        public string ErrorMessage { get; set; }
+
         [BindProperty]
         public InputModel Input { get; set; }
 
@@ -47,23 +55,42 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
 
                 if (await _userManager.IsEmailConfirmedAsync(user))
                 {
-                    ModelState.AddModelError(string.Empty, "Your email address has already been confirmed.");
-                    return Page();
+                    // Don't reveal that user does exist
+                    return RedirectToPage("./ResendVerification");
                 }
 
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                var callbackUrl = Url.Page(
-                    "/Account/ConfirmEmail",
-                    pageHandler: null,
-                    values: new { userId = user.Id, code },
-                    protocol: Request.Scheme);
+                if (user.EmailConfirmsCount < maxAllowedEmails)
+                {
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var callbackUrl = Url.Page(
+                        "/Account/ConfirmEmail",
+                        pageHandler: null,
+                        values: new { userId = user.Id, code },
+                        protocol: Request.Scheme);
 
-                await _emailSender.SendEmailAsync(Input.Email, "Confirm your HomeSchoolDayBook acount email address",
-                    $"Please confirm the email you provided to HomeSchoolDayBook by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your HomeSchoolDayBook acount email address",
+                        $"Please confirm the email you provided to HomeSchoolDayBook by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                return RedirectToPage("./Login");
+                    user.EmailConfirmsCount++;
+                    await _userManager.UpdateAsync(user);
+
+                    ConfirmMessage = "An email has been sent to the address you provided. " +
+                    "Please click on the link in that email to verify your address. " +
+                    "Once your address has been verified, you may login. " +
+                    $"A total of {user.EmailConfirmsCount} verification emails have been sent to this address." +
+                    $"A maximum of {maxAllowedEmails} emails are allowed.";
+
+                    return RedirectToPage();
+                }
+                else
+                {
+                    ErrorMessage = $"You have exceeded the maximum of {maxAllowedEmails} verification emails. No further verification emails may be sent.";
+                    return RedirectToPage();
+                }
+
             }
 
+            ErrorMessage = "An error occurred and the verification email was not sent.";
             return Page();
         }
     }
