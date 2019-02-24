@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using HomeSchoolDayBook.Areas.Identity.Data;
+using HomeSchoolDayBook.Models;
 
 namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
 {
-    public partial class IndexModel : PageModel
+    public partial class IndexModel : BasePageModel
     {
         private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
         private readonly UserManager<HomeSchoolDayBookUser> _userManager;

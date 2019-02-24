@@ -1,15 +1,14 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using HomeSchoolDayBook.Areas.Identity.Data;
+using HomeSchoolDayBook.Models;
 
 namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
 {
-    public class DeletePersonalDataModel : PageModel
+    public class DeletePersonalDataModel : BasePageModel
     {
         private readonly UserManager<HomeSchoolDayBookUser> _userManager;
         private readonly SignInManager<HomeSchoolDayBookUser> _signInManager;

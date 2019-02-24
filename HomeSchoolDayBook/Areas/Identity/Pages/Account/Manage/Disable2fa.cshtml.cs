@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using HomeSchoolDayBook.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using HomeSchoolDayBook.Models;
 
 namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
 {
-    public class Disable2faModel : PageModel
+    public class Disable2faModel : BasePageModel
     {
         private readonly UserManager<HomeSchoolDayBookUser> _userManager;
         private readonly ILogger<Disable2faModel> _logger;

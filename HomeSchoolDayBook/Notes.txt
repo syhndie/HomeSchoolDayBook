@@ -1,18 +1,11 @@
-﻿limit number of verification emails user can send
+﻿error, status, confirmed, etc. messages are all over the place - need to be standardized
 
-after 24 hours, delete any unconfirmed account - note in confirmation email - this allows user to start registration over
-
-error, status, confirmed, etc. messages are all over the place - need to be standardized
-
-??? should I do these things:
-	add Admin pages
-		Admins need to be able to 
-			confirm email addresses manually
-			resend confirmation email?
-			delete users and all users data
-			view, edit, and delete Users, Entries, Students, and Subjects
-			see which User owns each Entry, Student, Subject
-		here is some related code:
+add Admin pages
+	confirm email addresses manually
+	resend confirmation email
+	delete users and all users data
+	see all data
+	here is some related code:
             var adminList = await _userManager.GetUsersInRoleAsync(Constants.AdminRoleName);
             if (adminList.Select(u => u.Id).Contains(userId))
             {

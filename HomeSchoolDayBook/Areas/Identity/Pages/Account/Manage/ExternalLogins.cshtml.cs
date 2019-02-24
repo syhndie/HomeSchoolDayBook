@@ -6,11 +6,11 @@ using HomeSchoolDayBook.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using HomeSchoolDayBook.Models;
 
 namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
 {
-    public class ExternalLoginsModel : PageModel
+    public class ExternalLoginsModel : BasePageModel
     {
         private readonly UserManager<HomeSchoolDayBookUser> _userManager;
         private readonly SignInManager<HomeSchoolDayBookUser> _signInManager;

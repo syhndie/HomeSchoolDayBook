@@ -1,0 +1,16 @@
+﻿@{
+    TempData.Add("danger", new List<string>());
+    TempData.Add("success", "This is a success message.");
+    TempData.Add("info", "This is an info message.");
+    TempData.Add("warning", "This is a warning message.");
+
+    ((List<string>)TempData["danger"]).Add("This is the first danger message.");
+    ((List<string>)TempData["danger"]).Add("This is the second danger message.");
+}
+
+@foreach (string message in (List<string>)TempData["danger"])
+{
+    <div class="alert alert-danger">
+        <p>@message</p>        
+    </div>
+}

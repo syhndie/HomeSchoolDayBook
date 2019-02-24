@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using HomeSchoolDayBook.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using HomeSchoolDayBook.Areas.Identity.Data;
+using HomeSchoolDayBook.Models;
+using HomeSchoolDayBook.Data;
 
 namespace HomeSchoolDayBook.Pages.Reports
 {
-    public class IndexModel : PageModel
+    public class IndexModel : BasePageModel
     {
         private readonly UserManager<HomeSchoolDayBookUser> _userManager;
 
-        private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public readonly List<string> ReportViews = new List<string>
         { "./Attendance", "./TimeSpentPerDay", "./EntriesInBrief",  "./TimeSpentPerSubject", "./EntriesInFull"};

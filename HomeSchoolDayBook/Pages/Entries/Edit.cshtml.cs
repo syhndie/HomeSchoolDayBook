@@ -3,23 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Models;
 using HomeSchoolDayBook.Models.ViewModels;
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 using HomeSchoolDayBook.Areas.Identity.Data;
 
 namespace HomeSchoolDayBook.Pages.Entries
 {
-    public class EditModel : PageModel
+    public class EditModel : BasePageModel
     {
         private readonly UserManager<HomeSchoolDayBookUser> _userManager;
 
-        private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public EntryVM EntryVM { get; set; }
 
@@ -28,7 +25,7 @@ namespace HomeSchoolDayBook.Pages.Entries
 
         public string DidNotSaveMessage { get; set; }
 
-        public EditModel(HomeSchoolDayBook.Data.ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
+        public EditModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
             _userManager = userManager;
             _context = context;            

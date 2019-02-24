@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Models;
 using HomeSchoolDayBook.Models.ViewModels;
@@ -13,17 +11,17 @@ using HomeSchoolDayBook.Areas.Identity.Data;
 
 namespace HomeSchoolDayBook.Pages.Entries
 {
-    public class CreateModel : PageModel
+    public class CreateModel : BasePageModel
     {
         private readonly UserManager<HomeSchoolDayBookUser> _userManager;
 
-        private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public EntryVM EntryVM { get; set; }
 
         public string DidNotSaveMessage { get; set; }
 
-        public CreateModel(HomeSchoolDayBook.Data.ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
+        public CreateModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
             _userManager = userManager;
             _context = context;

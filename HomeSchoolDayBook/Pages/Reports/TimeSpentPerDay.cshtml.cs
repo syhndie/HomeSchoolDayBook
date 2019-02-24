@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using HomeSchoolDayBook.Data;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
 using HomeSchoolDayBook.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using HomeSchoolDayBook.Areas.Identity.Data;
+using HomeSchoolDayBook.Models;
 
 namespace HomeSchoolDayBook.Pages.Reports
 {
-    public class TimeSpentPerDayModel : PageModel
+    public class TimeSpentPerDayModel : BasePageModel
     {
         private readonly UserManager<HomeSchoolDayBookUser> _userManager;
 

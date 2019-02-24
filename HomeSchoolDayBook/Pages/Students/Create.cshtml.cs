@@ -1,25 +1,25 @@
 ﻿using HomeSchoolDayBook.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using HomeSchoolDayBook.Areas.Identity.Data;
+using HomeSchoolDayBook.Data;
 
 namespace HomeSchoolDayBook.Pages.Students
 {
-    public class CreateModel : PageModel
+    public class CreateModel : BasePageModel
     {
         private readonly UserManager<HomeSchoolDayBookUser> _userManager;
 
-        private readonly HomeSchoolDayBook.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public Student Student { get; set; }
     
         public string DidNotSaveMessage { get; set; }
 
-        public CreateModel(HomeSchoolDayBook.Data.ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
+        public CreateModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
             _userManager = userManager;
             _context = context;

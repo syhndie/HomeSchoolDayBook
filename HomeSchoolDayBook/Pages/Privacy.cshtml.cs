@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
+using HomeSchoolDayBook.Models;
 
 namespace HomeSchoolDayBook.Pages
 {
     [AllowAnonymous]
-    public class PrivacyModel : PageModel
+    public class PrivacyModel : BasePageModel
     {
         public void OnGet()
         {

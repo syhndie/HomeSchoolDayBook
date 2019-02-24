@@ -1,22 +1,17 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using HomeSchoolDayBook.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using HomeSchoolDayBook.Data;
 using Microsoft.Extensions.Logging;
-
-
-
+using HomeSchoolDayBook.Models;
 
 namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
-    public class ConfirmChangedEmailModel : PageModel
+    public class ConfirmChangedEmailModel : BasePageModel
     {
         private readonly UserManager<HomeSchoolDayBookUser> _userManager;
         private readonly ApplicationDbContext _context;

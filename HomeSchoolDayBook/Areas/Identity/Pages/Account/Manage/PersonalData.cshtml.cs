@@ -1,13 +1,13 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using HomeSchoolDayBook.Areas.Identity.Data;
+using HomeSchoolDayBook.Models;
 
 namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
 {
-    public class PersonalDataModel : PageModel
+    public class PersonalDataModel : BasePageModel
     {
         private readonly UserManager<HomeSchoolDayBookUser> _userManager;
         private readonly ILogger<PersonalDataModel> _logger;

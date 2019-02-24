@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
-using HomeSchoolDayBook.Models;
+﻿using HomeSchoolDayBook.Models;
 using HomeSchoolDayBook.Data;
-using Microsoft.EntityFrameworkCore;
 using HomeSchoolDayBook.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using HomeSchoolDayBook.Areas.Identity.Data;
 
 namespace HomeSchoolDayBook.Pages.Reports
 {
-    public class EntriesInBriefModel : PageModel
+    public class EntriesInBriefModel : BasePageModel
     {
         private readonly UserManager<HomeSchoolDayBookUser> _userManager;
 
