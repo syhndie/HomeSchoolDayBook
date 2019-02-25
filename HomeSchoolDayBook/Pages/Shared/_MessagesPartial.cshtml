@@ -1,16 +1,34 @@
 ﻿@{
-    TempData.Add("danger", new List<string>());
-    TempData.Add("success", "This is a success message.");
-    TempData.Add("info", "This is an info message.");
-    TempData.Add("warning", "This is a warning message.");
 
-    ((List<string>)TempData["danger"]).Add("This is the first danger message.");
-    ((List<string>)TempData["danger"]).Add("This is the second danger message.");
-}
+    if (!String.IsNullOrEmpty((string)TempData["SuccessMessage"]))
+    {
+        <div class="alert alert-success">
+            <p>@TempData["SuccessMessage"]</p>
 
-@foreach (string message in (List<string>)TempData["danger"])
-{
-    <div class="alert alert-danger">
-        <p>@message</p>        
-    </div>
+        </div>
+    }
+
+    if (!String.IsNullOrEmpty((string)TempData["InfoMessage"]))
+    {
+        <div class="alert alert-info">
+            <p>@TempData["InfoMessage"]</p>
+
+        </div>
+    }
+
+    if (!String.IsNullOrEmpty((string)TempData["DangerMessage"]))
+    {
+        <div class="alert alert-danger">
+            <p>@TempData["DangerMessage"]</p>
+
+        </div>
+    }
+
+    if (!String.IsNullOrEmpty((string)TempData["WarningMessage"]))
+    {
+        <div class="alert alert-warning">
+            <p>@TempData["WarningMessage"]</p>
+
+        </div>
+    }
 }

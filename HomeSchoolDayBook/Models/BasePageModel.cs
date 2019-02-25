@@ -1,18 +1,25 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using HomeSchoolDayBook.Helpers;
+using System.ComponentModel.DataAnnotations;
 
 namespace HomeSchoolDayBook.Models
 {
     public class BasePageModel : PageModel
     {
-        public class Message
-        {
-            public string MessageClass { get; set; }
-            public string MessageText { get; set; }
-        }
+        
         [TempData]
-        public List<Message> Messages { get; set; }        
+        public string DangerMessage { get; set; }      
+
+        [TempData]
+        public string WarningMessage { get; set; }
+
+        [TempData]
+        public string InfoMessage { get; set; }
+
+        [TempData]
+        public string SuccessMessage { get; set; }
     }
 
    

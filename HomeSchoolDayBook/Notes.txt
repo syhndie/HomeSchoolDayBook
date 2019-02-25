@@ -1,4 +1,7 @@
-﻿error, status, confirmed, etc. messages are all over the place - need to be standardized
+﻿FIX COOKIE POLICY
+
+
+error, status, confirmed, etc. messages are all over the place - need to be standardized
 
 add Admin pages
 	confirm email addresses manually
