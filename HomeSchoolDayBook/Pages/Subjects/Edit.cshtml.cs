@@ -18,11 +18,6 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
         public Subject Subject { get; set; }
 
-        [TempData]
-        public string NotFoundMessage { get; set; }
-
-        public string DidNotSaveMessage { get; set; }
-
         public EditModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
             _context = context;
@@ -40,7 +35,7 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
             if (Subject == null)
             {
-                NotFoundMessage = "Subject not found.";
+                DangerMessage = "Subject not found.";
 
                 return RedirectToPage("./Index");
             }
@@ -60,7 +55,7 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
             if (Subject == null)
             {
-                NotFoundMessage = "Subject not found.";
+                DangerMessage = "Subject not found.";
 
                 return RedirectToPage("./Index");
             }
@@ -77,18 +72,18 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
                 if (otherUsedNames.Contains(Subject.Name))
                 {
-                    DidNotSaveMessage = "This Subject name is already used.";
+                    DangerMessage = "This Subject name is already used.";
 
-                    return Page();
+                    return RedirectToPage();
                 }
 
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
             }
 
-            DidNotSaveMessage = "Changes did not save correctly. Please try again.";
+            DangerMessage = "Changes did not save correctly. Please try again.";
 
-            return Page();
+            return RedirectToPage();
         }
 
     }
