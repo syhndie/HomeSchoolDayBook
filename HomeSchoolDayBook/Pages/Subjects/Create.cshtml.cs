@@ -17,7 +17,6 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
         public Subject Subject { get; set; }
 
-        public string DidNotSaveMessage { get; set; }
 
         public CreateModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
@@ -50,9 +49,9 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
                 if (usedNames.Contains(Subject.Name))
                 {
-                    DidNotSaveMessage = "This Subject name is already used.";
+                    DangerMessage = "This Subject name is already used.";
 
-                    return Page();
+                    return RedirectToPage();
                 }
 
                 _context.Subjects.Add(Subject);
@@ -62,9 +61,9 @@ namespace HomeSchoolDayBook.Pages.Subjects
                 return RedirectToPage("./Index");
             }
 
-            DidNotSaveMessage = "New Subject did not save correctly. Please try again";
+            DangerMessage = "New Subject did not save correctly. Please try again";
 
-            return Page();
+            return RedirectToPage();
         }
     }
 }
