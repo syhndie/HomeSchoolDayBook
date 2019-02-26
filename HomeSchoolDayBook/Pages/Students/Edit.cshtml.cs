@@ -18,11 +18,6 @@ namespace HomeSchoolDayBook.Pages.Students
 
         public Student Student { get; set; }
 
-        [TempData]
-        public string NotFoundMessage {get; set;}
-
-        public string DidNotSaveMessage { get; set; }
-
         public EditModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
             _context = context;
@@ -40,7 +35,7 @@ namespace HomeSchoolDayBook.Pages.Students
 
             if (Student == null)
             {
-                NotFoundMessage = "Student not found.";
+                DangerMessage = "Student not found.";
 
                 return RedirectToPage("./Index");
             }
@@ -59,7 +54,7 @@ namespace HomeSchoolDayBook.Pages.Students
 
             if (Student == null)
             {
-                NotFoundMessage = "Student not found.";
+                DangerMessage = "Student not found.";
 
                 return RedirectToPage("./Index");
             }
@@ -71,13 +66,14 @@ namespace HomeSchoolDayBook.Pages.Students
                 List<string> otherUsedNames = _context.Students
                     .Where(st => st.ID != id)
                     .Where(st => st.UserID == userId)
-                    .Select(st=> st.Name).ToList();
+                    .Select(st=> st.Name)
+                    .ToList();
 
                 if (otherUsedNames.Contains(Student.Name))
                 {
-                    DidNotSaveMessage = "This Student name is already used.";
+                    DangerMessage = "This Student name is already used.";
 
-                    return Page();
+                    return RedirectToPage();
                 }
 
                 await _context.SaveChangesAsync();
@@ -85,7 +81,7 @@ namespace HomeSchoolDayBook.Pages.Students
                 return RedirectToPage("./Index");
             }
 
-            DidNotSaveMessage = "Changes did not save correctly. Please try again.";
+            DangerMessage = "Changes did not save correctly. Please try again.";
 
             return Page();
         }
