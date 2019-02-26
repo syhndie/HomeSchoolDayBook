@@ -17,8 +17,6 @@ namespace HomeSchoolDayBook.Pages.Students
 
         public Student Student { get; set; }
     
-        public string DidNotSaveMessage { get; set; }
-
         public CreateModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
             _userManager = userManager;
@@ -50,9 +48,9 @@ namespace HomeSchoolDayBook.Pages.Students
 
                 if (usedNames.Contains(Student.Name))
                 {
-                    DidNotSaveMessage = "This Student name is already used.";
+                    DangerMessage = "This Student name is already used.";
 
-                    return Page();
+                    return RedirectToPage();
                 }
                 _context.Students.Add(Student);
 
@@ -61,9 +59,9 @@ namespace HomeSchoolDayBook.Pages.Students
                 return RedirectToPage("./Index");
             }
 
-            DidNotSaveMessage = "New Student did not save correctly. Please try again.";
+            DangerMessage = "New Student did not save correctly. Please try again.";
 
-            return Page();
+            return RedirectToPage();
         }
     }
 }
