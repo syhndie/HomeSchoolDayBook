@@ -33,8 +33,6 @@ namespace HomeSchoolDayBook.Pages.Reports
         [Display(Name = "Students")]
         public List<CheckBoxVM> StudentCheckBoxes { get; set; }
 
-        public string NoStudentsMessage { get; set; }
-
         public IndexModel(HomeSchoolDayBook.Data.ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
             _userManager = userManager;
@@ -57,11 +55,6 @@ namespace HomeSchoolDayBook.Pages.Reports
                 .Select(st => new CheckBoxVM(st.ID, st.Name, false))
                 .ToListAsync();
 
-            if (StudentCheckBoxes.Count() == 0)
-            {
-                NoStudentsMessage = "You have no saved Students.";
-            }
-
             return Page();            
         }
 
@@ -73,11 +66,13 @@ namespace HomeSchoolDayBook.Pages.Reports
 
             string selectedStudentsAsString = String.Join(',', selectedStudents);
 
-            if (ReportViews.Contains(selectedReport))
+            if (!ReportViews.Contains(selectedReport))
             {
-                return RedirectToPage(selectedReport, new { start = startDate, end = endDate, studentIDs = selectedStudentsAsString });
+                DangerMessage = "An error occurred when selecting a report to view.";
+                return RedirectToPage();
             }
-            else return RedirectToPage("./NoReport");
+
+            return RedirectToPage(selectedReport, new { start = startDate, end = endDate, studentIDs = selectedStudentsAsString });
         }
     }
 }

@@ -32,7 +32,13 @@
         <div class="form-group col-md-8 col-sm-10">
             <label asp-for="StudentCheckBoxes" class="control-label"></label>
             <span id="studentValidationMessage" class="text-danger"></span>
-            <p class="text-danger">@Model.NoStudentsMessage</p>
+
+            @if (!Model.StudentCheckBoxes.Any())
+            {
+                <br />
+                <a asp-page="../Students/Create">Create New Student</a>
+            }
+
             <div class="row">
                 @foreach (var checkbox in Model.StudentCheckBoxes)
                 {
@@ -95,7 +101,7 @@
                 var $students = $(this).find('input[name="selectedStudents"]:checked');
                 var $report = $(this).find('input[name="selectedReport"]:checked');
                 if (!$students.length) {
-                    $('#studentValidationMessage').html('You must select at least one Student.');
+                    $('#studentValidationMessage').html('You must select at least one Student to create a report.');
                     return false; 
                 }
                 if (!$report.length) {
