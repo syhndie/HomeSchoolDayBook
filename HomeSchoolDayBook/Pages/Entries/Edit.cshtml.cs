@@ -20,11 +20,6 @@ namespace HomeSchoolDayBook.Pages.Entries
 
         public EntryVM EntryVM { get; set; }
 
-        [TempData]
-        public string NotFoundMessage { get; set; }
-
-        public string DidNotSaveMessage { get; set; }
-
         public EditModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
             _userManager = userManager;
@@ -40,14 +35,13 @@ namespace HomeSchoolDayBook.Pages.Entries
                     .ThenInclude(sa => sa.Subject)
                 .Include(ent => ent.Enrollments)
                     .ThenInclude(enr => enr.Student)
-                .AsNoTracking()
                 .Where(ent => ent.UserID == userId)
                 .Where(ent => ent.ID == id)
                 .FirstOrDefaultAsync();            
 
             if (entry == null)
             {
-                NotFoundMessage = "Entry not found. The Entry you selected is no longer in the database.";
+                DangerMessage = "Entry not found. The Entry you selected is no longer in the database.";
 
                 return RedirectToPage("./Index");
             }
@@ -72,7 +66,7 @@ namespace HomeSchoolDayBook.Pages.Entries
 
             if (editedEntry == null)
             {
-                NotFoundMessage = "Entry not found. The Entry you selected is no longer in the database.";
+                DangerMessage = "Entry not found. The Entry you selected is no longer in the database.";
 
                 return RedirectToPage("./Index");
             }
@@ -118,9 +112,9 @@ namespace HomeSchoolDayBook.Pages.Entries
                 return RedirectToPage("./Index");
             }
 
-            DidNotSaveMessage = "Changes did not save correctly. Please try again.";
+            DangerMessage = "Changes did not save correctly. Please try again.";
 
-            return Page();
+            return RedirectToPage();
         }
     }
 }
