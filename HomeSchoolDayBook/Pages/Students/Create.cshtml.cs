@@ -23,9 +23,9 @@ namespace HomeSchoolDayBook.Pages.Students
             _context = context;
         }
 
-        public IActionResult OnGet()
+        public void OnGet()
         {
-            return Page();
+
         }
 
         public async Task<IActionResult> OnPostAsync()
