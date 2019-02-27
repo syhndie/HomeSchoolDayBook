@@ -30,6 +30,7 @@ namespace HomeSchoolDayBook.Pages.Students
 
             Students = await _context.Students
                 .Where(st => st.UserID == userId)
+                .AsNoTracking()
                 .ToListAsync();
 
             return Page();

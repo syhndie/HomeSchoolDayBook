@@ -31,6 +31,7 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
             Subjects = await _context.Subjects
                 .Where(su => su.UserID == userId)
+                .AsNoTracking()
                 .ToListAsync();
 
             return Page();
