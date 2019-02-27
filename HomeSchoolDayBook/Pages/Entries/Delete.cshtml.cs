@@ -17,9 +17,6 @@ namespace HomeSchoolDayBook.Pages.Entries
 
         public Entry Entry { get; set; }
 
-        [TempData]
-        public string NotFoundMessage { get; set; }
-
         public DeleteModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
             _userManager = userManager;
@@ -37,12 +34,11 @@ namespace HomeSchoolDayBook.Pages.Entries
                     .ThenInclude(enr => enr.Student)
                 .Include(ent => ent.SubjectAssignments)
                     .ThenInclude(sa => sa.Subject)
-                .AsNoTracking()
                 .FirstOrDefaultAsync();
 
             if (Entry == null)
             {
-                NotFoundMessage = "Entry not found.";
+                DangerMessage = "Entry not found.";
 
                 return RedirectToPage("./Index");
             }
@@ -57,11 +53,12 @@ namespace HomeSchoolDayBook.Pages.Entries
             Entry = await _context.Entries
                 .Where(ent => ent.UserID == userId)
                 .Where(ent => ent.ID == id)
-                .AsNoTracking()
                 .FirstOrDefaultAsync();
 
             if (Entry == null)
             {
+                DangerMessage = "Entry not found.";
+
                 return RedirectToPage("./Index");
             }
 
