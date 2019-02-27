@@ -7,7 +7,8 @@ namespace HomeSchoolDayBook.Pages
     public class IndexModel : BasePageModel
     {
         public void OnGet()
-        {            
+        {
+            
 
         }
     }

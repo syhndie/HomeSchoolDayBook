@@ -14,7 +14,6 @@ namespace HomeSchoolDayBook.Pages
     {
         public void OnGet()
         {
-
         }
     }
 }

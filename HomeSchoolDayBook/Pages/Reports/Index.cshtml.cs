@@ -39,7 +39,7 @@ namespace HomeSchoolDayBook.Pages.Reports
             _context = context;
         }
         
-        public async void OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
             string userId = _userManager.GetUserId(User);
 
@@ -54,6 +54,8 @@ namespace HomeSchoolDayBook.Pages.Reports
                 .OrderBy(st => st.Name)
                 .Select(st => new CheckBoxVM(st.ID, st.Name, false))
                 .ToListAsync();
+
+            return Page();            
         }
 
         public IActionResult OnPost(string fromDate, string toDate, string[] selectedStudents, string selectedReport)

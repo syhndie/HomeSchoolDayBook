@@ -24,13 +24,15 @@ namespace HomeSchoolDayBook.Pages.Students
             _context = context;
         }
 
-        public async void OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
             string userId = _userManager.GetUserId(User);
 
             Students = await _context.Students
                 .Where(st => st.UserID == userId)
                 .ToListAsync();
+
+            return Page();
         }
     }
 }

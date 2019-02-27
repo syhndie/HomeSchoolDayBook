@@ -47,7 +47,10 @@ namespace HomeSchoolDayBook.Pages.Reports
                     .Where(stp => stp.Student != null)
                     .OrderBy(vm => vm.Student.Name)
                     .ToList();
-            } 
+            }
+
+         
+
         }
     }
 }
