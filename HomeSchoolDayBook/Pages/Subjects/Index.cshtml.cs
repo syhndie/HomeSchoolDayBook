@@ -25,15 +25,13 @@ namespace HomeSchoolDayBook.Pages.Subjects
             _context = context;
         }              
 
-        public async Task<IActionResult> OnGetAsync()
+        public async void OnGetAsync()
         {
             string userId = _userManager.GetUserId(User);
 
             Subjects = await _context.Subjects
                 .Where(su => su.UserID == userId)
                 .ToListAsync();
-
-            return Page();
         }
     }
 }
