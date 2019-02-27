@@ -17,9 +17,6 @@ namespace HomeSchoolDayBook.Pages.Entries
 
         public Entry Entry { get; set; }
 
-        [TempData]
-        public string NotFoundMessage { get; set; }
-
         public DetailsModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
             _userManager = userManager;
@@ -42,7 +39,7 @@ namespace HomeSchoolDayBook.Pages.Entries
 
             if (Entry == null)
             {
-                NotFoundMessage = "Entry not found.";
+                DangerMessage = "Entry not found.";
 
                 return RedirectToPage("./Index");
             }
