@@ -19,8 +19,6 @@ namespace HomeSchoolDayBook.Pages.Entries
 
         public EntryVM EntryVM { get; set; }
 
-        public string DidNotSaveMessage { get; set; }
-
         public CreateModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
             _userManager = userManager;
@@ -87,9 +85,9 @@ namespace HomeSchoolDayBook.Pages.Entries
                 return RedirectToPage("./Index");
             }
 
-            DidNotSaveMessage = "New Entry did not save correctly. Please try again.";
+            DangerMessage = "New Entry did not save correctly. Please try again.";
 
-            return Page();
+            return RedirectToPage();
         }
     }
 }
