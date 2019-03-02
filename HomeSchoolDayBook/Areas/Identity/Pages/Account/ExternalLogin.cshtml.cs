@@ -46,6 +46,7 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
 
         public IActionResult OnGetAsync()
         {
+            //external login page is not accessible at this time - redirect to regular login
             return RedirectToPage("./Login");
         }
 
