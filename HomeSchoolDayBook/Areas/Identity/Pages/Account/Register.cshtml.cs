@@ -31,9 +31,6 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
         }
-
-        [TempData]
-        public string ConfirmMessage { get; set; }
                
         [BindProperty]
         public InputModel Input { get; set; }
@@ -88,20 +85,18 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
                     user.EmailConfirmsCount++;
                     await _userManager.UpdateAsync(user);
 
-                    ConfirmMessage = "An email has been sent to the address you provided. " +
+                    SuccessMessage = "An email has been sent to the address you provided. " +
                         "Please click on the link in that email to verify your address. " +
                         "Once your address has been verified, you may login";
 
                     return LocalRedirect(returnUrl);
                 }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
             }
 
             // If we got this far, something failed, redisplay form
-            return Page();
+            DangerMessage = "An error occurred when registering as a new user. Please try again.";
+            
+            return RedirectToPage();
         }
     }
 }
