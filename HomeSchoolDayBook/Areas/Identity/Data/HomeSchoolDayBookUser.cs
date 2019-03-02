@@ -12,5 +12,6 @@ namespace HomeSchoolDayBook.Areas.Identity.Data
         public string PendingEmail { get; set; }
         public DateTime AccountCreatedTimeStamp { get; set; }
         public int EmailConfirmsCount { get; set; }
+        public int ForgotPasswordEmailsCount { get; set; }
     }
 }
