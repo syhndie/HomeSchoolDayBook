@@ -44,7 +44,8 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
         {
             if (code == null)
             {
-                return BadRequest("A code must be supplied for password reset.");
+                DangerMessage = "A code must be supplied for password reset.";
+                return RedirectToPage("/Index");
             }
             else
             {
@@ -60,14 +61,15 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
         {
             if (!ModelState.IsValid)
             {
-                return Page();
+                DangerMessage = "An error occurred. Your password has not been reset.";
+                return RedirectToPage("Index");
             }
 
             var user = await _userManager.FindByEmailAsync(Input.Email);
             if (user == null)
             {
-                // Don't reveal that the user does not exist
-                return RedirectToPage("./ResetPasswordConfirmation");
+                DangerMessage = "An error occurred. Your password has not been reset.";
+                return RedirectToPage("Index");
             }
 
             var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
