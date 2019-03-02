@@ -25,12 +25,6 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
 
         private const int maxAllowedEmails = 5;
 
-        [TempData]
-        public string ConfirmMessage { get; set; }
-
-        [TempData]
-        public string ErrorMessage { get; set; }
-
         [BindProperty]
         public InputModel Input { get; set; }
 
@@ -39,6 +33,11 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+        }
+
+        public void OnGet()
+        {
+            
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -50,13 +49,14 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
                 if (user == null)
                 {
                     // Don't reveal that the user does not exist
-                    return RedirectToPage("./ResendVerification");
+                    
+                    return RedirectToPage("./Login");
                 }
 
                 if (await _userManager.IsEmailConfirmedAsync(user))
                 {
                     // Don't reveal that user does exist
-                    return RedirectToPage("./ResendVerification");
+                    return RedirectToPage("./Login");
                 }
 
                 if (user.EmailConfirmsCount < maxAllowedEmails)
@@ -74,24 +74,16 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
                     user.EmailConfirmsCount++;
                     await _userManager.UpdateAsync(user);
 
-                    ConfirmMessage = "An email has been sent to the address you provided. " +
-                    "Please click on the link in that email to verify your address. " +
-                    "Once your address has been verified, you may login. " +
-                    $"A total of {user.EmailConfirmsCount} verification emails have been sent to this address." +
-                    $"A maximum of {maxAllowedEmails} emails are allowed.";
-
-                    return RedirectToPage();
+                    // Don't reveal that the user does exist
+                    return RedirectToPage("./Login");
                 }
-                else
-                {
-                    ErrorMessage = $"You have exceeded the maximum of {maxAllowedEmails} verification emails. No further verification emails may be sent.";
-                    return RedirectToPage();
-                }
+               
+                //Don't reveal that the user does exist
+                return RedirectToPage("./Login");
 
             }
 
-            ErrorMessage = "An error occurred and the verification email was not sent.";
-            return Page();
+            return RedirectToPage("./Login");
         }
     }
 }
