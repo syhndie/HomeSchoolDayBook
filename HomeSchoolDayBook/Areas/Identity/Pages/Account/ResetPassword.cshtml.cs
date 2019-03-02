@@ -75,6 +75,9 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
             var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
             if (result.Succeeded)
             {
+                user.ForgotPasswordEmailsCount = 0;
+                await _userManager.UpdateAsync(user);
+
                 return RedirectToPage("./ResetPasswordConfirmation");
             }
 
