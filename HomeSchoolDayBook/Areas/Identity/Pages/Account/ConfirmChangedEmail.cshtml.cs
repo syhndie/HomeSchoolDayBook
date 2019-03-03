@@ -39,7 +39,8 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{userId}'.");
+                DangerMessage = "Unable to load user.";
+                return RedirectToPage("/Index");
             }
 
             using (var transaction = _context.Database.BeginTransaction())
@@ -65,7 +66,7 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
                 }
                 catch (Exception)
                 {
-                    ErrorMessage = "An error occurred when updating your email address.";
+                    DangerMessage = "An error occurred when updating your email address.";
                     return RedirectToPage();
                 }
             }
