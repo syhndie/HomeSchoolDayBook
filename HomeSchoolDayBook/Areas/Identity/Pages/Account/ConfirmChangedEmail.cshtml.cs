@@ -26,9 +26,7 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
             _context = context;
             _logger = logger;
         }
-
-        public string ErrorMessage { get; set; }
-        
+       
         public async Task<IActionResult> OnGetAsync(string userId, string changeEmailToken, string newEmail)
         {
             if (userId == null || changeEmailToken == null || newEmail == null)
