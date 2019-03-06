@@ -9,26 +9,26 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
 {
     public class PersonalDataModel : BasePageModel
     {
-        private readonly UserManager<HomeSchoolDayBookUser> _userManager;
-        private readonly ILogger<PersonalDataModel> _logger;
+        //private readonly UserManager<HomeSchoolDayBookUser> _userManager;
+        //private readonly ILogger<PersonalDataModel> _logger;
 
-        public PersonalDataModel(
-            UserManager<HomeSchoolDayBookUser> userManager,
-            ILogger<PersonalDataModel> logger)
+        //public PersonalDataModel(
+        //    UserManager<HomeSchoolDayBookUser> userManager,
+        //    ILogger<PersonalDataModel> logger)
+        //{
+        //    _userManager = userManager;
+        //    _logger = logger;
+        //}
+
+        public void OnGet()
         {
-            _userManager = userManager;
-            _logger = logger;
-        }
+            //var user = await _userManager.GetUserAsync(User);
+            //if (user == null)
+            //{
+            //    return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            //}
 
-        public async Task<IActionResult> OnGet()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
-
-            return Page();
+            //return Page();
         }
     }
 }
