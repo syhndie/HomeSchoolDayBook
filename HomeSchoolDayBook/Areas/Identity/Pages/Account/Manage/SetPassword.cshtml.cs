@@ -22,10 +22,7 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
 
         [BindProperty]
         public InputModel Input { get; set; }
-
-        [TempData]
-        public string StatusMessage { get; set; }
-
+        
         public class InputModel
         {
             [Required]
@@ -45,7 +42,8 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                DangerMessage = "Unable to load user";
+                return RedirectToPage("./ChangePassword");
             }
 
             var hasPassword = await _userManager.HasPasswordAsync(user);
@@ -68,21 +66,23 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                DangerMessage = "Unable to load user.";
+                return RedirectToPage("./ChangePassword");
             }
 
             var addPasswordResult = await _userManager.AddPasswordAsync(user, Input.NewPassword);
             if (!addPasswordResult.Succeeded)
             {
+                DangerMessage = "An error occurred when setting your password.";
                 foreach (var error in addPasswordResult.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    DangerMessage = DangerMessage + error.Description;
                 }
-                return Page();
+                return RedirectToPage("./ChangePassword");
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your password has been set.";
+            SuccessMessage = "Your password has been set.";
 
             return RedirectToPage();
         }
