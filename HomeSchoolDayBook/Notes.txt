@@ -1,5 +1,10 @@
 ﻿FIX COOKIE POLICY
 
+add a way for users to download their data 
+add a way for users to restore their data from downloaded backup
+
+add grades??? point system???
+
 
 error, status, confirmed, etc. messages are all over the place - need to be standardized
 
