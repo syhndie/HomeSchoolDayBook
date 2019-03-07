@@ -37,12 +37,6 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
 
         public bool IsEmailConfirmed { get; set; }
 
-        [TempData]
-        public string StatusMessage { get; set; }
-
-        [TempData]
-        public string ConfirmMessage { get; set; }
-
         [BindProperty]
         public InputModel Input { get; set; }
 
@@ -58,7 +52,8 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                DangerMessage = "Unable to load user";
+                return RedirectToPage();
             }
 
             var userName = await _userManager.GetUserNameAsync(user);
@@ -86,7 +81,8 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                DangerMessage = "Unable to load user";
+                return RedirectToPage();
             }
 
             var newEmail = Input.Email;
@@ -96,9 +92,8 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
             {
                 if (_context.Users.Any(u => u.Email == newEmail))
                 {
-                    StatusMessage = "Error: Email address already in use.";
+                    DangerMessage = "An error occurred when changing your email address. The new email address may already exist in our system.";
                     return RedirectToPage();
-
                 }
 
                 user.PendingEmail = newEmail;
@@ -117,11 +112,11 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
                 await _emailSender.SendEmailAsync(newEmail, "Confirm your HomeSchoolDayBook acount new email address.",
                     $"Please confirm the new email you provided to HomeSchoolDayBook by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                ConfirmMessage = "An email has been sent to the new address you provided." +
+                InfoMessage = "An email has been sent to the new address you provided." +
                     "Please click on the link in that email to verify your new address." +
                     "Once the new address has been verified, you may login with that address.";
 
-                StatusMessage = "Your profile has been updated";
+                SuccessMessage = "Your profile has been updated";
             }           
 
             await _signInManager.RefreshSignInAsync(user);
@@ -138,7 +133,8 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                DangerMessage = "Unable to load user.";
+                return RedirectToPage();
             }
 
             var userId = await _userManager.GetUserIdAsync(user);
@@ -154,7 +150,7 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
                 "Confirm your email",
                 $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-            StatusMessage = "Verification email sent. Please check your email.";
+            SuccessMessage = "Verification email sent. Please check your email.";
             return RedirectToPage();
         }
     }
