@@ -27,9 +27,6 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
         [BindProperty]
         public InputModel Input { get; set; }
 
-        [TempData]
-        public string StatusMessage { get; set; }
-
         public class InputModel
         {
             [Required]
@@ -54,7 +51,8 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                DangerMessage = "User not found.";
+                return RedirectToPage();
             }
 
             var hasPassword = await _userManager.HasPasswordAsync(user);
@@ -70,28 +68,31 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
         {
             if (!ModelState.IsValid)
             {
-                return Page();
+                DangerMessage = "An error occurred. Please try again.";
+                return RedirectToPage();
             }
 
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                DangerMessage = "Unable to load user.";
+                return RedirectToPage();
             }
 
             var changePasswordResult = await _userManager.ChangePasswordAsync(user, Input.OldPassword, Input.NewPassword);
             if (!changePasswordResult.Succeeded)
             {
+                DangerMessage = "An error occurred when changing your password.";
                 foreach (var error in changePasswordResult.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    DangerMessage = DangerMessage + error.Description;
                 }
-                return Page();
+                return RedirectToPage();
             }
 
             await _signInManager.RefreshSignInAsync(user);
             _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = "Your password has been changed.";
+            SuccessMessage = "Your password has been changed.";
 
             return RedirectToPage();
         }
