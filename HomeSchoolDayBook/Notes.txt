@@ -1,12 +1,10 @@
-﻿FIX COOKIE POLICY
+﻿FIX COOKIE POLICY - are cookies being used when the user has not yet accepted cookies?
 
 add a way for users to download their data 
+
 add a way for users to restore their data from downloaded backup
 
-add grades??? point system???
-
-
-error, status, confirmed, etc. messages are all over the place - need to be standardized
+need more consistent error logging and handling
 
 add Admin pages
 	confirm email addresses manually
@@ -20,3 +18,5 @@ add Admin pages
                 Students = await _context.Students
                     .ToListAsync();
             }
+
+add grades??? point system???
