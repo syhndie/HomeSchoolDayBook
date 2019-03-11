@@ -51,7 +51,7 @@ namespace HomeSchoolDayBook.Pages.Reports
                     }
                     else if (i == entry.Enrollments.Count() - 1)
                     {
-                        studentNames = $"{studentNames}, and {enrollments[i].Student.Name}";
+                        studentNames = $"{studentNames} and {enrollments[i].Student.Name}";
                     }
                     else
                     {
