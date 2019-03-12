@@ -6,6 +6,7 @@ using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using HomeSchoolDayBook.Areas.Identity.Data;
+using static HomeSchoolDayBook.Helpers.Helpers;
 
 namespace HomeSchoolDayBook.Pages.Reports
 {
@@ -39,25 +40,7 @@ namespace HomeSchoolDayBook.Pages.Reports
 
             foreach (Entry entry in EntriesReportVM.Entries)
             {
-                List<Enrollment> enrollments = entry.Enrollments.OrderBy(enr => enr.Student.Name).ToList();
-
-                string studentNames = "";
-
-                for (int i = 0; i < entry.Enrollments.Count(); i++)
-                {
-                    if (i == 0)
-                    {
-                        studentNames = enrollments[i].Student.Name;
-                    }
-                    else if (i == entry.Enrollments.Count() - 1)
-                    {
-                        studentNames = $"{studentNames} and {enrollments[i].Student.Name}";
-                    }
-                    else
-                    {
-                        studentNames = $"{studentNames}, {enrollments[i].Student.Name}";
-                    }
-                }
+                string studentNames = GetStudentNames(entry);
 
                 StudentNameLookup.Add(entry.ID, studentNames);
             }
@@ -66,25 +49,7 @@ namespace HomeSchoolDayBook.Pages.Reports
 
             foreach (Entry entry in EntriesReportVM.Entries)
             {
-                List<SubjectAssignment> subjectAssignments = entry.SubjectAssignments.OrderBy(sa => sa.Subject.Name).ToList();
-
-                string subjectNames = "";
-
-                for (int i = 0; i < entry.SubjectAssignments.Count(); i++)
-                {
-                    if (i == 0)
-                    {
-                        subjectNames = subjectAssignments[i].Subject.Name;
-                    }
-                    else if (i == entry.SubjectAssignments.Count() - 1)
-                    {
-                        subjectNames = $"{subjectNames}, and {subjectAssignments[i].Subject.Name}";
-                    }
-                    else
-                    {
-                        subjectNames = $"{subjectNames}, {subjectAssignments[i].Subject.Name}";
-                    }
-                }
+                string subjectNames = GetSubjectNames(entry);
 
                 SubjectNameLookup.Add(entry.ID, subjectNames);
             }
