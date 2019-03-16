@@ -4,11 +4,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using HomeSchoolDayBook.Models;
+using HomeSchoolDayBook.Models.ViewModels;
 using HomeSchoolDayBook.Data;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using static HomeSchoolDayBook.Helpers.Helpers;
+using System.IO;
+using CsvHelper;
 
 namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
 {
@@ -44,12 +47,18 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
 
             _logger.LogInformation("User with ID '{UserId}' asked for data download.", _userManager.GetUserId(User));
 
+            //use csvhelper
+            //this may allow me to just have a list of downloadEntries and it will write based on the properties.
+            //try that first.
+            //if not, I might need to make a list of string arrays
+
+            //make each entry into an array of strings, one string for each column
             string[] columnHeaders = new string[]
             {
-                "Data",
                 "Title",
+                "Date",
                 "Description",
-                "Time Spent",
+                "Minutes Spent",
                 "Students",
                 "Subjects"
             };
@@ -65,12 +74,44 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
                .AsNoTracking()
                .ToListAsync();
 
-            foreach (Entry entry in entries)
+            //write to the csv file as you loop through the entries
+            using (var writer = new StreamWriter(@"C:\Users\Cindy\Documents\Visual Studio 2017\Projects\HomeSchoolDayBook\HomeSchoolDayBook\wwwroot\HSDBData.csv"))
+            using (var csv = new CsvWriter(writer))
             {
+                foreach (Entry entry in entries)
+                {
+                    var download = new
+                    {
+                        Date = entry.Date.ToShortDateString(),
+                        Title = entry.Title,
+                        Description = entry.Description,
+                        Minutes = entry.MinutesSpent,
+                        Students = GetStudentNames(entry),
+                        Subjects = GetSubjectNames(entry)
+                    };
+
+                    csv.WriteRecord(download);
+                    csv.NextRecord();
+                }
 
             }
 
-            
+
+            //        void Main()
+            //        {
+            //            var records = new List<object>
+            //{
+            //    new { Id = 1, Name = "one" },
+            //};
+
+            //            using (var writer = new StreamWriter("path\\to\\file.csv"))
+            //            using (var csv = new CsvWriter(writer))
+            //            {
+            //                csv.WriteRecords(records);
+            //            }
+            //        }
+
+
 
 
 

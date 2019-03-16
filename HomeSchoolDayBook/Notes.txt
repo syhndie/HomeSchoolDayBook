@@ -20,3 +20,11 @@ add Admin pages
             }
 
 add grades??? point system???
+
+list of "download entries" with the following fields
+	date (datetime)
+	title (string)
+	description (string)
+	minutesSpent (int)
+	students (string)
+	subjects (string)
