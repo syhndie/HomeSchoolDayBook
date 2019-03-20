@@ -86,7 +86,7 @@ namespace HomeSchoolDayBook
                                 .Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
             })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
                 
         }
 
