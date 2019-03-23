@@ -51,6 +51,7 @@ namespace HomeSchoolDayBook.Models
 
         public ICollection<Enrollment> Enrollments { get; set; }
         public ICollection<SubjectAssignment> SubjectAssignments { get; set; }
+        public ICollection<Grade> Grades { get; set; }
 
     }
 }

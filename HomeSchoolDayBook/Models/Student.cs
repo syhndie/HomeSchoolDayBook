@@ -23,5 +23,6 @@ namespace HomeSchoolDayBook.Models
         public bool IsActive { get; set; }
 
         public ICollection<Enrollment> Enrollments { get; set; }
+        public ICollection<Grade> Grades { get; set; }
     }
 }
