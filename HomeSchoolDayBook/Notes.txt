@@ -1,9 +1,5 @@
 ﻿FIX COOKIE POLICY - are cookies being used when the user has not yet accepted cookies?
 
-add a way for users to download their data 
-
-add a way for users to restore their data from downloaded backup
-
 need more consistent error logging and handling
 
 add Admin pages
@@ -20,11 +16,18 @@ add Admin pages
             }
 
 add grades??? point system???
+	on entry create/edit page - link to another page to add points
 
-list of "download entries" with the following fields
-	date (datetime)
-	title (string)
-	description (string)
-	minutesSpent (int)
-	students (string)
-	subjects (string)
+	point-adding page shows each student-subject pairing
+	for each pairing, you can add points earned and points available
+
+	students index page has details link
+
+	student details page shows total points earned, total points available, and percentage of points earned for each subject
+	you can click on each subject row show break-out rows that list each entry where points were available
+	each break-out row shows entry date, entry title, points earned, points available, percent of points earned, and a link to edit the entry
+
+	also include a points report - choose date range, subjects, and students
+	for each student, list all subjects chosen
+	for each subject, list points earned, points available, and percentage of points
+	
