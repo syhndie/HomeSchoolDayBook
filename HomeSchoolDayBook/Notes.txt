@@ -21,6 +21,10 @@ add grades??? point system???
 	point-adding page shows each student-subject pairing
 	for each pairing, you can add points earned and points available
 
+	for each student
+		for each subject
+
+
 	students index page has details link
 
 	student details page shows total points earned, total points available, and percentage of points earned for each subject
@@ -30,4 +34,6 @@ add grades??? point system???
 	also include a points report - choose date range, subjects, and students
 	for each student, list all subjects chosen
 	for each subject, list points earned, points available, and percentage of points
+
+	
 	
