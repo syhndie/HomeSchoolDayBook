@@ -49,7 +49,7 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
                 return RedirectToPage();
             }
 
-            _logger.LogInformation("User with ID '{UserId}' asked for data download.", _userManager.GetUserId(User));     
+            _logger.LogInformation("User with ID '{UserId}' asked for data download.", _userManager.GetUserId(User));
 
             string userId = _userManager.GetUserId(User);
              
