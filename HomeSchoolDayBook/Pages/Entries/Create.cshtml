@@ -25,5 +25,16 @@
             });
         });
 
+        function displayStudent() {
+            var studentCheckboxes = document.getElementsByName("selectedStudents");
+            for (var i = 0; i, studentCheckboxes.length; i++) {
+                var studentText = document.getElementById(studentCheckboxes[i].value);
+                if (studentCheckboxes[i].checked == true) {
+                    studentText.style.display = "block";
+                }
+                else studentText.style.display = "none";
+            }           
+        }
+
     </script>
 }
