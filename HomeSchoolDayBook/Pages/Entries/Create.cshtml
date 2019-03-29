@@ -27,8 +27,9 @@
 
         function displayStudent() {
             var studentCheckboxes = document.getElementsByName("selectedStudents");
-            for (var i = 0; i, studentCheckboxes.length; i++) {
-                var studentText = document.getElementById(studentCheckboxes[i].value);
+            for (var i = 0; i < studentCheckboxes.length; i++) {
+                var studentcheckid = "student" + studentCheckboxes[i].value;
+                var studentText = document.getElementById(studentcheckid);
                 if (studentCheckboxes[i].checked == true) {
                     studentText.style.display = "block";
                 }

@@ -84,7 +84,7 @@
         <ul>
             @foreach (var checkbox in Model.StudentCheckBoxes)
             {
-                <li id=@(checkbox.ID) style="display:none">@checkbox.Name</li>
+                <li id=@($"student{checkbox.ID}") style="display:none">@checkbox.Name</li>
             }
         </ul>
     </div>
