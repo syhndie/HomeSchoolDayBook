@@ -1,7 +1,7 @@
 ﻿@model HomeSchoolDayBook.Models.ViewModels.EntryVM
 <a asp-page="../Students/Create">Create New Student</a> <br>
 <a asp-page="../Subjects/Create">Create New Subject</a>
-<hr /> 
+<hr />
 <form method="post" class="sidemargins">
     <div asp-validation-summary="ModelOnly" class="text-danger">
     </div>
@@ -54,14 +54,14 @@
 
                     <div class="col-sm-4">
                         <label class="notbold">
-                            <input type="checkbox" 
-                                   name="selectedStudents" 
-                                   id=@($"studentCheck{i}") 
-                                   onclick="displayStudentSubjectPairs()" 
+                            <input type="checkbox"
+                                   name="selectedStudents"
+                                   id=@($"studentCheck{i}")
+                                   onclick="displayStudentSubjectPairs()"
                                    value="@checkbox.ID" @isChecked />@checkbox.Name
-                        </label>
-                    </div>
-                }
+                            </label>
+                        </div>
+                    }
             </div>
         </div>
     </div>
@@ -77,11 +77,11 @@
                     string isChecked = checkbox.Assigned ? "checked" : "";
                     <div class="col-sm-4">
                         <label class="notbold">
-                            <input type="checkbox" 
-                                   name="selectedSubjects" 
+                            <input type="checkbox"
+                                   name="selectedSubjects"
                                    id=@($"subjectCheck{i}")
                                    onclick="displayStudentSubjectPairs()"
-                                   value="@checkbox.ID" 
+                                   value="@checkbox.ID"
                                    @isChecked />
                             @checkbox.Name
                         </label>
@@ -96,9 +96,9 @@
             {
                 @foreach (var subjectCheckbox in Model.SubjectCheckBoxes)
                 {
-                    <li id=@($"student{studentCheckbox.ID}subject{subjectCheckbox.ID}") 
+                    <li id=@($"student{studentCheckbox.ID}subject{subjectCheckbox.ID}")
                         style="display:none">
-                    @studentCheckbox.Name @subjectCheckbox.Name
+                        @studentCheckbox.Name @subjectCheckbox.Name
                     </li>
                 }
 
@@ -110,7 +110,46 @@
             <input type="submit" value="Save" class="btn btn-default" />
         </div>
     </div>
-</form>   
+</form>
 <div>
     <a asp-page="Index">My Entries</a>
 </div>
+
+<script src="~/lib/datepicker/bootstrap-datepicker.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Entry_Date").datepicker({
+            orientation: "bottom"
+        });
+    });
+</script>
+
+<script type="text/javascript">
+
+    function displayStudentSubjectPairs() {
+        var studentCheckboxes = document.getElementsByName("selectedStudents");
+
+        var subjectCheckboxes = document.getElementsByName("selectedSubjects");
+
+        for (var i = 0; i < studentCheckboxes.length; i++) {
+            var studentcheckid = "student" + studentCheckboxes[i].value;
+
+            for (var j = 0; j < subjectCheckboxes.length; j++) {
+                var studentSubjectcheckid = studentcheckid + "subject" + subjectCheckboxes[j].value;
+
+                var text = document.getElementById(studentSubjectcheckid);
+
+                if (studentCheckboxes[i].checked == true && subjectCheckboxes[j].checked == true) {
+                    text.style.display = "block";
+                }
+                else text.style.display = "none";
+            }
+        }
+    }
+
+</script>
+
+<script type="text/javascript">
+    $(document).ready(displayStudentSubjectPairs());
+</script>

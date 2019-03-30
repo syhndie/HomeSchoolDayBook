@@ -15,15 +15,4 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-    <script src="~/lib/datepicker/bootstrap-datepicker.js"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#Entry_Date").datepicker({
-                orientation: "bottom right"
-            });
-        });
-
-    </script>
 }
