@@ -57,11 +57,12 @@
                             <input type="checkbox"
                                    name="selectedStudents"
                                    id=@($"studentCheck{i}")
+                                   data-studentname = "@checkbox.Name"
                                    onclick="displayStudentSubjectPairs()"
                                    value="@checkbox.ID" @isChecked />@checkbox.Name
-                            </label>
-                        </div>
-                    }
+                        </label>
+                    </div>
+                }
             </div>
         </div>
     </div>
@@ -90,21 +91,12 @@
             </div>
         </div>
     </div>
-    <div>
-        <ul>
-            @foreach (var studentCheckbox in Model.StudentCheckBoxes)
-            {
-                @foreach (var subjectCheckbox in Model.SubjectCheckBoxes)
-                {
-                    <li id=@($"student{studentCheckbox.ID}subject{subjectCheckbox.ID}")
-                        style="display:none">
-                        @studentCheckbox.Name @subjectCheckbox.Name
-                    </li>
-                }
-
-            }
-        </ul>
+    <div class="row">
+        <div class="col-sm-6">
+            <label class="control-label">Grades</label>
+        </div>
     </div>
+    <div id="grades-container"></div>
     <div class="row">
         <div class="form-group col-xs-12 topmargins">
             <input type="submit" value="Save" class="btn btn-default" />
@@ -123,33 +115,62 @@
             orientation: "bottom"
         });
     });
-</script>
-
-<script type="text/javascript">
-
+    
     function displayStudentSubjectPairs() {
         var studentCheckboxes = document.getElementsByName("selectedStudents");
-
         var subjectCheckboxes = document.getElementsByName("selectedSubjects");
 
+        var gradesContainer = document.getElementById("grades-container");
+
+        while (gradesContainer.hasChildNodes()) {
+            gradesContainer.removeChild(gradesContainer.lastChild);
+        }
+
         for (var i = 0; i < studentCheckboxes.length; i++) {
-            var studentcheckid = "student" + studentCheckboxes[i].value;
-
             for (var j = 0; j < subjectCheckboxes.length; j++) {
-                var studentSubjectcheckid = studentcheckid + "subject" + subjectCheckboxes[j].value;
-
-                var text = document.getElementById(studentSubjectcheckid);
-
                 if (studentCheckboxes[i].checked == true && subjectCheckboxes[j].checked == true) {
-                    text.style.display = "block";
+
+                    var singleGradeRow = document.createElement("div");
+                    singleGradeRow.className = "form-group row";
+
+                    var captionCol = document.createElement("div");
+                    captionCol.className = "col-xs-6 col-sm-3 col-md-2";
+
+                    var caption = document.createElement("label");
+                    caption.innerText = "student" + studentCheckboxes[i].value + "subject" + subjectCheckboxes[j].value;
+                    caption.className = "form-control-static";
+
+                    captionCol.appendChild(caption);
+
+                    var pointsEarnedCol = document.createElement("div");
+                    pointsEarnedCol.className = "col-xs-3 col-sm-2 col-md-1";
+
+                    var pointsEarnedTextbox = document.createElement("input");
+                    pointsEarnedTextbox.type = "text";
+                    pointsEarnedTextbox.name = "student" + studentCheckboxes[i].value + "subject" + subjectCheckboxes[j].value + "earned";
+                    pointsEarnedTextbox.className = "form-control";
+
+                    pointsEarnedCol.appendChild(pointsEarnedTextbox);
+
+                    var pointsTotalCol = document.createElement("div");
+                    pointsTotalCol.className = "col-xs-3 col-sm-2 col-md-1";
+
+                    var pointsTotalTextbox = document.createElement("input");
+                    pointsTotalTextbox.type = "text";
+                    pointsTotalTextbox.name = "student" + studentCheckboxes[i].value + "subject" + subjectCheckboxes[j].value + "total";
+                    pointsTotalTextbox.className = "form-control";
+
+                    pointsTotalCol.appendChild(pointsTotalTextbox);
+
+                    singleGradeRow.appendChild(captionCol);
+                    singleGradeRow.appendChild(pointsEarnedCol);
+                    singleGradeRow.appendChild(pointsTotalCol);
+
+                    gradesContainer.appendChild(singleGradeRow);
                 }
-                else text.style.display = "none";
             }
         }
     }
 
-</script>
-
-<script type="text/javascript">
     $(document).ready(displayStudentSubjectPairs());
 </script>
