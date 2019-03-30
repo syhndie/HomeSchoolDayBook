@@ -54,8 +54,11 @@
 
                     <div class="col-sm-4">
                         <label class="notbold">
-                            <input type="checkbox" name="selectedStudents" id=@($"studentCheck{i}") onclick="displayStudent()" value="@checkbox.ID" @isChecked />
-                            @checkbox.Name
+                            <input type="checkbox" 
+                                   name="selectedStudents" 
+                                   id=@($"studentCheck{i}") 
+                                   onclick="displayStudentSubjectPairs()" 
+                                   value="@checkbox.ID" @isChecked />@checkbox.Name
                         </label>
                     </div>
                 }
@@ -67,12 +70,19 @@
             <label asp-for="SubjectCheckBoxes" class="control-label"></label>
             <p class="text-danger">@Model.NoSubjectsMessage</p>
             <div class="row">
-                @foreach (var checkbox in Model.SubjectCheckBoxes)
+                @for (int i = 0; i < Model.SubjectCheckBoxes.Count; i++)
                 {
+                    var checkbox = Model.SubjectCheckBoxes[i];
+
                     string isChecked = checkbox.Assigned ? "checked" : "";
                     <div class="col-sm-4">
                         <label class="notbold">
-                            <input type="checkbox" name="selectedSubjects" value="@checkbox.ID" @isChecked />
+                            <input type="checkbox" 
+                                   name="selectedSubjects" 
+                                   id=@($"subjectCheck{i}")
+                                   onclick="displayStudentSubjectPairs()"
+                                   value="@checkbox.ID" 
+                                   @isChecked />
                             @checkbox.Name
                         </label>
                     </div>
@@ -82,9 +92,16 @@
     </div>
     <div>
         <ul>
-            @foreach (var checkbox in Model.StudentCheckBoxes)
+            @foreach (var studentCheckbox in Model.StudentCheckBoxes)
             {
-                <li id=@($"student{checkbox.ID}") style="display:none">@checkbox.Name</li>
+                @foreach (var subjectCheckbox in Model.SubjectCheckBoxes)
+                {
+                    <li id=@($"student{studentCheckbox.ID}subject{subjectCheckbox.ID}") 
+                        style="display:none">
+                    @studentCheckbox.Name @subjectCheckbox.Name
+                    </li>
+                }
+
             }
         </ul>
     </div>

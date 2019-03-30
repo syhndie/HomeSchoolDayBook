@@ -25,17 +25,26 @@
             });
         });
 
-        function displayStudent() {
+        function displayStudentSubjectPairs() {
             var studentCheckboxes = document.getElementsByName("selectedStudents");
+
+            var subjectCheckboxes = document.getElementsByName("selectedSubjects");
+
             for (var i = 0; i < studentCheckboxes.length; i++) {
                 var studentcheckid = "student" + studentCheckboxes[i].value;
-                var studentText = document.getElementById(studentcheckid);
-                if (studentCheckboxes[i].checked == true) {
-                    studentText.style.display = "block";
+
+                for (var j = 0; j < subjectCheckboxes.length; j++) {
+                    var studentSubjectcheckid = studentcheckid + "subject" + subjectCheckboxes[j].value;
+
+                    var text = document.getElementById(studentSubjectcheckid);
+
+                    if (studentCheckboxes[i].checked == true && subjectCheckboxes[j].checked == true) {
+                        text.style.display = "block";
+                    }
+                    else text.style.display = "none";
                 }
-                else studentText.style.display = "none";
             }           
         }
 
-    </script>
+    </script> 
 }
