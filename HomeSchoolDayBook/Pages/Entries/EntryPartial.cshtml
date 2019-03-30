@@ -80,6 +80,7 @@
                         <label class="notbold">
                             <input type="checkbox"
                                    name="selectedSubjects"
+                                   data-subjectname="@checkbox.Name"
                                    id=@($"subjectCheck{i}")
                                    onclick="displayStudentSubjectPairs()"
                                    value="@checkbox.ID"
@@ -133,14 +134,24 @@
                     var singleGradeRow = document.createElement("div");
                     singleGradeRow.className = "form-group row";
 
-                    var captionCol = document.createElement("div");
-                    captionCol.className = "col-xs-6 col-sm-3 col-md-2";
+                    var studentCaptionCol = document.createElement("div");
+                    studentCaptionCol.className = "col-xs-3 col-sm-3 col-md-2";
 
-                    var caption = document.createElement("label");
-                    caption.innerText = "student" + studentCheckboxes[i].value + "subject" + subjectCheckboxes[j].value;
-                    caption.className = "form-control-static";
+                    var studentCaption = document.createElement("label");
+                    studentCaption.innerText = studentCheckboxes[i].dataset.studentname;
+                    studentCaption.className = "form-control-static";
 
-                    captionCol.appendChild(caption);
+                    studentCaptionCol.appendChild(studentCaption);
+
+                    var subjectCaptionCol = document.createElement("div");
+                    subjectCaptionCol.className = "col-xs-3 col-sm-3 col-md-2";
+
+                    var subjectCaption = document.createElement("label");
+                    subjectCaption.innerText = subjectCheckboxes[j].dataset.subjectname;
+                    subjectCaption.className = "form-control-static";
+
+                    subjectCaptionCol.appendChild(subjectCaption);
+
 
                     var pointsEarnedCol = document.createElement("div");
                     pointsEarnedCol.className = "col-xs-3 col-sm-2 col-md-1";
@@ -162,7 +173,8 @@
 
                     pointsTotalCol.appendChild(pointsTotalTextbox);
 
-                    singleGradeRow.appendChild(captionCol);
+                    singleGradeRow.appendChild(studentCaptionCol);
+                    singleGradeRow.appendChild(subjectCaptionCol);
                     singleGradeRow.appendChild(pointsEarnedCol);
                     singleGradeRow.appendChild(pointsTotalCol);
 
