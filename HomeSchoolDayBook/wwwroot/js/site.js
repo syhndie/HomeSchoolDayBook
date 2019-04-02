@@ -45,25 +45,25 @@
 
                 var pointsEarnedTextbox = document.createElement("input");
                 pointsEarnedTextbox.type = "text";
-                pointsEarnedTextbox.name = "student" + studentCheckboxes[i].value + "subject" + subjectCheckboxes[j].value + "earned";
+                pointsEarnedTextbox.name = "earned-student-" + studentCheckboxes[i].value + "-subject-" + subjectCheckboxes[j].value;
                 pointsEarnedTextbox.className = "form-control";
 
                 pointsEarnedCol.appendChild(pointsEarnedTextbox);
 
-                var pointsTotalCol = document.createElement("div");
-                pointsTotalCol.className = "col-xs-3 col-sm-2";
+                var pointsAvailableCol = document.createElement("div");
+                pointsAvailableCol.className = "col-xs-3 col-sm-2";
 
-                var pointsTotalTextbox = document.createElement("input");
-                pointsTotalTextbox.type = "text";
-                pointsTotalTextbox.name = "student" + studentCheckboxes[i].value + "subject" + subjectCheckboxes[j].value + "total";
-                pointsTotalTextbox.className = "form-control";
+                var pointsAvailableTextbox = document.createElement("input");
+                pointsAvailableTextbox.type = "text";
+                pointsAvailableTextbox.name = "available-student-" + studentCheckboxes[i].value + "-subject-" + subjectCheckboxes[j].value;
+                pointsAvailableTextbox.className = "form-control";
 
-                pointsTotalCol.appendChild(pointsTotalTextbox);
+                pointsAvailableCol.appendChild(pointsAvailableTextbox);
 
                 singleGradeRow.appendChild(studentCaptionCol);
                 singleGradeRow.appendChild(subjectCaptionCol);
                 singleGradeRow.appendChild(pointsEarnedCol);
-                singleGradeRow.appendChild(pointsTotalCol);
+                singleGradeRow.appendChild(pointsAvailableCol);
 
                 gradesContainer.appendChild(singleGradeRow);
             }
