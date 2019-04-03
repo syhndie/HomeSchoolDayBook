@@ -1,4 +1,6 @@
-﻿@model HomeSchoolDayBook.Models.ViewModels.EntryVM
+﻿@using static HomeSchoolDayBook.Helpers.Constants;
+@model HomeSchoolDayBook.Models.ViewModels.EntryVM
+
 <a asp-page="../Students/Create">Create New Student</a> <br>
 <a asp-page="../Subjects/Create">Create New Subject</a>
 <hr />
@@ -97,9 +99,9 @@
             <label class="control-label">Assign Grades for this Entry</label>
         </div>
     </div>
-    <div id="grades-header" class ="row" >
+    <div id="grades-header" class="row">
     </div>
-    <div id="grades-container" class="topmargins"></div>    
+    <div id="grades-container" class="topmargins"></div>
     <div class="row">
         <div class="form-group col-xs-12 topmargins">
             <input type="submit" value="Save" class="btn btn-default" />
@@ -120,5 +122,5 @@
         });
     });
 
-    $(document).ready(displayStudentSubjectPairs());
+$(document).ready(displayStudentSubjectPairs());
 </script>

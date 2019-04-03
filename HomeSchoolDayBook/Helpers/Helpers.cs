@@ -1,14 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using HomeSchoolDayBook.Models;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 
 namespace HomeSchoolDayBook.Helpers
 {
     public static class Helpers
     {
+
+        public static List<Grade> GetGradesFromFormData(IFormCollection formData, Entry entry)
+        {
+            List<Grade> grades = new List<Grade>();
+
+            string[] earnedFieldNames = formData.Keys.Where(k => k.StartsWith("earned")).ToArray();
+
+            foreach (string efn in earnedFieldNames)
+            {
+                string[] parts = efn.Split('-');
+                int studentId = int.Parse(parts[2]);
+                int subjectId = int.Parse(parts[4]);
+
+                if (!int.TryParse(formData[efn], out int earnedValue)) continue;
+                
+                string afn = string.Join('-', new string[] { "available", parts[1], parts[2], parts[3], parts[4] });
+
+                if (!int.TryParse(formData[afn], out int availableValue)) continue;
+
+                var newGrade = new Grade
+                {
+                    StudentID = studentId,
+                    SubjectID = subjectId,
+                    PointsEarned = earnedValue,
+                    PointsAvailable = availableValue,
+                    EntryID = entry.ID
+                };
+
+                grades.Add(newGrade);
+            }
+
+            return grades;
+        }
+
         public static string GetTimeSpentDisplay(int? totalMinutes)
         {
             if (totalMinutes == null) return null;

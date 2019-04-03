@@ -8,6 +8,7 @@ using HomeSchoolDayBook.Models;
 using HomeSchoolDayBook.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using HomeSchoolDayBook.Areas.Identity.Data;
+using static HomeSchoolDayBook.Helpers.Helpers;
 
 namespace HomeSchoolDayBook.Pages.Entries
 {
@@ -36,6 +37,8 @@ namespace HomeSchoolDayBook.Pages.Entries
 
         public async Task<IActionResult> OnPostAsync(string[] selectedSubjects, string[] selectedStudents)
         {
+            var formData = Request.Form;
+
             string userId = _userManager.GetUserId(User);
 
             Entry newEntry = new Entry
@@ -43,6 +46,10 @@ namespace HomeSchoolDayBook.Pages.Entries
                 UserID = userId,
                 SubjectAssignments = new List<SubjectAssignment>()
             };
+
+            List<Grade> grades = GetGradesFromFormData(formData, newEntry);
+
+            newEntry.Grades = grades;
 
             foreach (Subject subject in _context.Subjects.Where(su =>su.UserID == userId))
             {
