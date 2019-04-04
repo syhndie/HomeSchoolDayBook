@@ -41,22 +41,22 @@
                 subjectCaptionCol.appendChild(subjectCaption);
 
                 var pointsEarnedCol = document.createElement("div");
-                pointsEarnedCol.className = "col-xs-3 col-sm-2";
+                pointsEarnedCol.className = "col-xs-3 col-sm-2 input-column";
 
                 var pointsEarnedTextbox = document.createElement("input");
                 pointsEarnedTextbox.type = "text";
                 pointsEarnedTextbox.name = "earned-student-" + studentCheckboxes[i].value + "-subject-" + subjectCheckboxes[j].value;
-                pointsEarnedTextbox.className = "form-control";
+                pointsEarnedTextbox.className = "form-control input-grade";
 
                 pointsEarnedCol.appendChild(pointsEarnedTextbox);
 
                 var pointsAvailableCol = document.createElement("div");
-                pointsAvailableCol.className = "col-xs-3 col-sm-2";
+                pointsAvailableCol.className = "col-xs-3 col-sm-2 input-column";
 
                 var pointsAvailableTextbox = document.createElement("input");
                 pointsAvailableTextbox.type = "text";
                 pointsAvailableTextbox.name = "available-student-" + studentCheckboxes[i].value + "-subject-" + subjectCheckboxes[j].value;
-                pointsAvailableTextbox.className = "form-control";
+                pointsAvailableTextbox.className = "form-control input-grade";
 
                 pointsAvailableCol.appendChild(pointsAvailableTextbox);
 
@@ -90,5 +90,25 @@
 
         noGradesDiv.appendChild(noGradesParagraph);
         gradesHeader.appendChild(noGradesDiv);
+    }
+}
+
+function validateGrades() {
+    var numbersExpression = /^[0-9]*$/;
+    var grades = document.getElementsByClassName('input-grade');
+    for (var i = 0; i < grades.length; i++) {
+        var gradeColumn = grades[i].parentElement;
+        while (grades[i].nextSibling) {
+            gradeColumn.removeChild(gradeColumn.lastChild);
+        }
+        var gradeValue = grades[i].value;
+        if (gradeValue !== '' && !gradeValue.match(numbersExpression)) {
+            console.log(gradeValue + " is not a number or blank");
+
+            var validationMessage = document.createElement('p');
+            validationMessage.innerText = "Points must be entered as integers (no decimals), or left blank.";
+            validationMessage.style.color = '#a94442';
+            gradeColumn.appendChild(validationMessage);
+        }
     }
 }

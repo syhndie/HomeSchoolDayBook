@@ -104,7 +104,7 @@
     <div id="grades-container" class="topmargins"></div>
     <div class="row">
         <div class="form-group col-xs-12 topmargins">
-            <input type="submit" value="Save" class="btn btn-default" />
+            <input type="submit" onclick="validateGrades()" value="Save" class="btn btn-default" />
         </div>
     </div>
 </form>
@@ -116,11 +116,12 @@
 <script src="~/js/site.js"></script>
 
 <script type="text/javascript">
+
     $(document).ready(function () {
         $("#Entry_Date").datepicker({
             orientation: "bottom"
         });
     });
 
-$(document).ready(displayStudentSubjectPairs());
+    $(document).ready(displayStudentSubjectPairs());
 </script>
