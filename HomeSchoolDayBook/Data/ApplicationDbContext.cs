@@ -16,6 +16,7 @@ namespace HomeSchoolDayBook.Data
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<SubjectAssignment> SubjectAssignments { get; set; }
+        public DbSet<Grade> Grades { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
