@@ -15,16 +15,7 @@ add Admin pages
                     .ToListAsync();
             }
 
-add grades??? point system???
-	on entry create/edit page - link to another page to add points
-
-	point-adding page shows each student-subject pairing
-	for each pairing, you can add points earned and points available
-
-	for each student
-		for each subject
-
-
+grades
 	students index page has details link
 
 	student details page shows total points earned, total points available, and percentage of points earned for each subject

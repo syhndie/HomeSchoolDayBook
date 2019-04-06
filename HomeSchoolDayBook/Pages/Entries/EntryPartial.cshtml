@@ -4,7 +4,7 @@
 <a asp-page="../Students/Create">Create New Student</a> <br>
 <a asp-page="../Subjects/Create">Create New Subject</a>
 <hr />
-<form method="post" class="sidemargins">
+<form id="entry-form" method="post" class="sidemargins">
     <div asp-validation-summary="ModelOnly" class="text-danger">
     </div>
     <div class="row">
@@ -104,7 +104,7 @@
     <div id="grades-container" class="topmargins"></div>
     <div class="row">
         <div class="form-group col-xs-12 topmargins">
-            <input type="submit" onclick="validateGrades()" value="Save" class="btn btn-default" />
+            <input type="button" onclick="saveEntry()" value="Save" class="btn btn-default" />
         </div>
     </div>
 </form>

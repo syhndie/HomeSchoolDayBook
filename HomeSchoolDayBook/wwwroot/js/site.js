@@ -93,9 +93,20 @@
     }
 }
 
+function saveEntry() {
+    var form = document.getElementById('entry-form');
+    var $form = $(form);
+    var validGrades = validateGrades();
+    var validForm = $form.valid();
+    if (validForm && validGrades) {
+        $form.submit();
+    }
+}
+
 function validateGrades() {
     var numbersExpression = /^[0-9]*$/;
     var grades = document.getElementsByClassName('input-grade');
+    var gradesAreValid = true;
     for (var i = 0; i < grades.length; i++) {
         var gradeColumn = grades[i].parentElement;
         while (grades[i].nextSibling) {
@@ -103,12 +114,12 @@ function validateGrades() {
         }
         var gradeValue = grades[i].value;
         if (gradeValue !== '' && !gradeValue.match(numbersExpression)) {
-            console.log(gradeValue + " is not a number or blank");
-
+            gradesAreValid = false;
             var validationMessage = document.createElement('p');
             validationMessage.innerText = "Points must be entered as integers (no decimals), or left blank.";
             validationMessage.style.color = '#a94442';
-            gradeColumn.appendChild(validationMessage);
+            gradeColumn.appendChild(validationMessage);            
         }
     }
+    return gradesAreValid;
 }
