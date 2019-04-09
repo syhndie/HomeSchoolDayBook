@@ -115,10 +115,28 @@ function validateGrades() {
         var gradeValue = grades[i].value;
         if (gradeValue !== '' && !gradeValue.match(numbersExpression)) {
             gradesAreValid = false;
-            var validationMessage = document.createElement('p');
-            validationMessage.innerText = "Points must be entered as integers (no decimals), or left blank.";
-            validationMessage.style.color = '#a94442';
-            gradeColumn.appendChild(validationMessage);            
+            var validationMessageNotInt = document.createElement('p');
+            validationMessageNotInt.innerText = "Points must be entered as integers (no decimals), or left blank.";
+            validationMessageNotInt.style.color = '#a94442';
+            gradeColumn.appendChild(validationMessageNotInt);
+        } 
+        if (gradeValue === '') {
+            if (grades[i].name.startsWith("earned")) {
+                var partnerFieldName = grades[i].name.replace("earned", "available");
+                console.log("partnerFieldName = " + partnerFieldName);
+            } else if (grades[i].name.startsWith("available")) {
+                partnerFieldName = grades[i].name.replace("available", "earned");
+                console.log("partnerFieldName = " + partnerFieldName);
+            }
+            var partnerField = document.getElementsByName(partnerFieldName);
+            
+            if (partnerField[0].value !== '') {
+                gradesAreValid = false;
+                var validationMessageNotBlank = document.createElement('p');
+                validationMessageNotBlank.innerText = "Both parts of the grade (points earned and points available) must be entered.";
+                validationMessageNotBlank.style.color = '#a94442';
+                gradeColumn.appendChild(validationMessageNotBlank);
+            }
         }
     }
     return gradesAreValid;
