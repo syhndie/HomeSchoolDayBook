@@ -104,22 +104,37 @@ function saveEntry() {
 }
 
 function validateGrades() {
-    var numbersExpression = /^[0-9]*$/;
+    var earnedExpression = /^-?[0-9]*(\.[0-9]{1,2})?$/;
+    var availableExpression = /^\s*(?=.*[1-9])\d*(\.\d{1,2})?\s*$/;
     var grades = document.getElementsByClassName('input-grade');
     var gradesAreValid = true;
+
     for (var i = 0; i < grades.length; i++) {
         var gradeColumn = grades[i].parentElement;
         while (grades[i].nextSibling) {
             gradeColumn.removeChild(gradeColumn.lastChild);
         }
+
         var gradeValue = grades[i].value;
-        if (gradeValue !== '' && !gradeValue.match(numbersExpression)) {
-            gradesAreValid = false;
-            var validationMessageNotInt = document.createElement('p');
-            validationMessageNotInt.innerText = "Points must be entered as integers (no decimals), or left blank.";
-            validationMessageNotInt.style.color = '#a94442';
-            gradeColumn.appendChild(validationMessageNotInt);
-        } 
+
+        if (grades[i].name.startsWith("earned")) {
+            if (gradeValue !== '' && !gradeValue.match(earnedExpression)) {
+                gradesAreValid = false;
+                var validationMessageEarned = document.createElement('p');
+                validationMessageEarned.innerText = "Points earned must be numbers with a maximum of two decimal places.";
+                validationMessageEarned.style.color = '#a94442';
+                gradeColumn.appendChild(validationMessageEarned);
+            }
+        } else if (grades[i].name.startsWith("available")) {
+            if (gradeValue !== '' && !gradeValue.match(availableExpression)) {
+                gradesAreValid = false;
+                var validationMessageAvailable = document.createElement('p');
+                validationMessageAvailable.innerText = "Points available must be positive numbers with a maximum of two decimal places.";
+                validationMessageAvailable.style.color = '#a94442';
+                gradeColumn.appendChild(validationMessageAvailable);
+            }
+        }        
+
         if (gradeValue === '') {
             if (grades[i].name.startsWith("earned")) {
                 var partnerFieldName = grades[i].name.replace("earned", "available");
@@ -128,6 +143,7 @@ function validateGrades() {
                 partnerFieldName = grades[i].name.replace("available", "earned");
                 console.log("partnerFieldName = " + partnerFieldName);
             }
+
             var partnerField = document.getElementsByName(partnerFieldName);
             
             if (partnerField[0].value !== '') {

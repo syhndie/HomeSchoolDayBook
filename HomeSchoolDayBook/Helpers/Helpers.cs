@@ -21,11 +21,11 @@ namespace HomeSchoolDayBook.Helpers
                 int studentId = int.Parse(parts[2]);
                 int subjectId = int.Parse(parts[4]);
 
-                if (!int.TryParse(formData[efn], out int earnedValue)) continue;
+                if (!float.TryParse(formData[efn], out float earnedValue)) continue;
                 
                 string afn = string.Join('-', new string[] { "available", parts[1], parts[2], parts[3], parts[4] });
 
-                if (!int.TryParse(formData[afn], out int availableValue)) continue;
+                if (!float.TryParse(formData[afn], out float availableValue)) continue;
 
                 var newGrade = new Grade
                 {
