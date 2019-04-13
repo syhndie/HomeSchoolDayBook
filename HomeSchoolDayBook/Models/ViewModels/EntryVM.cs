@@ -6,6 +6,8 @@ using System.ComponentModel.DataAnnotations;
 using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Models;
 using Microsoft.AspNetCore.Identity;
+using System.Text.RegularExpressions;
+using static HomeSchoolDayBook.Helpers.Constants;
 
 
 namespace HomeSchoolDayBook.Models.ViewModels

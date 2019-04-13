@@ -19,11 +19,13 @@ namespace HomeSchoolDayBook.Models
         //entry, and if the user entered something that doesn't pass float.tryparse, the entry just
         //isn't added to the list that is returned, so no error message happens, the entry just gets
         //saved without that grade being saved to the database
-        [RegularExpression(@"^-?[0-9]*(\.[0-9]{1,2})?$")]
+        //CLCTODO: also, need to require that if one, then the other, or it can't go into the database
+        [RegularExpression(PointsEarnedPattern)]
         public float PointsEarned { get; set; }
 
         //CLCTODO: test this regular expression to make sure it is really doing what I think it is doing
-        [RegularExpression(@"(?=.*[1-9])[0-9]*(\.[0-9]{1,2})?$")]
+        [Range(0.01, float.PositiveInfinity)]
+        [RegularExpression(PointsAvailablePattern)]
         public float PointsAvailable { get; set; }
 
         public Entry Entry { get; set; }
