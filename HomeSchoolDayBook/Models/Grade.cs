@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using static HomeSchoolDayBook.Helpers.Constants;
 
 namespace HomeSchoolDayBook.Models
 {
@@ -15,7 +16,12 @@ namespace HomeSchoolDayBook.Models
 
         public float PointsEarned { get; set; }
 
-        [Range(0.1, float.PositiveInfinity)]
+        //CLCTODO: this data annotation would normally catch all problems with bad user entry, but 
+        //right now the Helper method GetGradesFromFormData returns a list of grades from the user
+        //entry, and if the user entered something that doesn't pass float.tryparse, the entry just
+        //isn't added to the list that is returned, so no error message happens, the entry just gets
+        //saved without that grade being saved to the database
+        [RegularExpression(@"\s*(?=.*[1-9])\d*(\.\d{1,2})?\s*$")]
         public float PointsAvailable { get; set; }
 
         public Entry Entry { get; set; }
