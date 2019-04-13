@@ -14,14 +14,16 @@ namespace HomeSchoolDayBook.Models
         public int StudentID { get; set; }
         public int SubjectID { get; set; }
 
-        public float PointsEarned { get; set; }
-
-        //CLCTODO: this data annotation would normally catch all problems with bad user entry, but 
+        //CLCTODO: these data annotations would normally catch all problems with bad user entry, but 
         //right now the Helper method GetGradesFromFormData returns a list of grades from the user
         //entry, and if the user entered something that doesn't pass float.tryparse, the entry just
         //isn't added to the list that is returned, so no error message happens, the entry just gets
         //saved without that grade being saved to the database
-        [RegularExpression(@"\s*(?=.*[1-9])\d*(\.\d{1,2})?\s*$")]
+        [RegularExpression(@"^-?[0-9]*(\.[0-9]{1,2})?$")]
+        public float PointsEarned { get; set; }
+
+        //CLCTODO: test this regular expression to make sure it is really doing what I think it is doing
+        [RegularExpression(@"(?=.*[1-9])[0-9]*(\.[0-9]{1,2})?$")]
         public float PointsAvailable { get; set; }
 
         public Entry Entry { get; set; }
