@@ -21,11 +21,13 @@ namespace HomeSchoolDayBook.Models
         //saved without that grade being saved to the database
         //CLCTODO: also, need to require that if one, then the other, or it can't go into the database
         [RegularExpression(PointsEarnedPattern)]
+        [Required]
         public float PointsEarned { get; set; }
 
         //CLCTODO: test this regular expression to make sure it is really doing what I think it is doing
         [Range(0.01, float.PositiveInfinity)]
         [RegularExpression(PointsAvailablePattern)]
+        [Required]
         public float PointsAvailable { get; set; }
 
         public Entry Entry { get; set; }

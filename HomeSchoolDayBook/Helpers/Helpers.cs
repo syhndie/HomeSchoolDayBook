@@ -9,21 +9,30 @@ namespace HomeSchoolDayBook.Helpers
     public static class Helpers
     {
 
-        public static List<Grade> GetGradesFromFormData(IFormCollection formData, Entry entry)
+        public static List<Grade> GetGradesFromFormData(IFormCollection formData, Entry entry, out bool allGradesValid)
         {
+            allGradesValid = true;
+
             List<Grade> grades = new List<Grade>();
 
             string[] earnedFieldNames = formData.Keys.Where(k => k.StartsWith("earned")).ToArray();
 
             foreach (string efn in earnedFieldNames)
             {
+                bool earnedIsEmpty = formData[efn] == "" ? true : false;
+
                 string[] parts = efn.Split('-');
                 int studentId = int.Parse(parts[2]);
                 int subjectId = int.Parse(parts[4]);
+             
+                string afn = string.Join('-', new string[] { "available", parts[1], parts[2], parts[3], parts[4] });
+
+                bool availableIsEmpty = formData[afn] == "" ? true : false;
+
+                //returns out variable allGradesValid false if one grade field null but not the other
+                if ((earnedIsEmpty && !availableIsEmpty) || (!earnedIsEmpty && availableIsEmpty)) allGradesValid = false;
 
                 if (!float.TryParse(formData[efn], out float earnedValue)) continue;
-                
-                string afn = string.Join('-', new string[] { "available", parts[1], parts[2], parts[3], parts[4] });
 
                 if (!float.TryParse(formData[afn], out float availableValue)) continue;
 

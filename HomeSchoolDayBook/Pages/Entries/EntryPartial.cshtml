@@ -217,10 +217,10 @@
         var $form = $(form);
 
         //CLCTODO: if client-side grade validation is turned off for testing of server-side validation, don't forget to turn it back on!!!
-        //var validGrades = true;
-        var validGrades = validateGrades();
-        var validForm = $form.valid();
-        if (validForm && validGrades) {
+        var isValidGrades = true;
+        //var isValidGrades = validateGrades();
+        var isValidForm = $form.valid();
+        if (isValidForm && isValidGrades) {
             $form.submit();
         }
     }

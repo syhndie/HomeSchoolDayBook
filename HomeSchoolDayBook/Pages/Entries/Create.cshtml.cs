@@ -47,7 +47,7 @@ namespace HomeSchoolDayBook.Pages.Entries
                 SubjectAssignments = new List<SubjectAssignment>()
             };
 
-            List<Grade> grades = GetGradesFromFormData(formData, newEntry);
+            List<Grade> grades = GetGradesFromFormData(formData, newEntry, out bool allGradesValid);
 
             newEntry.Grades = grades;
 
@@ -88,6 +88,8 @@ namespace HomeSchoolDayBook.Pages.Entries
                 _context.Entries.Add(EntryVM.Entry);
 
                 await _context.SaveChangesAsync();
+
+                if (!allGradesValid) DangerMessage = "At least one grade was not entered correctly and was not saved.";
 
                 return RedirectToPage("./Index");
             }
