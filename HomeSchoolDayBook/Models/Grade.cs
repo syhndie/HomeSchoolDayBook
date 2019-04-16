@@ -14,32 +14,16 @@ namespace HomeSchoolDayBook.Models
         public int StudentID { get; set; }
         public int SubjectID { get; set; }
 
-        //CLCTODO: these data annotations would normally catch all problems with bad user entry, but 
-        //right now the Helper method GetGradesFromFormData returns a list of grades from the user
-        //entry, and if the user entered something that doesn't pass float.tryparse, the entry just
-        //isn't added to the list that is returned, so no error message happens, the entry just gets
-        //saved without that grade being saved to the database
-        //CLCTODO: also, need to require that if one, then the other, or it can't go into the database
         [RegularExpression(PointsEarnedPattern)]
-        [Required]
-        public float PointsEarned { get; set; }
+        public decimal PointsEarned { get; set; }
 
-        //CLCTODO: test this regular expression to make sure it is really doing what I think it is doing
-        [Range(0.01, float.PositiveInfinity)]
+        [Range(0.01, double.MaxValue)]
         [RegularExpression(PointsAvailablePattern)]
         [Required]
-        public float PointsAvailable { get; set; }
+        public decimal PointsAvailable { get; set; }
 
         public Entry Entry { get; set; }
         public Student Student { get; set; }
         public Subject Subject { get; set; }
-
-        public float Percent
-        {
-            get
-            { 
-                return PointsEarned / PointsAvailable;
-            }
-        }
     }
 }
