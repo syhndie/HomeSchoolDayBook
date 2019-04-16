@@ -32,9 +32,17 @@ namespace HomeSchoolDayBook.Helpers
                 //returns out variable allGradesValid false if one grade field null but not the other
                 if ((earnedIsEmpty && !availableIsEmpty) || (!earnedIsEmpty && availableIsEmpty)) allGradesValid = false;
 
-                if (!float.TryParse(formData[efn], out float earnedValue)) continue;
+                if (!float.TryParse(formData[efn], out float earnedValue))
+                { 
+                    if (!earnedIsEmpty) allGradesValid = false;
+                    continue;
+                }
 
-                if (!float.TryParse(formData[afn], out float availableValue)) continue;
+                if (!float.TryParse(formData[afn], out float availableValue))
+                {
+                    if (!availableIsEmpty) allGradesValid = false;
+                    continue;
+                }
 
                 var newGrade = new Grade
                 {
