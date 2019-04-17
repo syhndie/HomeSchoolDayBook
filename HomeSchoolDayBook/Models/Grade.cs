@@ -13,13 +13,10 @@ namespace HomeSchoolDayBook.Models
         public int EntryID { get; set; }
         public int StudentID { get; set; }
         public int SubjectID { get; set; }
-
-        [RegularExpression(PointsEarnedPattern)]
+        
         public decimal PointsEarned { get; set; }
 
-        [Range(0.01, double.MaxValue)]
-        [RegularExpression(PointsAvailablePattern)]
-        [Required]
+        [Range(double.Epsilon, double.MaxValue)]
         public decimal PointsAvailable { get; set; }
 
         public Entry Entry { get; set; }

@@ -217,8 +217,8 @@
         var $form = $(form);
 
         //if client-side grade validation is turned off for testing of server-side validation, don't forget to turn it back on!!!
-        var isValidGrades = true;
-        //var isValidGrades = validateGrades();
+        //var isValidGrades = true;
+        var isValidGrades = validateGrades();
         var isValidForm = $form.valid();
         if (isValidForm && isValidGrades) {
             $form.submit();
@@ -226,8 +226,6 @@
     }
 
     function validateGrades() {
-        var earnedExpression = new RegExp('@PointsEarnedPattern');
-        var availableExpression = new RegExp('@PointsAvailablePattern');
         var grades = document.getElementsByClassName('input-grade');
         var gradesAreValid = true;
 
@@ -240,18 +238,18 @@
             var gradeValue = grades[i].value;
 
             if (grades[i].name.startsWith("earned")) {
-                if (gradeValue !== '' && !gradeValue.match(earnedExpression)) {
+                if (gradeValue !== '' && isNaN(gradeValue)) {
                     gradesAreValid = false;
                     var validationMessageEarned = document.createElement('p');
-                    validationMessageEarned.innerText = '@PointsEarnedErrorMessage';
+                    validationMessageEarned.innerText = 'Points earned can only be numbers.';
                     validationMessageEarned.style.color = '#a94442';
                     gradeColumn.appendChild(validationMessageEarned);
                 }
             } else if (grades[i].name.startsWith("available")) {
-                if (gradeValue !== '' && !gradeValue.match(availableExpression)) {
+                if (gradeValue !== '' && (isNaN(gradeValue) || gradeValue <= 0)) {
                     gradesAreValid = false;
                     var validationMessageAvailable = document.createElement('p');
-                    validationMessageAvailable.innerText = '@PointsAvailableErrorMessage';
+                    validationMessageAvailable.innerText = 'Points available can only be positive numbers greater than zero.';
                     validationMessageAvailable.style.color = '#a94442';
                     gradeColumn.appendChild(validationMessageAvailable);
                 }

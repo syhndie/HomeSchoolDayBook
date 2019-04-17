@@ -47,10 +47,6 @@ namespace HomeSchoolDayBook.Pages.Entries
                 SubjectAssignments = new List<SubjectAssignment>()
             };
 
-            List<Grade> grades = GetGradesFromFormData(formData, newEntry, out bool allGradesValid);
-
-            newEntry.Grades = grades;
-
             foreach (Subject subject in _context.Subjects.Where(su =>su.UserID == userId))
             {
                 if (selectedSubjects.Contains(subject.ID.ToString()))
@@ -76,6 +72,10 @@ namespace HomeSchoolDayBook.Pages.Entries
                     });
                 }
             }
+
+            List<Grade> grades = GetGradesFromFormData(formData, newEntry, out bool allGradesValid);
+
+            newEntry.Grades = grades;
 
             EntryVM = new EntryVM(newEntry, _context, userId);
 
