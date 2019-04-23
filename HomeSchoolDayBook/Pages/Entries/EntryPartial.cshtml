@@ -1,5 +1,4 @@
-﻿@using static HomeSchoolDayBook.Helpers.Constants;
-@model HomeSchoolDayBook.Models.ViewModels.EntryVM
+﻿@model HomeSchoolDayBook.Models.ViewModels.EntryVM
 
 <a asp-page="../Students/Create">Create New Student</a> <br>
 <a asp-page="../Subjects/Create">Create New Subject</a>
@@ -112,12 +111,24 @@
     <a asp-page="Index">My Entries</a>
 </div>
 
+<p>
+    json string is @Model.GradesJSON;
+</p>
+<ul>
+    @foreach (var grade in Model.Entry.Grades)
+    {
+        <li>@grade.StudentID @grade.SubjectID @grade.PointsEarned @grade.PointsAvailable</li>
+    }
+</ul>
+
 <script src="~/lib/datepicker/bootstrap-datepicker.js"></script>
 <script src="~/js/site.js"></script>
 
 <script type="text/javascript">
 
     function displayStudentSubjectPairs() {
+        var savedGrades = @Html.Raw(Model.GradesJSON);
+
         var studentCheckboxes = document.getElementsByName("selectedStudents");
         var subjectCheckboxes = document.getElementsByName("selectedSubjects");
 
@@ -164,9 +175,11 @@
 
                     var pointsEarnedTextbox = document.createElement("input");
                     pointsEarnedTextbox.type = "text";
-                    pointsEarnedTextbox.name = "earned-student-" + studentCheckboxes[i].value + "-subject-" + subjectCheckboxes[j].value;
+                    var pointsEarnedTextboxName = "earned-student-" + studentCheckboxes[i].value + "-subject-" + subjectCheckboxes[j].value;
+                    pointsEarnedTextbox.name = pointsEarnedTextboxName;
                     pointsEarnedTextbox.className = "form-control input-grade";
-
+                    pointsEarnedTextbox.value = savedGrades[pointsEarnedTextboxName];
+                   
                     pointsEarnedCol.appendChild(pointsEarnedTextbox);
 
                     var pointsAvailableCol = document.createElement("div");
@@ -174,8 +187,10 @@
 
                     var pointsAvailableTextbox = document.createElement("input");
                     pointsAvailableTextbox.type = "text";
-                    pointsAvailableTextbox.name = "available-student-" + studentCheckboxes[i].value + "-subject-" + subjectCheckboxes[j].value;
+                    var pointsAvailableTextboxName = "available-student-" + studentCheckboxes[i].value + "-subject-" + subjectCheckboxes[j].value;
+                    pointsAvailableTextbox.name = pointsAvailableTextboxName;
                     pointsAvailableTextbox.className = "form-control input-grade";
+                    pointsAvailableTextbox.value = savedGrades[pointsAvailableTextboxName];
 
                     pointsAvailableCol.appendChild(pointsAvailableTextbox);
 

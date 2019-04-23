@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using static HomeSchoolDayBook.Helpers.Constants;
+using Newtonsoft.Json;
 
 namespace HomeSchoolDayBook.Models
 {
     public class Grade
     {
+        [JsonIgnore]
         public int ID { get; set; }
+
+        [JsonIgnore]
         public int EntryID { get; set; }
+
         public int StudentID { get; set; }
         public int SubjectID { get; set; }
         

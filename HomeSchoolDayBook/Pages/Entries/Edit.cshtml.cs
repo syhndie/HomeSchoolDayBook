@@ -9,6 +9,9 @@ using HomeSchoolDayBook.Models;
 using HomeSchoolDayBook.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using HomeSchoolDayBook.Areas.Identity.Data;
+using System.Runtime.Serialization.Json;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace HomeSchoolDayBook.Pages.Entries
 {
@@ -35,6 +38,7 @@ namespace HomeSchoolDayBook.Pages.Entries
                     .ThenInclude(sa => sa.Subject)
                 .Include(ent => ent.Enrollments)
                     .ThenInclude(enr => enr.Student)
+                .Include(ent => ent.Grades)
                 .Where(ent => ent.UserID == userId)
                 .Where(ent => ent.ID == id)
                 .FirstOrDefaultAsync();            
@@ -48,6 +52,15 @@ namespace HomeSchoolDayBook.Pages.Entries
 
             EntryVM = new EntryVM(entry, _context, userId);
 
+            Dictionary<string, string> gradesDictionary = new Dictionary<string, string>();
+            foreach (Grade grade in entry.Grades)
+            {
+                gradesDictionary.Add($"earned-student-{grade.StudentID}-subject-{grade.SubjectID}", grade.PointsEarned.ToString());
+                gradesDictionary.Add($"available-student-{grade.StudentID}-subject-{grade.SubjectID}", grade.PointsAvailable.ToString());
+            }
+
+            EntryVM.GradesJSON = $"{JsonConvert.SerializeObject(gradesDictionary)}";
+            // "earned-student-" + studentCheckboxes[i].value + "-subject-" + subjectCheckboxes[j].value
             return Page();
         }
 
@@ -60,6 +73,7 @@ namespace HomeSchoolDayBook.Pages.Entries
                     .ThenInclude(sa => sa.Subject)
                 .Include(ent => ent.Enrollments)
                     .ThenInclude(enr => enr.Student)
+                .Include(ent => ent.Grades)
                 .Where(ent => ent.UserID == userID)
                 .Where(ent => ent.ID == id)
                 .FirstOrDefaultAsync();

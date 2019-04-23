@@ -16,6 +16,8 @@ add Admin pages
             }
 
 grades
+
+NEXT STEP is to populate grades from the database on the Entry Edit page
 	students index page has details link
 
 	student details page shows total points earned, total points available, and percentage of points earned for each subject
