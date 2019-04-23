@@ -12,6 +12,7 @@ using HomeSchoolDayBook.Areas.Identity.Data;
 using System.Runtime.Serialization.Json;
 using System.IO;
 using Newtonsoft.Json;
+using static HomeSchoolDayBook.Helpers.Helpers;
 
 namespace HomeSchoolDayBook.Pages.Entries
 {
@@ -52,20 +53,21 @@ namespace HomeSchoolDayBook.Pages.Entries
 
             EntryVM = new EntryVM(entry, _context, userId);
 
-            Dictionary<string, string> gradesDictionary = new Dictionary<string, string>();
+            Dictionary<string, decimal> gradesDictionary = new Dictionary<string, decimal>();
             foreach (Grade grade in entry.Grades)
             {
-                gradesDictionary.Add($"earned-student-{grade.StudentID}-subject-{grade.SubjectID}", grade.PointsEarned.ToString());
-                gradesDictionary.Add($"available-student-{grade.StudentID}-subject-{grade.SubjectID}", grade.PointsAvailable.ToString());
+                gradesDictionary.Add($"earned-student-{grade.StudentID}-subject-{grade.SubjectID}", grade.PointsEarned);
+                gradesDictionary.Add($"available-student-{grade.StudentID}-subject-{grade.SubjectID}", grade.PointsAvailable);
             }
 
             EntryVM.GradesJSON = $"{JsonConvert.SerializeObject(gradesDictionary)}";
-            // "earned-student-" + studentCheckboxes[i].value + "-subject-" + subjectCheckboxes[j].value
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id, string[] selectedSubjects, string[] selectedStudents)
         {
+            var formData = Request.Form;
+
             string userID = _userManager.GetUserId(User);
 
             Entry editedEntry = await _context.Entries
@@ -113,6 +115,10 @@ namespace HomeSchoolDayBook.Pages.Entries
                 }
             }
 
+            List<Grade> editedGrades = GetGradesFromFormData(formData, editedEntry, out bool allGradesValid);
+
+            editedEntry.Grades = editedGrades;
+
             EntryVM = new EntryVM(editedEntry, _context, userID);
 
             bool modelDidUpdate = await TryUpdateModelAsync<EntryVM>(EntryVM);
@@ -122,6 +128,8 @@ namespace HomeSchoolDayBook.Pages.Entries
             if (ModelState.IsValid && modelDidUpdate)
             {
                 await _context.SaveChangesAsync();
+
+                if (!allGradesValid) DangerMessage = "At least one grade was not entered correctly and was not saved.";
 
                 return RedirectToPage("./Index");
             }

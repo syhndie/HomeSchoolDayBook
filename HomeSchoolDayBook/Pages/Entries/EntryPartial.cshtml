@@ -111,16 +111,6 @@
     <a asp-page="Index">My Entries</a>
 </div>
 
-<p>
-    json string is @Model.GradesJSON;
-</p>
-<ul>
-    @foreach (var grade in Model.Entry.Grades)
-    {
-        <li>@grade.StudentID @grade.SubjectID @grade.PointsEarned @grade.PointsAvailable</li>
-    }
-</ul>
-
 <script src="~/lib/datepicker/bootstrap-datepicker.js"></script>
 <script src="~/js/site.js"></script>
 
@@ -178,7 +168,9 @@
                     var pointsEarnedTextboxName = "earned-student-" + studentCheckboxes[i].value + "-subject-" + subjectCheckboxes[j].value;
                     pointsEarnedTextbox.name = pointsEarnedTextboxName;
                     pointsEarnedTextbox.className = "form-control input-grade";
-                    pointsEarnedTextbox.value = savedGrades[pointsEarnedTextboxName];
+                    if (savedGrades.hasOwnProperty(pointsEarnedTextboxName)) {
+                        pointsEarnedTextbox.value = savedGrades[pointsEarnedTextboxName];
+                    }                     
                    
                     pointsEarnedCol.appendChild(pointsEarnedTextbox);
 
@@ -190,7 +182,9 @@
                     var pointsAvailableTextboxName = "available-student-" + studentCheckboxes[i].value + "-subject-" + subjectCheckboxes[j].value;
                     pointsAvailableTextbox.name = pointsAvailableTextboxName;
                     pointsAvailableTextbox.className = "form-control input-grade";
-                    pointsAvailableTextbox.value = savedGrades[pointsAvailableTextboxName];
+                    if (savedGrades.hasOwnProperty(pointsAvailableTextboxName)) {
+                        pointsAvailableTextbox.value = savedGrades[pointsAvailableTextboxName];
+                    }
 
                     pointsAvailableCol.appendChild(pointsAvailableTextbox);
 
