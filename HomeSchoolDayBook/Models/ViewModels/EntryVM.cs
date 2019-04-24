@@ -78,9 +78,7 @@ namespace HomeSchoolDayBook.Models.ViewModels
                 NoStudentsMessage = "You have no saved Students.";
             }
 
-            Dictionary<string, decimal> gradesDictionary = new Dictionary<string, decimal>();
-            GradesJSON = $"{JsonConvert.SerializeObject(gradesDictionary)}";
-
+            GradesJSON = "{}";
         }
 
         //constructor for Create OnPost, and Edit
