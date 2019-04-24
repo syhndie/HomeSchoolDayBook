@@ -250,7 +250,7 @@
                 if (gradeValue !== '' && isNaN(gradeValue)) {
                     gradesAreValid = false;
                     var validationMessageEarned = document.createElement('p');
-                    validationMessageEarned.innerText = 'Points earned can only be numbers.';
+                    validationMessageEarned.innerText = 'The Points Earned field must be a number.';
                     validationMessageEarned.style.color = '#a94442';
                     gradeColumn.appendChild(validationMessageEarned);
                 }
@@ -258,7 +258,7 @@
                 if (gradeValue !== '' && (isNaN(gradeValue) || gradeValue <= 0)) {
                     gradesAreValid = false;
                     var validationMessageAvailable = document.createElement('p');
-                    validationMessageAvailable.innerText = 'Points available can only be positive numbers greater than zero.';
+                    validationMessageAvailable.innerText = 'The Points Available field must be a number greater than zero.';
                     validationMessageAvailable.style.color = '#a94442';
                     gradeColumn.appendChild(validationMessageAvailable);
                 }
