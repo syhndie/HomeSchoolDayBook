@@ -18,7 +18,7 @@ namespace HomeSchoolDayBook.Pages.Entries
 
         private readonly ApplicationDbContext _context;
 
-        public EntryVM EntryVM { get; set; }
+        public EntryCreateEditVM EntryCreateEditVM { get; set; }
 
         public CreateModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
@@ -30,7 +30,7 @@ namespace HomeSchoolDayBook.Pages.Entries
         {
             string userId = _userManager.GetUserId(User);
 
-            EntryVM = new EntryVM(_context, userId);
+            EntryCreateEditVM = new EntryCreateEditVM(_context, userId);
 
             return Page();
         }
@@ -77,15 +77,15 @@ namespace HomeSchoolDayBook.Pages.Entries
 
             newEntry.Grades = grades;
 
-            EntryVM = new EntryVM(newEntry, _context, userId);
+            EntryCreateEditVM = new EntryCreateEditVM(newEntry, _context, userId);
 
-            bool modelDidUpdate = await TryUpdateModelAsync<EntryVM>(EntryVM);
+            bool modelDidUpdate = await TryUpdateModelAsync<EntryCreateEditVM>(EntryCreateEditVM);
 
-            EntryVM.Entry.MinutesSpent = EntryVM.EnteredTotalMinutes;
+            EntryCreateEditVM.Entry.MinutesSpent = EntryCreateEditVM.EnteredTotalMinutes;
 
             if (ModelState.IsValid && modelDidUpdate)
             {
-                _context.Entries.Add(EntryVM.Entry);
+                _context.Entries.Add(EntryCreateEditVM.Entry);
 
                 await _context.SaveChangesAsync();
 

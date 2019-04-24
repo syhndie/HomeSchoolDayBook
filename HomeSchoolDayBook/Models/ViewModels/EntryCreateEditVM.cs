@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace HomeSchoolDayBook.Models.ViewModels
 {
-    public class EntryVM
+    public class EntryCreateEditVM
     {
         public Entry Entry { get; set; }
 
@@ -44,7 +44,7 @@ namespace HomeSchoolDayBook.Models.ViewModels
         public string GradesJSON { get; set; }
 
         //constructor for Create OnGet
-        public EntryVM (ApplicationDbContext context, string userId )
+        public EntryCreateEditVM (ApplicationDbContext context, string userId )
         {
             Entry = new Entry
             {
@@ -82,7 +82,7 @@ namespace HomeSchoolDayBook.Models.ViewModels
         }
 
         //constructor for Create OnPost, and Edit
-        public EntryVM (Entry entry, ApplicationDbContext context, string userId)
+        public EntryCreateEditVM (Entry entry, ApplicationDbContext context, string userId)
         {
             Entry = entry;
             EnteredHours = entry.ComputedHours;

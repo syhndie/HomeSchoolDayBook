@@ -24,15 +24,6 @@
             @Html.DisplayFor(model => model.Entry.Title)
         </dd>
         <dt>
-            Students
-        </dt>
-        <dd>
-            @foreach (var enr in Model.Entry.Enrollments)
-            {
-                @enr.Student.Name<br />
-            }
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.Entry.Description)
         </dt>
         <dd>
@@ -43,6 +34,15 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Entry.ComputedTimeSpent)
+        </dd>
+        <dt>
+            Students
+        </dt>
+        <dd>
+            @foreach (var enr in Model.Entry.Enrollments)
+            {
+                @enr.Student.Name<br />
+            }
         </dd>
         <dt>
             Subjects
