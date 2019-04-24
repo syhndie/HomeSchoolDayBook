@@ -16,17 +16,16 @@ add Admin pages
             }
 
 grades
-
-NEXT STEP is to populate grades from the database on the Entry Edit page
-	students index page has details link
-
-	student details page shows total points earned, total points available, and percentage of points earned for each subject
-	you can click on each subject row show break-out rows that list each entry where points were available
-	each break-out row shows entry date, entry title, points earned, points available, percent of points earned, and a link to edit the entry
-
+	entry details
+	entry delete
+	student details 
+		shows total points earned, total points available, and percentage of points earned for each subject
+		you can click on each subject row show break-out rows that list each entry where points were available
+		each break-out row shows entry date, entry title, points earned, points available, percent of points earned, and a link to edit the entry
 	also include a points report - choose date range, subjects, and students
-	for each student, list all subjects chosen
-	for each subject, list points earned, points available, and percentage of points
+		for each student, list all subjects chosen
+		for each subject, list points earned, points available, and percentage of points
+	include grades in data download as well
 
 	
 	
