@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using HomeSchoolDayBook.Areas.Identity.Data;
 using System.Runtime.Serialization.Json;
 using System.IO;
-using Newtonsoft.Json;
+
 using static HomeSchoolDayBook.Helpers.Helpers;
 
 namespace HomeSchoolDayBook.Pages.Entries
@@ -53,14 +53,6 @@ namespace HomeSchoolDayBook.Pages.Entries
 
             EntryVM = new EntryVM(entry, _context, userId);
 
-            Dictionary<string, decimal> gradesDictionary = new Dictionary<string, decimal>();
-            foreach (Grade grade in entry.Grades)
-            {
-                gradesDictionary.Add($"earned-student-{grade.StudentID}-subject-{grade.SubjectID}", grade.PointsEarned);
-                gradesDictionary.Add($"available-student-{grade.StudentID}-subject-{grade.SubjectID}", grade.PointsAvailable);
-            }
-
-            EntryVM.GradesJSON = $"{JsonConvert.SerializeObject(gradesDictionary)}";
             return Page();
         }
 

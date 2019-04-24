@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using HomeSchoolDayBook.Data;
+using Newtonsoft.Json;
 
 
 namespace HomeSchoolDayBook.Models.ViewModels
@@ -76,6 +77,10 @@ namespace HomeSchoolDayBook.Models.ViewModels
             {
                 NoStudentsMessage = "You have no saved Students.";
             }
+
+            Dictionary<string, decimal> gradesDictionary = new Dictionary<string, decimal>();
+            GradesJSON = $"{JsonConvert.SerializeObject(gradesDictionary)}";
+
         }
 
         //constructor for Create OnPost, and Edit
@@ -110,6 +115,15 @@ namespace HomeSchoolDayBook.Models.ViewModels
                 .OrderBy(st => st.Name)
                 .Select(st => new CheckBoxVM(st.ID, st.Name, entryStudentIDs.Contains(st.ID)))
                 .ToList();
+
+            Dictionary<string, decimal> gradesDictionary = new Dictionary<string, decimal>();
+            foreach (Grade grade in entry.Grades)
+            {
+                gradesDictionary.Add($"earned-student-{grade.StudentID}-subject-{grade.SubjectID}", grade.PointsEarned);
+                gradesDictionary.Add($"available-student-{grade.StudentID}-subject-{grade.SubjectID}", grade.PointsAvailable);
+            }
+
+            GradesJSON = $"{JsonConvert.SerializeObject(gradesDictionary)}";
         }
     }
 }
