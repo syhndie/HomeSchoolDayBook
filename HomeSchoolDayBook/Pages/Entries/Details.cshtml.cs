@@ -34,6 +34,10 @@ namespace HomeSchoolDayBook.Pages.Entries
                     .ThenInclude(enr => enr.Student)
                 .Include(ent => ent.SubjectAssignments)
                     .ThenInclude(sa => sa.Subject)
+                .Include(ent => ent.Grades)
+                    .ThenInclude(gr => gr.Student)
+                .Include(ent => ent.Grades)
+                    .ThenInclude(gr => gr.Subject)
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
 
