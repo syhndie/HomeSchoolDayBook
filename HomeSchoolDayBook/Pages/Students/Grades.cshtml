@@ -1,0 +1,68 @@
+﻿@page "{id:int?}"
+@model HomeSchoolDayBook.Pages.Students.GradesModel
+
+@section CSS {
+    <link rel="stylesheet" href="~/lib/datatables/datatables.min.css" />
+}
+
+@{
+    ViewData["Title"] = "Grades";
+}
+
+<h2>@Model.Student.Name</h2>
+<div>
+    <h4>@ViewData["Title"]</h4>
+</div>
+<table class="table" id="grades-by-subject">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SubjectGrades[0].Subject.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubjectGrades[0].PointsEarned)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubjectGrades[0].PointsAvailable)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubjectGrades[0].PercentEarned)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.SubjectGrades)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PointsEarned)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PointsAvailable)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PercentEarned)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="~/lib/datatables/datatables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#grades-by-subject').DataTable({
+                "language": {
+                    "lengthMenu": "Show _MENU_ subjects"
+                },
+                "order": [0, "asc"]
+            })
+        })
+    </script>
+}
+

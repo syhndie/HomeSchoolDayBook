@@ -38,7 +38,8 @@
                     @(item.IsActive ? "Yes" : "No")
                 </td>
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a>
+                    <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-page="./Grades" asp-route-id="@item.ID">Grades</a>
                 </td>
             </tr>
         }

@@ -18,10 +18,21 @@ namespace HomeSchoolDayBook.Models
         public int StudentID { get; set; }
         public int SubjectID { get; set; }
         
+        [Display(Name = "Points Earned")]
         public decimal PointsEarned { get; set; }
 
+        [Display(Name = "Points Available")]
         [Range(double.Epsilon, double.MaxValue)]
         public decimal PointsAvailable { get; set; }
+
+        [Display(Name = "Percent")]
+        public decimal PercentEarned
+        {
+            get
+            {
+                return 100*( PointsEarned / PointsAvailable);
+            }
+        }
 
         public Entry Entry { get; set; }
         public Student Student { get; set; }

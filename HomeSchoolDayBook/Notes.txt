@@ -14,10 +14,11 @@ add Admin pages
                 Students = await _context.Students
                     .ToListAsync();
             }
+	
+Need to think about the amount of data that is getting passed to the server when opening MyEntries and clicking the Grades link from MyStudents
+	should this be limited by data ranges? some other way?
 
 grades
-	entry details
-	entry delete
 	student details 
 		shows total points earned, total points available, and percentage of points earned for each subject
 		you can click on each subject row show break-out rows that list each entry where points were available
