@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HomeSchoolDayBook.Models.ViewModels
 {
-    public class SubjectGrade
+    public class SubjectGradeVM
     {
         public Subject Subject { get; set; }
 
@@ -25,7 +25,7 @@ namespace HomeSchoolDayBook.Models.ViewModels
             }
         }
 
-        public SubjectGrade(Subject subject, decimal pointsEarned, decimal pointsAvailable)
+        public SubjectGradeVM(Subject subject, decimal pointsEarned, decimal pointsAvailable)
         {
             Subject = subject;
             PointsEarned = pointsEarned;
