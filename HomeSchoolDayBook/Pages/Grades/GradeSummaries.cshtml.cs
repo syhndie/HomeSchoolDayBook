@@ -38,7 +38,7 @@ namespace HomeSchoolDayBook.Pages.Grades
 
         public List<SelectListItem> StudentOptions { get; set; }
 
-        public List<Grade> Grades { get; set; }
+        public List<SubjectGradeVM> SubjectGrades { get; set; }
 
         public GradeSummariesModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
@@ -46,7 +46,7 @@ namespace HomeSchoolDayBook.Pages.Grades
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> OnGetAsync(DateTime? fromDate, DateTime? toDate, int? studentID)
+        public async Task<IActionResult> OnGetAsync(DateTime? fromDate, DateTime? toDate, int studentID)
         {
             string userId = _userManager.GetUserId(User);
 
@@ -62,7 +62,18 @@ namespace HomeSchoolDayBook.Pages.Grades
                 .Select(st => new SelectListItem { Value = st.ID.ToString(), Text = st.Name })
                 .ToListAsync();
 
-            
+            DateTime startDate = FromDate <= ToDate ? (DateTime)FromDate : (DateTime)ToDate;
+            DateTime endDate = startDate == (DateTime)FromDate ? (DateTime)ToDate : (DateTime)FromDate;
+
+            SubjectGrades = await _context
+                .Grades
+                .Where(gr => gr.StudentID == studentID)
+                .Where(gr => gr.Entry.Date >= startDate)
+                .Where(gr => gr.Entry.Date <= endDate)
+                .GroupBy(gr=> gr.Subject)
+                .Select(x => new SubjectGradeVM(x.Key, x.Sum(y => y.PointsEarned), x.Sum(y => y.PointsAvailable)))
+                .ToListAsync();
+
             return Page();
         }
     }

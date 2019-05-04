@@ -38,10 +38,38 @@
     <thead>
         <tr>
             <th>
-
+                @Html.DisplayNameFor(model => model.SubjectGrades[0].Subject.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubjectGrades[0].PointsEarned)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubjectGrades[0].PointsAvailable)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubjectGrades[0].PercentEarned)
             </th>
         </tr>
     </thead>
+    <tbody>
+        @foreach (var item in Model.SubjectGrades)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PointsEarned)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PointsAvailable)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PercentEarned)
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
 
 
@@ -60,6 +88,17 @@
                 orientation: "bottom"
             });
         });
+    </script>
+    
+    <script>
+        $(document).ready(function () {
+            $('#gradeindex').DataTable({
+                "language": {
+                    "lengthMenu": "Show _MENU_ subjects"
+                },
+                "order": [0, "asc"]
+            })
+        })
     </script>
 }
 
