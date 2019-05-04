@@ -18,6 +18,11 @@ hr {
 }
 
 /*my own classes*/
+.bottom-aligned {
+    vertical-align: bottom;
+    margin-bottom: 0;
+    margin-top: 25px;
+}
 .notbold {
     font-weight: 400;
 }

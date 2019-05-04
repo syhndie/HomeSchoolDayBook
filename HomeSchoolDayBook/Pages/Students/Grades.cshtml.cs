@@ -21,7 +21,7 @@ namespace HomeSchoolDayBook.Pages.Students
 
         public Student Student { get; set; }
 
-        public List<SubjectGrade> SubjectGrades { get; set; }
+        public List<SubjectGradeVM> SubjectGrades { get; set; }
 
         public GradesModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
@@ -51,7 +51,7 @@ namespace HomeSchoolDayBook.Pages.Students
 
             SubjectGrades = Student.Grades
                 .GroupBy(gr => gr.Subject)
-                .Select(x => new SubjectGrade(x.Key, x.Sum(y => y.PointsEarned), x.Sum(y => y.PointsAvailable)))
+                .Select(x => new SubjectGradeVM(x.Key, x.Sum(y => y.PointsEarned), x.Sum(y => y.PointsAvailable)))
                 .ToList();
                 
             return Page();

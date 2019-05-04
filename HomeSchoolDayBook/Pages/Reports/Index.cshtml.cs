@@ -33,7 +33,7 @@ namespace HomeSchoolDayBook.Pages.Reports
         [Display(Name = "Students")]
         public List<CheckBoxVM> StudentCheckBoxes { get; set; }
 
-        public IndexModel(HomeSchoolDayBook.Data.ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
+        public IndexModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
             _userManager = userManager;
             _context = context;

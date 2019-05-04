@@ -1,0 +1,66 @@
+﻿@page
+@model HomeSchoolDayBook.Pages.Grades.GradeSummariesModel
+@section CSS {
+    <link rel="stylesheet" href="~/lib/datepicker/bootstrap-datepicker-standalone.css" />
+    <link rel="stylesheet" href="~/lib/datatables/datatables.min.css" />
+}
+
+@{
+    ViewData["Title"] = "Student Grades";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+<form method="get" class="sidemargins" id="grade-summary-form">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="form-group  col-md-2 col-sm-3 col-xs-5">
+            <label asp-for="StudentID" class="control-label"></label>
+            <select asp-for="StudentID" asp-items="Model.StudentOptions" class="form-control"></select>
+            <span asp-validation-for="StudentID" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-2 col-sm-3 col-xs-5">
+            <label asp-for="FromDate" class="control-label"></label>
+            <input asp-for="FromDate" type="text" class="form-control" />
+            <span asp-validation-for="FromDate" class="text-danger"></span>
+        </div>
+        <div class="form-group  col-md-2 col-sm-3 col-xs-5">
+            <label asp-for="ToDate" class="control-label"></label>
+            <input asp-for="ToDate" type="text" class="form-control" />
+            <span asp-validation-for="ToDate" class="text-danger"></span>
+        </div>
+        <div class="form-group col-xs-2 bottom-aligned">
+            <input type="submit" value="Get Grades" class="btn btn-default" />
+        </div>
+    </div>
+</form>
+<table class="table" id="gradeindex">
+    <thead>
+        <tr>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+</table>
+
+
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="~/lib/datepicker/bootstrap-datepicker.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#FromDate').datepicker({
+                orientation: "bottom"
+            });
+            $('#ToDate').datepicker({
+                orientation: "bottom"
+            });
+        });
+    </script>
+}
+
+
