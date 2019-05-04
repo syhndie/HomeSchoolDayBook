@@ -34,6 +34,7 @@
         </div>
     </div>
 </form>
+<div>
 <table class="table" id="gradeindex">
     <thead>
         <tr>
@@ -71,6 +72,7 @@
         }
     </tbody>
 </table>
+</div>
 
 
 
@@ -78,6 +80,7 @@
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script src="~/lib/datepicker/bootstrap-datepicker.js"></script>
+    <script src="~/lib/datatables/datatables.min.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -87,18 +90,20 @@
             $('#ToDate').datepicker({
                 orientation: "bottom"
             });
-        });
-    </script>
-    
-    <script>
-        $(document).ready(function () {
             $('#gradeindex').DataTable({
                 "language": {
-                    "lengthMenu": "Show _MENU_ subjects"
+                    "lengthMenu": "Show _MENU_ students"
                 },
-                "order": [0, "asc"]
-            })
-        })
+                "order": [[0, "asc"]],
+                columns: [
+                    { data: "name" },
+                    { data: "earned" },
+                    { data: "available" },
+                    { data: "percent"}
+                ]
+            });
+
+        });
     </script>
 }
 
