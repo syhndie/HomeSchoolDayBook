@@ -14,14 +14,16 @@ namespace HomeSchoolDayBook.Models.ViewModels
         public decimal PointsEarned { get; set; }
 
         [Display(Name ="Points Available")]
+        [Range(double.Epsilon, double.MaxValue)]
         public decimal PointsAvailable { get; set; }
 
         [Display(Name = "Percent Earned")]
+        [DisplayFormat(DataFormatString = "{0:P2}")]
         public decimal PercentEarned
         {
             get
             {
-                return 100 * (PointsEarned / PointsAvailable);
+                return PointsEarned / PointsAvailable;
             }
         }
 
