@@ -1,8 +1,122 @@
 ﻿@page
 @model HomeSchoolDayBook.Pages.Grades.GradeListingModel
+@section CSS {
+    <link rel="stylesheet" href="~/lib/datepicker/bootstrap-datepicker-standalone.css" />
+    <link rel="stylesheet" href="~/lib/datatables/datatables.min.css" />
+}
 @{
-    ViewData["Title"] = "GradeListing";
+    ViewData["Title"] = "Grade Listings";
 }
 
-<h2>GradeListing</h2>
+<h2>@ViewData["Title"]</h2>
+<hr />
+<form method="get" class="sidemargins" id="grade-listing-form">
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="form-group col-md-2 col-sm-3 col-xs-5">
+            <label asp-for="StudentID" class="control-label"></label>
+            <select asp-for="StudentID" asp-items="Model.StudentOptions" class="form-control">
+                <option value="">-- Select Student --</option>
+            </select>
+            <span asp-validation-for="StudentID" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-2 col-sm-3 col-xs-5">
+            <label asp-for="SubjectID" class=" control-label"></label>
+            <select asp-for="SubjectID" asp-items="Model.SubjectOptions" class="form-control">
+                <option value="">-- Select Subject --</option>
+            </select>
+            <span asp-validation-for="SubjectID" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-2 col-sm-3 col-xs-5">
+            <label asp-for="FromDate" class="control-label"></label>
+            <input asp-for="FromDate" type="text" class="form-control" />
+            <span asp-validation-for="FromDate" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-2 col-sm-3 col-xs-5">
+            <label asp-for="ToDate" class="control-label"></label>
+            <input asp-for="ToDate" type="text" class="form-control" />
+            <span asp-validation-for="ToDate" class="text-danger"></span>
+        </div> 
+        <div class="form-group col-xs-2 bottom-aligned">
+            <input type="submit" value="Get Grade Listing" class="btn btn-default" /> 
+        </div>
+    </div>
+</form>
+<div>
+    <table class="table" id="gradelisting">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Grades[0].Entry.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Grades[0].Entry.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Grades[0].PointsEarned)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Grades[0].PointsAvailable)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Grades[0].PercentEarned)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Grades)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Entry.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Entry.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PointsEarned)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PointsAvailable)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PercentEarned)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts {
+    @{  await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
+    <script src="~/lib/datepicker/bootstrap-datepicker.js"></script>
+    <script src="~/lib/datatables/datatables.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#FromDate').datepicker({
+                orientation: "bottom"
+            });
+            $('#ToDate').datepicker({
+                orientation: "bottom"
+            });
+            $('#gradelisting').DataTable({
+                "language": {
+                    "lengthMenu": "Show _MENU_ entries"
+                },
+                "columnDefs": [
+                    {
+                        className: "text-right", "targets": [2, 3, 4]
+                    }],
+                columns: [
+                    { data: "date" },
+                    { data: "title" },
+                    { data: "earned" },
+                    { data: "available" },
+                    { data: "percent" }
+                ]
+            });
+        });
+    </script>
+}
