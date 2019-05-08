@@ -1,4 +1,6 @@
-﻿FIX COOKIE POLICY - are cookies being used when the user has not yet accepted cookies?
+﻿
+
+FIX COOKIE POLICY - are cookies being used when the user has not yet accepted cookies?
 
 need more consistent error logging and handling
 
@@ -19,10 +21,7 @@ Need to think about the amount of data that is getting passed to the server when
 	should this be limited by data ranges? some other way?
 
 grades
-	student details 
-		shows total points earned, total points available, and percentage of points earned for each subject
-		you can click on each subject row show break-out rows that list each entry where points were available
-		each break-out row shows entry date, entry title, points earned, points available, percent of points earned, and a link to edit the entry
+	rework responsive design for all grades pages (possibly ALL pages)
 	entries in full report should include grades 
 		and should also mirror the entry details page
 	entries in brief report maybe should include grades
