@@ -52,6 +52,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.SubjectGrades[0].PercentEarned)
                 </th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -70,13 +71,18 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.PercentEarned)
                     </td>
+                    <td>
+                        <a asp-page="./GradeListing" 
+                        asp-route-StudentID="@Model.StudentID" 
+                        asp-route-SubjectID="@item.Subject.ID" 
+                        asp-route-FromDate="@Model.FromDate.Value.ToShortDateString()" 
+                        asp-route-ToDate="@Model.ToDate.Value.ToShortDateString()">View Entry Grades</a>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
-
-
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
