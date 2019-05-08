@@ -104,13 +104,14 @@
                 },
                 "order": [[0, "asc"]],
                 "columnDefs": [
-                    { className: "text-right", "targets": [1,2,3]
+                    { className: "text-right", "targets": [1,2,3,4]
                     }], 
                 columns: [
                     { data: "name" },
                     { data: "earned" },
                     { data: "available" },
-                    { data: "percent"}
+                    { data: "percent" },
+                    { data: "links", "orderable": false}
                 ]
             });
         });
