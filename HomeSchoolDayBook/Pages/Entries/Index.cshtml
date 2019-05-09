@@ -2,6 +2,7 @@
 @model HomeSchoolDayBook.Pages.Entries.IndexModel
 
 @section CSS {
+    <link rel="stylesheet" href="~/lib/datepicker/bootstrap-datepicker-standalone.css" />
     <link rel="stylesheet" href="~/lib/datatables/datatables.min.css" />
 }
 
@@ -9,12 +10,29 @@
     ViewData["Title"] = "My Entries";
 }
 
-<h2>My Entries</h2>
-
+<h2>@ViewData["Title"]</h2>
 <p>
     <a asp-page="Create">Create New Entry</a>
 </p>
 <hr />
+<form method="get" class="sidemargins" id="entries-index-form">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="form-group col-md-2 col-sm-3 col-xs-5">
+            <label asp-for="FromDate" class="control-label"></label>
+            <input asp-for="FromDate" type="text" class="form-control" />
+            <span asp-validation-for="FromDate" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-2 col-sm-3 col-xs-5">
+            <label asp-for="ToDate" class="control-label"></label>
+            <input asp-for="ToDate" type="text" class="form-control" />
+            <span asp-validation-for="ToDate" class="text-danger"></span>
+        </div>
+        <div class="form-group col-xs-2 bottom-aligned">
+            <input type="submit" value="Get Entries" class="btn btn-default" />
+        </div>
+    </div>
+</form>
 <table class="table" id="entryindex">
     <thead>
         <tr>
@@ -71,9 +89,16 @@
 
 @section Scripts {
     <script src="~/lib/datatables/datatables.min.js"></script>
-
+    <script src="~/lib/datepicker/bootstrap-datepicker.js"></script>
+   
     <script>
         $(document).ready(function () {
+            $('#FromDate').datepicker({
+                orientation: "bottom"
+            });
+            $('#ToDate').datepicker({
+                orientation: "bottom"
+            });
             $('#entryindex').DataTable({
                 "order": [[0, "desc"], [1, "asc"]],
                 columns: [

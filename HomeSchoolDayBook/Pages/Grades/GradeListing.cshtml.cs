@@ -86,7 +86,7 @@ namespace HomeSchoolDayBook.Pages.Grades
                 .Where(gr => gr.Entry.Date <= endDate)
                 .Include(gr => gr.Entry)
                 .OrderBy(gr => gr.Entry.Date)
-                .ThenBy(gr => gr.Entry.Title)
+                    .ThenBy(gr => gr.Entry.Title)
                 .ToListAsync();
 
             return Page();
