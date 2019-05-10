@@ -17,9 +17,6 @@ add Admin pages
                     .ToListAsync();
             }
 	
-Need to think about the amount of data that is getting passed to the server when opening MyEntries and clicking the Grades link from MyStudents
-	should this be limited by data ranges? some other way?
-
 Reconsider the links that are on each page - decide which really need to be there and which do not
 
 grades

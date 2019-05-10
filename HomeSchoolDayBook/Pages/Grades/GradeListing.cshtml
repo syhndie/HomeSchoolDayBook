@@ -6,7 +6,7 @@
 }
 @*CLCTODO: change title of this page to something less vague that accurately reflects what is actually on the page, but in a concise way*@
 @{
-    ViewData["Title"] = "Grade Listings";
+    ViewData["Title"] = "Grades for Individual Entries";
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -87,7 +87,7 @@
                     <td>
                         <a asp-page="../Entries/Edit" asp-route-id="@item.Entry.ID">Edit</a> |
                         <a asp-page="../Entries/Details" asp-route-id="@item.Entry.ID">Details</a> |
-                        <a asp-page="../Entries/Delete" asp-route-id="@item.Entry.ID">Delete</a>
+                        <a asp-page="../Entries/Delete" asp-route-id="@item.Entry.ID">Delete the Entry</a>
 
                     </td>
                 </tr>
