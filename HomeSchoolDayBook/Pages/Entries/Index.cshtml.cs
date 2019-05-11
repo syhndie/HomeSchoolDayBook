@@ -6,13 +6,9 @@ using HomeSchoolDayBook.Models;
 using Microsoft.AspNetCore.Identity;
 using HomeSchoolDayBook.Areas.Identity.Data;
 using HomeSchoolDayBook.Data;
-
 using System;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using HomeSchoolDayBook.Models.ViewModels;
 
 namespace HomeSchoolDayBook.Pages.Entries
 {
