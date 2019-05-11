@@ -22,8 +22,6 @@ Reconsider the links that are on each page - decide which really need to be ther
 grades
 	add error handling to all grades pages
 	rework responsive design for all grades pages (possibly ALL pages)
-	entries in full report should include grades 
-		and should also mirror the entry details page
 	entries in brief report maybe should include grades
 	also include a points report - choose date range, subjects, and students
 		for each student, list all subjects chosen

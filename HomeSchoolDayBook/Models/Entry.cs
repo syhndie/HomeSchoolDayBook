@@ -49,8 +49,12 @@ namespace HomeSchoolDayBook.Models
             }
         }
 
+        [Display(Name = "Students")]
         public ICollection<Enrollment> Enrollments { get; set; }
+
+        [Display(Name ="Subjects")]
         public ICollection<SubjectAssignment> SubjectAssignments { get; set; }
+
         public ICollection<Grade> Grades { get; set; }
 
     }
