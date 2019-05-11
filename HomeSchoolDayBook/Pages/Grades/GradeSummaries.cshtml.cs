@@ -25,12 +25,12 @@ namespace HomeSchoolDayBook.Pages.Grades
         [BindProperty (SupportsGet = true)]
         [DataType(DataType.Date)]
         [Display(Name = "From")]
-        public DateTime? FromDate { get; set; }
+        public DateTime FromDate { get; set; }
 
         [BindProperty (SupportsGet = true)]
         [DataType(DataType.Date)]
         [Display(Name ="To")]
-        public DateTime? ToDate { get; set; }
+        public DateTime ToDate { get; set; }
 
         [BindProperty(SupportsGet = true)]
         [Display(Name ="Student")]
