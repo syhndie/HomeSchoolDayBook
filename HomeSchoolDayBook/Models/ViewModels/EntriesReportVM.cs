@@ -56,6 +56,7 @@ namespace HomeSchoolDayBook.Models.ViewModels
                     .ThenInclude(enr => enr.Student)
                 .Include(ent => ent.SubjectAssignments)
                     .ThenInclude(sa => sa.Subject)
+                .Include(ent => ent.Grades)
                 .Where(ent => StartDate <= ent.Date && ent.Date <= EndDate)
                 .Where(ent => ent.Enrollments.Any(enr => studentIntIDs.Contains(enr.StudentID)))
                 .OrderBy(ent => ent.Date)

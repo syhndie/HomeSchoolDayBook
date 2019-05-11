@@ -27,7 +27,54 @@
         }
     }
     <div class="row">
-        <div class="col-xs-12 indented-report">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => entry.Title)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => entry.Title)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => entry.Description)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => entry.Description)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => entry.ComputedTimeSpent)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => entry.ComputedTimeSpent)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => Model.StudentNameLookup)
+            </dt>
+            <dd>
+                @Html.DisplayFor(modelItem => Model.StudentNameLookup[entry.ID])
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => Model.SubjectNameLookup)
+            </dt>
+            <dd>
+                @Html.DisplayFor(modelItem => Model.SubjectNameLookup[entry.ID])
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => entry.Grades)
+            </dt>
+            <dd>
+                @foreach (var grade in entry.Grades)
+                {
+                    @grade.Student.Name@:,&nbsp;
+                    @grade.Subject.Name@::&nbsp;
+                    @grade.PointsEarned@:&nbsp;/
+                    @grade.PointsAvailable<br />
+                }
+            </dd>
+        </dl>
+        
+        
+        
+        @*<div class="col-xs-12 indented-report">
             <p>
                 <strong>@Html.DisplayFor(model => entry.Title):</strong>
                 @Html.DisplayFor(model => entry.Description)
@@ -40,7 +87,16 @@
                 <br />
                 @Html.DisplayNameFor(model => entry.ComputedTimeSpent):
                 @Html.DisplayFor(model => entry.ComputedTimeSpent)
+                <br />
+                @Html.DisplayNameFor(model => entry.Grades):
+                @foreach (var grade in entry.Grades)
+                {
+                    @grade.Student.Name@:,&nbsp;
+                    @grade.Subject.Name@::&nbsp;
+                    @grade.PointsEarned@:&nbsp;/
+                    @grade.PointsAvailable<br />
+                }
             </p>
-        </div>
+        </div>*@
     </div>
 }
