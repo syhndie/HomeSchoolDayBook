@@ -16,13 +16,19 @@ hr {
     background-color:yellow;
     border-color:crimson;
 }
-.dl-horizontal dd {
-    margin-left: 130px;
-}
-.dl-horizontal dt {
-    width: 110px;
+.report-row {
+    break-inside: avoid;
+    page-break-inside: avoid;
 }
 
+/*@page {
+    margin: 10cm;
+}*/
+/*@media print {
+    .body-report{
+        margin-left: 20px;
+    }
+}*/
 /*my own classes*/
 .bottom-aligned {
     vertical-align: bottom;
