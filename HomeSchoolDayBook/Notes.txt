@@ -27,6 +27,7 @@ grades
 		for each student, list all subjects chosen
 		for each subject, list points earned, points available, and percentage of points
 	include grades in data download as well
+	add subject grade page that is accessible by link from My Subjects
 
 	
 	
