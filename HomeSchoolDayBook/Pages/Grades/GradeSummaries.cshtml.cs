@@ -34,7 +34,7 @@ namespace HomeSchoolDayBook.Pages.Grades
 
         [BindProperty(SupportsGet = true)]
         [Display(Name ="Student")]
-        public int? StudentID { get; set; }
+        public int StudentID { get; set; }
 
         public List<SelectListItem> StudentOptions { get; set; }
 

@@ -24,20 +24,20 @@ namespace HomeSchoolDayBook.Pages.Grades
         [BindProperty(SupportsGet = true)]
         [DataType(DataType.Date)]
         [Display(Name = "From")]
-        public DateTime? FromDate { get; set; }
+        public DateTime FromDate { get; set; }
 
         [BindProperty(SupportsGet = true)]
         [DataType(DataType.Date)]
         [Display(Name = "To")]
-        public DateTime? ToDate { get; set; }
+        public DateTime ToDate { get; set; }
 
         [BindProperty(SupportsGet = true)]
         [Display(Name = "Subject")]
-        public int? SubjectID { get; set; }
+        public int SubjectID { get; set; }
 
         [BindProperty(SupportsGet = true)]
         [Display(Name = "Student")]
-        public int? StudentID { get; set; }
+        public int StudentID { get; set; }
 
         public List<SelectListItem> SubjectOptions { get; set; }
 
