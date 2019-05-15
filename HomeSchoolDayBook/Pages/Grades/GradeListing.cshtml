@@ -43,6 +43,19 @@
         </div>
     </div>
 </form>
+<hr />
+@{
+    if (Model.Grades.Count > 0)
+        {
+            <h5>
+                Overall Grade: 
+                @Html.DisplayFor(model => model.OverallPointsEarned) / 
+                @Html.DisplayFor(model => model.OverallPointsAvailable) =
+                @Html.DisplayFor(model => model.OverallPercentEarned)
+            </h5>
+            <hr />
+        }
+}
 <div>
     <table class="table" id="gradelisting">
         <thead>

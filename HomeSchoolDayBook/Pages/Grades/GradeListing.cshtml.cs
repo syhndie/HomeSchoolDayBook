@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using HomeSchoolDayBook.Models;
 using Microsoft.AspNetCore.Identity;
 using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Areas.Identity.Data;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using HomeSchoolDayBook.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace HomeSchoolDayBook.Pages.Grades
@@ -44,6 +42,14 @@ namespace HomeSchoolDayBook.Pages.Grades
         public List<SelectListItem> StudentOptions { get; set; }
 
         public List<Grade> Grades {get; set;}
+
+   
+        public decimal OverallPointsEarned { get; set; }
+
+        public decimal OverallPointsAvailable { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:P2}")]
+        public decimal OverallPercentEarned { get; set; }
 
         public GradeListingModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
@@ -88,6 +94,13 @@ namespace HomeSchoolDayBook.Pages.Grades
                 .OrderBy(gr => gr.Entry.Date)
                     .ThenBy(gr => gr.Entry.Title)
                 .ToListAsync();
+
+            if (Grades.Count > 0)
+            {
+                OverallPointsEarned = Grades.Sum(gr => gr.PointsEarned);
+                OverallPointsAvailable = Grades.Sum(gr => gr.PointsAvailable);
+                OverallPercentEarned = (OverallPointsEarned / OverallPointsAvailable);
+            }
 
             return Page();
         }
