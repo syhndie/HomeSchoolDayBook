@@ -47,12 +47,12 @@
 @{
     if (Model.Grades.Count > 0)
         {
-            <h5>
+            <h5><strong>
                 Overall Grade: 
                 @Html.DisplayFor(model => model.OverallPointsEarned) / 
                 @Html.DisplayFor(model => model.OverallPointsAvailable) =
                 @Html.DisplayFor(model => model.OverallPercentEarned)
-            </h5>
+            </strong></h5>
             <hr />
         }
 }
