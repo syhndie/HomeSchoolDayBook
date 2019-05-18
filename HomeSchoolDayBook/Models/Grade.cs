@@ -13,6 +13,9 @@ namespace HomeSchoolDayBook.Models
         public int ID { get; set; }
 
         [JsonIgnore]
+        public string UserID { get; set; }
+
+        [JsonIgnore]
         public int EntryID { get; set; }
 
         public int StudentID { get; set; }

@@ -86,6 +86,7 @@ namespace HomeSchoolDayBook.Pages.Grades
 
             Grades = await _context
                 .Grades
+                .Where(gr => gr.UserID == userId)
                 .Where(gr => gr.SubjectID == subjectID)
                 .Where(gr => gr.StudentID == studentID)
                 .Where(gr => gr.Entry.Date >= startDate)
