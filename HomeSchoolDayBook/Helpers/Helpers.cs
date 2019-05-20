@@ -9,7 +9,7 @@ namespace HomeSchoolDayBook.Helpers
     public static class Helpers
     {
 
-        public static List<Grade> GetGradesFromFormData(IFormCollection formData, Entry entry, out bool allGradesValid)
+        public static List<Grade> GetGradesFromFormData(IFormCollection formData, Entry entry, string userID, out bool allGradesValid)
         {
             allGradesValid = true;
 
@@ -48,6 +48,7 @@ namespace HomeSchoolDayBook.Helpers
                 {
                     StudentID = studentId,
                     SubjectID = subjectId,
+                    UserID = userID,
                     PointsEarned = earnedValue,
                     PointsAvailable = availableValue,
                     EntryID = entry.ID

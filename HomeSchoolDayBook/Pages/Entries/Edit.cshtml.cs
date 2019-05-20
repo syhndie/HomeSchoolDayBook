@@ -107,7 +107,7 @@ namespace HomeSchoolDayBook.Pages.Entries
                 }
             }
 
-            List<Grade> editedGrades = GetGradesFromFormData(formData, editedEntry, out bool allGradesValid);
+            List<Grade> editedGrades = GetGradesFromFormData(formData, editedEntry, userID, out bool allGradesValid);
 
             editedEntry.Grades = editedGrades;
 

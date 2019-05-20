@@ -73,7 +73,7 @@ namespace HomeSchoolDayBook.Pages.Entries
                 }
             }
 
-            List<Grade> grades = GetGradesFromFormData(formData, newEntry, out bool allGradesValid);
+            List<Grade> grades = GetGradesFromFormData(formData, newEntry, userId, out bool allGradesValid);
 
             newEntry.Grades = grades;
 
