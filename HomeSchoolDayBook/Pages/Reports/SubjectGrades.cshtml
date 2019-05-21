@@ -2,9 +2,35 @@
 @model HomeSchoolDayBook.Pages.Reports.SubjectGradesModel
 
 @{
-    Layout = "_ReportsLayout";
+    Layout = "~/Pages/Reports/_ReportsLayout.cshtml";
     ViewData["Title"] = "Subject Grades";
 }
 
-<h2>@ViewData["Title"]</h2>
+<h3>@ViewData["Title"]</h3>
+<h4>@Html.DisplayFor(model => model.StartDate) to @Html.DisplayFor(model => model.EndDate)</h4>
 
+<hr />
+
+<table class="table" id="grade-table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.StudentGradesBySubject[0].StudentName)</th>
+            <th>@Html.DisplayNameFor(model => model.StudentGradesBySubject[0].SubjectName)</th>
+            <th>@Html.DisplayNameFor(model => model.StudentGradesBySubject[0].PointsEarned)</th>
+            <th>@Html.DisplayNameFor(model => model.StudentGradesBySubject[0].PointsAvailable)</th>
+            <th>@Html.DisplayNameFor(model => model.StudentGradesBySubject[0].PercentEarned)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var studentSubject in Model.StudentGradesBySubject)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => studentSubject.StudentName)</td>
+                <td>@Html.DisplayFor(modelItem => studentSubject.SubjectName)</td>
+                <td>@Html.DisplayFor(modelItem => studentSubject.PointsEarned)</td>
+                <td>@Html.DisplayFor(modelItem => studentSubject.PointsAvailable)</td>
+                <td>@Html.DisplayFor(modelItem => studentSubject.PercentEarned)</td>
+            </tr>
+        }
+    </tbody>
+</table>

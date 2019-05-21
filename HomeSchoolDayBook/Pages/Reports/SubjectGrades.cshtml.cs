@@ -54,7 +54,9 @@ namespace HomeSchoolDayBook.Pages.Reports
                     .Where(gr => gr.Entry.Date <= EndDate)
                     .Where(gr => studentIDList.Contains(gr.StudentID)).ToList()
                     .GroupBy(gr => new { gr.Student, gr.Subject }).ToList()
-                    .Select(x => new StudentSubjectGradeVM(x.Key.Student.Name, x.Key.Subject.Name, x.Sum(y => y.PointsEarned), x.Sum(y => y.PointsAvailable)))                    
+                    .Select(x => new StudentSubjectGradeVM(x.Key.Student.Name, x.Key.Subject.Name, x.Sum(y => y.PointsEarned), x.Sum(y => y.PointsAvailable))) 
+                    .OrderBy(ssg => ssg.StudentName)
+                    .ThenBy(ssg => ssg.SubjectName)
                     .ToList();
             }
         }
