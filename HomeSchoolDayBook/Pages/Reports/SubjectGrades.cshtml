@@ -1,9 +1,9 @@
 ﻿@page
 @model HomeSchoolDayBook.Pages.Reports.SubjectGradesModel
-
+@using System.Text;
 @{
     Layout = "~/Pages/Reports/_ReportsLayout.cshtml";
-    ViewData["Title"] = "Subject Grades";
+    ViewData["Title"] = "Grades";
 }
 
 <h3>@ViewData["Title"]</h3>
@@ -14,23 +14,36 @@
 <table class="table" id="grade-table">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(model => model.StudentGradesBySubject[0].StudentName)</th>
+            <th></th>
             <th>@Html.DisplayNameFor(model => model.StudentGradesBySubject[0].SubjectName)</th>
-            <th>@Html.DisplayNameFor(model => model.StudentGradesBySubject[0].PointsEarned)</th>
-            <th>@Html.DisplayNameFor(model => model.StudentGradesBySubject[0].PointsAvailable)</th>
-            <th>@Html.DisplayNameFor(model => model.StudentGradesBySubject[0].PercentEarned)</th>
+            <th class="text-right">@Html.DisplayNameFor(model => model.StudentGradesBySubject[0].PointsEarned)</th>
+            <th class="text-right">@Html.DisplayNameFor(model => model.StudentGradesBySubject[0].PointsAvailable)</th>
+            <th class="text-right">@Html.DisplayNameFor(model => model.StudentGradesBySubject[0].PercentEarned)</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var studentSubject in Model.StudentGradesBySubject)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => studentSubject.StudentName)</td>
-                <td>@Html.DisplayFor(modelItem => studentSubject.SubjectName)</td>
-                <td>@Html.DisplayFor(modelItem => studentSubject.PointsEarned)</td>
-                <td>@Html.DisplayFor(modelItem => studentSubject.PointsAvailable)</td>
-                <td>@Html.DisplayFor(modelItem => studentSubject.PercentEarned)</td>
-            </tr>
+        @{
+            string previousStudent = "none";
+            foreach (var studentSubject in Model.StudentGradesBySubject)
+            {
+                @:<tr>
+                    if (previousStudent == studentSubject.StudentName)
+                    {
+                        @:<td></td>
+                    }
+                    else
+                    {
+                        @:<td>@Html.DisplayFor(modelItem => studentSubject.StudentName)</td>
+                    }
+
+                    @:<td>@Html.DisplayFor(modelItem => studentSubject.SubjectName)</td>
+                    @:<td class="text-right">@Html.DisplayFor(modelItem => studentSubject.PointsEarned)</td>
+                    @:<td class="text-right">@Html.DisplayFor(modelItem => studentSubject.PointsAvailable)</td>
+                    @:<td class="text-right">@Html.DisplayFor(modelItem => studentSubject.PercentEarned)</td>
+                @:</tr>
+                previousStudent = studentSubject.StudentName;
+
+            }
         }
     </tbody>
 </table>
