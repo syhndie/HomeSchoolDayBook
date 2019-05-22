@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HomeSchoolDayBook.Pages.Grades
 {
-    public class GradeListingModel : BasePageModel
+    public class GradesForEntriesModel : BasePageModel
     {
         private readonly UserManager<HomeSchoolDayBookUser> _userManager;
 
@@ -51,7 +51,7 @@ namespace HomeSchoolDayBook.Pages.Grades
         [DisplayFormat(DataFormatString = "{0:P2}")]
         public decimal OverallPercentEarned { get; set; }
 
-        public GradeListingModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
+        public GradesForEntriesModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
             _context = context;
             _userManager = userManager;

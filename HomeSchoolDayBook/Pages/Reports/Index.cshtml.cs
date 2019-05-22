@@ -20,7 +20,7 @@ namespace HomeSchoolDayBook.Pages.Reports
         private readonly ApplicationDbContext _context;
 
         public readonly List<string> ReportViews = new List<string>
-        { "./Attendance", "./TimeSpentPerDay", "./EntriesInBrief",  "./TimeSpentPerSubject", "./EntriesInFull", "./SubjectGrades"};
+        { "./Attendance", "./TimeSpentPerDay", "./EntriesInBrief",  "./TimeSpentPerSubject", "./EntriesInFull", "./GradesForSubjects"};
 
         [DataType(DataType.Date)]
         [Display(Name ="From")]

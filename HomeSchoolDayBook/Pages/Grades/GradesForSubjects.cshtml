@@ -1,12 +1,12 @@
 ﻿@page
-@model HomeSchoolDayBook.Pages.Grades.GradeSummariesModel
+@model HomeSchoolDayBook.Pages.Grades.GradesForSubjectsModel
 @section CSS {
     <link rel="stylesheet" href="~/lib/datepicker/bootstrap-datepicker-standalone.css" />
     <link rel="stylesheet" href="~/lib/datatables/datatables.min.css" />
 }
 
 @{
-    ViewData["Title"] = "Student Grades";
+    ViewData["Title"] = "Grades";
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -72,7 +72,7 @@
                         @Html.DisplayFor(modelItem => item.PercentEarned)
                     </td>
                     <td>
-                        <a asp-page="./GradeListing" 
+                        <a asp-page="./GradesForEntries" 
                         asp-route-StudentID="@Model.StudentID" 
                         asp-route-SubjectID="@item.Subject.ID" 
                         asp-route-FromDate="@Model.FromDate.ToShortDateString()" 
@@ -83,7 +83,7 @@
         </tbody>
     </table>
 </div>
-
+<a href="~/Models/Entry.cs">~/Models/Entry.cs</a>
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 

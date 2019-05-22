@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HomeSchoolDayBook.Pages.Grades
 {
-    public class GradeSummariesModel : BasePageModel
+    public class GradesForSubjectsModel : BasePageModel
     {
         private readonly UserManager<HomeSchoolDayBookUser> _userManager;
 
@@ -38,7 +38,7 @@ namespace HomeSchoolDayBook.Pages.Grades
 
         public List<SubjectGradeVM> SubjectGrades { get; set; }
 
-        public GradeSummariesModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
+        public GradesForSubjectsModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
             _context = context;
             _userManager = userManager;
