@@ -7,6 +7,7 @@ using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using HomeSchoolDayBook.Areas.Identity.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace HomeSchoolDayBook.Pages.Reports
 {
@@ -21,6 +22,8 @@ namespace HomeSchoolDayBook.Pages.Reports
 
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
+
+        public int TotalDays { get; set; }
 
         public List<AttendanceVM> StudentAttendances { get; set; }
 
@@ -38,15 +41,44 @@ namespace HomeSchoolDayBook.Pages.Reports
 
             EndDate = Convert.ToDateTime(end);
 
+            TotalDays = (int)(EndDate - StartDate).TotalDays + 1;
+
             if (studentIDs == null || studentIDs == "") StudentAttendances = new List<AttendanceVM>();
             else
             {
-                StudentAttendances = studentIDs.Split(',')
+                List<int> studentIDList = studentIDs.Split(',')
                     .Select(Int32.Parse)
-                    .Select(id => new AttendanceVM(_context, id, StartDate, EndDate, userId))
-                    .Where(sa => sa.Student != null)
-                    .OrderBy(sa => sa.Student.Name)
-                    .ToList();                
+                    .ToList();
+
+                List<Student> studentList = _context.Students.
+                    Where(st => st.UserID == userId)
+                    .Where(st => studentIDList.Contains(st.ID))
+                    .ToList();
+
+                List<Enrollment> enrollments = _context.Enrollments
+                    .Include(enr => enr.Entry)
+                    .Include(enr => enr.Student)
+                    .Where(enr => enr.Entry.UserID == userId)
+                    .Where(enr => enr.Entry.Date <= EndDate)
+                    .Where(enr => StartDate <= enr.Entry.Date)
+                    .Where(enr => studentIDList.Contains(enr.StudentID))
+                    .ToList();
+
+                StudentAttendances = enrollments
+                    .Select(enr => new { enr.Student.Name, enr.Entry.Date })
+                    .Distinct()
+                    .ToList()
+                    .GroupBy(a => a.Name)
+                    .Select(x => new AttendanceVM(x.Key, x.Count()))
+                    .ToList();
+
+                foreach (Student student in studentList)
+                {
+                    if (!enrollments.Select(enr => enr.Student).Contains(student))
+                    {
+                        StudentAttendances.Add(new AttendanceVM(student.Name, 0));
+                    }
+                }
             }
         }
     }
