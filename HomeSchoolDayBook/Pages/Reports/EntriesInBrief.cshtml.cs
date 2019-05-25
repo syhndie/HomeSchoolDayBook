@@ -3,6 +3,12 @@ using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using HomeSchoolDayBook.Areas.Identity.Data;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace HomeSchoolDayBook.Pages.Reports
 {
@@ -12,7 +18,15 @@ namespace HomeSchoolDayBook.Pages.Reports
 
         private readonly ApplicationDbContext _context;
 
-        public EntriesReportVM EntriesReportVM {get; set;}
+        [DataType(DataType.Date)]
+        public DateTime StartDate { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime EndDate { get; set; }
+
+        public string ReportStudentNames { get; set; }
+
+        public List<EntriesInBriefVM> EntriesInBriefVMs { get; set; }
 
         public EntriesInBriefModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
@@ -24,7 +38,55 @@ namespace HomeSchoolDayBook.Pages.Reports
         {
             string userId = _userManager.GetUserId(User);
 
-            EntriesReportVM = new EntriesReportVM(start, end, studentIDs, _context, userId);
+            StartDate = Convert.ToDateTime(start);
+
+            EndDate = Convert.ToDateTime(end);
+
+            List<int> studentIntIDs = studentIDs is null || studentIDs == ""
+                ? new List<int>() :
+                studentIDs.Split(',')
+                .Select(Int32.Parse)
+                .ToList();
+
+            var studentNamesList = _context.Students
+                .Where(st => st.UserID == userId)
+                .Where(st => studentIntIDs.Contains(st.ID))
+                .OrderBy(st => st.Name)
+                .Select(st => st.Name)
+                .ToList();
+
+            StringBuilder reportStudentNamesStringBuilder = new  StringBuilder();
+
+            for (int i = 0; i < studentNamesList.Count; i++)
+            {
+                if (i == 0) reportStudentNamesStringBuilder.Append(studentNamesList[i]);
+
+                else if (i == studentNamesList.Count - 1) reportStudentNamesStringBuilder.Append($" and {studentNamesList[i]}");
+
+                else reportStudentNamesStringBuilder.Append($", {studentNamesList[i]}");
+            }
+
+            ReportStudentNames = reportStudentNamesStringBuilder.ToString();
+
+            EntriesInBriefVMs = _context.Entries
+                .Where(ent => ent.UserID == userId)
+                .Where(ent => StartDate <= ent.Date)
+                .Where(ent => ent.Date <= EndDate)
+                .Include(ent => ent.Enrollments)
+                    .ThenInclude(enr => enr.Student)
+                .Include(ent => ent.SubjectAssignments)
+                    .ThenInclude(sa => sa.Subject)
+                .Where(ent => ent.Enrollments.Any(enr => studentIntIDs.Contains(enr.StudentID)))
+                .OrderBy(ent => ent.Date)
+                    .ThenBy(ent => ent.Title)
+                .Select(ent => new EntriesInBriefVM
+                    (
+                        ent.Date, 
+                        ent.Title, 
+                        ent.Enrollments.Select(enr => enr.Student.Name).OrderBy(name => name).ToList(), 
+                        ent.SubjectAssignments.Select(sa => sa.Subject.Name).OrderBy(name => name).ToList())
+                    )
+                .ToList();
         }
     }
 }

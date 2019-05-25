@@ -6,45 +6,45 @@
 }
 
 <h3>Entries In Brief</h3>
-<h4>@Html.DisplayFor(model => model.EntriesReportVM.StartDate) to @Html.DisplayFor(model => model.EntriesReportVM.EndDate)</h4>
-<h4>@Html.DisplayFor(model => model.EntriesReportVM.StudentNames)</h4>
+<h4>@Html.DisplayFor(model => model.StartDate) to @Html.DisplayFor(model => model.EndDate)</h4>
+<h4>@Html.DisplayFor(model => model.ReportStudentNames)</h4>
 
 <hr />
 
 <div class="row table-row">
     <div class="col-xs-1">
-        @Html.DisplayNameFor(model => model.EntriesReportVM.Entries[0].Date)
+        @Html.DisplayNameFor(model => model.EntriesInBriefVMs[0].Date)
     </div>
     <div class="col-xs-5">
-        @Html.DisplayNameFor(model => model.EntriesReportVM.Entries[0].Title)
+        @Html.DisplayNameFor(model => model.EntriesInBriefVMs[0].Title)
     </div>
     <div class="col-xs-3">
-        @Html.DisplayNameFor(model => model.EntriesReportVM.Entries[0].Enrollments.ToList()[0].Student.Name)
+        @Html.DisplayNameFor(model => model.EntriesInBriefVMs[0].StudentNames)
     </div>
     <div class="col-xs-3">
-        @Html.DisplayNameFor(model => model.EntriesReportVM.Entries[0].SubjectAssignments.ToList()[0].Subject.Name)
+        @Html.DisplayNameFor(model => model.EntriesInBriefVMs[0].SubjectNames)
     </div>
 </div>
 
-@foreach (var entry in Model.EntriesReportVM.Entries)
+@foreach (var entry in Model.EntriesInBriefVMs)
 {
     <div class="row table-row">
         <div class="col-xs-1">
-            @Html.DisplayFor(model => entry.Date)
+            @Html.DisplayFor(modelItem => entry.Date)
         </div>
         <div class="col-xs-5">
-            @Html.DisplayFor(model => entry.Title)
+            @Html.DisplayFor(modelItem => entry.Title)
         </div>
         <div class="col-xs-3">
-            @foreach (var enr in entry.Enrollments.OrderBy(enr => enr.Student.Name))
+            @foreach (string studentName in entry.StudentNames)
             {
-                @Html.DisplayFor(model => enr.Student.Name) <br />
+                @Html.DisplayFor(viewmodeltem => studentName) <br />
             }
         </div>
         <div class="col-xs-3">
-            @foreach (var sa in entry.SubjectAssignments.OrderBy(sa => sa.Subject.Name))
+            @foreach (string subjectName in entry.SubjectNames)
             {
-                @Html.DisplayFor(model => sa.Subject.Name) <br />
+                @Html.DisplayFor(viewmodelItem => subjectName) <br />
             }
         </div>
     </div>
