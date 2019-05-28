@@ -13,6 +13,7 @@ using static HomeSchoolDayBook.Helpers.Helpers;
 using System.IO;
 using CsvHelper;
 using System.Text;
+using System.Linq;
 
 namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
 {
@@ -82,13 +83,18 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
 
                 foreach (Entry entry in entries)
                 {
+                    List<string> studentNamesList = entry
+                        .Enrollments
+                        .Select(enr => enr.Student.Name)
+                        .ToList();
+                        
                     var record = new
                     {
                         Date = entry.Date.ToShortDateString(),
                         Title = entry.Title,
                         Description = entry.Description,
                         Minutes = entry.MinutesSpent,
-                        Students = GetStudentNames(entry),
+                        Students = GetStudentNamesString(studentNamesList),
                         Subjects = GetSubjectNames(entry)
                     };
 

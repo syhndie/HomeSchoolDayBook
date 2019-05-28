@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using static HomeSchoolDayBook.Helpers.Helpers;
 
 namespace HomeSchoolDayBook.Pages.Reports
 {
@@ -55,18 +56,7 @@ namespace HomeSchoolDayBook.Pages.Reports
                 .Select(st => st.Name)
                 .ToList();
 
-            StringBuilder reportStudentNamesStringBuilder = new  StringBuilder();
-
-            for (int i = 0; i < studentNamesList.Count; i++)
-            {
-                if (i == 0) reportStudentNamesStringBuilder.Append(studentNamesList[i]);
-
-                else if (i == studentNamesList.Count - 1) reportStudentNamesStringBuilder.Append($" and {studentNamesList[i]}");
-
-                else reportStudentNamesStringBuilder.Append($", {studentNamesList[i]}");
-            }
-
-            ReportStudentNames = reportStudentNamesStringBuilder.ToString();
+            ReportStudentNames = GetStudentNamesString(studentNamesList);
 
             EntriesInBriefVMs = _context.Entries
                 .Where(ent => ent.UserID == userId)

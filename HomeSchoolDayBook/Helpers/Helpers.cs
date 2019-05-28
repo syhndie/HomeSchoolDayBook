@@ -8,7 +8,6 @@ namespace HomeSchoolDayBook.Helpers
 {
     public static class Helpers
     {
-
         public static List<Grade> GetGradesFromFormData(IFormCollection formData, Entry entry, string userID, out bool allGradesValid)
         {
             allGradesValid = true;
@@ -24,7 +23,7 @@ namespace HomeSchoolDayBook.Helpers
                 string[] parts = efn.Split('-');
                 int studentId = int.Parse(parts[2]);
                 int subjectId = int.Parse(parts[4]);
-             
+
                 string afn = string.Join('-', new string[] { "available", parts[1], parts[2], parts[3], parts[4] });
 
                 bool availableIsEmpty = formData[afn] == "" ? true : false;
@@ -33,7 +32,7 @@ namespace HomeSchoolDayBook.Helpers
                 if ((earnedIsEmpty && !availableIsEmpty) || (!earnedIsEmpty && availableIsEmpty)) allGradesValid = false;
 
                 if (!decimal.TryParse(formData[efn], out decimal earnedValue))
-                { 
+                {
                     if (!earnedIsEmpty) allGradesValid = false;
                     continue;
                 }
@@ -60,46 +59,22 @@ namespace HomeSchoolDayBook.Helpers
             return grades;
         }
 
-        public static string GetTimeSpentDisplay(int? totalMinutes)
+        public static string GetStudentNamesString(List<string> studentNamesList)
         {
-            if (totalMinutes == null) return null;
+            studentNamesList.Sort();
 
-            if (totalMinutes == 0) return "0 minutes";
+            StringBuilder reportStudentNamesStringBuilder = new StringBuilder();
 
-            int? hours = totalMinutes / 60;
-            int? minutes = totalMinutes % 60;
-
-            string hoursUnits = hours == 1 ? "hour" : "hours";
-            string minutesUnits = minutes == 1 ? "minute" : "minutes";
-
-            string hoursString = hours == 0  ? "" : $"{hours} {hoursUnits}";
-            string minutesString = minutes == 0 ? "" : $"{minutes} {minutesUnits}";
-
-            return (hoursString == "" || minutesString == "") ? $"{hoursString}{minutesString}" : $"{hoursString}, {minutesString}";
-        }
-
-        public static string GetStudentNames(Entry entry)
-        {
-            List<Enrollment> enrollments = entry.Enrollments.OrderBy(enr => enr.Student.Name).ToList();
-
-            StringBuilder studentNames = new StringBuilder();
-
-            for (int i = 0; i < entry.Enrollments.Count(); i++)
+            for (int i = 0; i < studentNamesList.Count; i++)
             {
-                if (i == 0)
-                {
-                    studentNames.Append(enrollments[i].Student.Name);
-                }
-                else if (i == entry.Enrollments.Count() - 1)
-                {
-                    studentNames.Append($" and {enrollments[i].Student.Name}");
-                }
-                else
-                {
-                    studentNames.Append($", {enrollments[i].Student.Name}");
-                }
+                if (i == 0) reportStudentNamesStringBuilder.Append(studentNamesList[i]);
+
+                else if (i == studentNamesList.Count - 1) reportStudentNamesStringBuilder.Append($" and {studentNamesList[i]}");
+
+                else reportStudentNamesStringBuilder.Append($", {studentNamesList[i]}");
             }
-            return studentNames.ToString();
+
+            return reportStudentNamesStringBuilder.ToString();         
         }
 
         public static string GetSubjectNames(Entry entry)
@@ -127,5 +102,22 @@ namespace HomeSchoolDayBook.Helpers
             return subjectNames.ToString();
         }
 
+        public static string GetTimeSpentDisplay(int? totalMinutes)
+        {
+            if (totalMinutes == null) return null;
+
+            if (totalMinutes == 0) return "0 minutes";
+
+            int? hours = totalMinutes / 60;
+            int? minutes = totalMinutes % 60;
+
+            string hoursUnits = hours == 1 ? "hour" : "hours";
+            string minutesUnits = minutes == 1 ? "minute" : "minutes";
+
+            string hoursString = hours == 0  ? "" : $"{hours} {hoursUnits}";
+            string minutesString = minutes == 0 ? "" : $"{minutes} {minutesUnits}";
+
+            return (hoursString == "" || minutesString == "") ? $"{hoursString}{minutesString}" : $"{hoursString}, {minutesString}";
+        }
     }
 }

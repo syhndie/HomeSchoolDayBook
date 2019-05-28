@@ -6,6 +6,9 @@ using HomeSchoolDayBook.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using HomeSchoolDayBook.Areas.Identity.Data;
 using static HomeSchoolDayBook.Helpers.Helpers;
+using System;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace HomeSchoolDayBook.Pages.Reports
 {
@@ -14,6 +17,16 @@ namespace HomeSchoolDayBook.Pages.Reports
         private readonly UserManager<HomeSchoolDayBookUser> _userManager;
 
         private readonly ApplicationDbContext _context;
+
+        [DataType(DataType.Date)]
+        public DateTime StartDate { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime EndDate { get; set; }
+
+        public string ReportStudentNames { get; set; }
+
+        public List<Entry> Entries { get; set; }
 
         public EntriesReportVM EntriesReportVM { get; set; }
 
@@ -33,13 +46,20 @@ namespace HomeSchoolDayBook.Pages.Reports
         {
             string userId = _userManager.GetUserId(User);
 
+            
+
             EntriesReportVM = new EntriesReportVM(start, end, studentIDs, _context, userId);
 
             StudentNameLookup = new Dictionary<int, string>();
 
             foreach (Entry entry in EntriesReportVM.Entries)
             {
-                string studentNames = GetStudentNames(entry);
+                List<string> studentNameList = entry
+                    .Enrollments
+                    .Select(enr => enr.Student.Name)
+                    .ToList();
+
+                string studentNames = GetStudentNamesString(studentNameList);
 
                 StudentNameLookup.Add(entry.ID, studentNames);
             }
