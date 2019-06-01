@@ -87,6 +87,11 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
                         .Enrollments
                         .Select(enr => enr.Student.Name)
                         .ToList();
+
+                    List<string> subjectNamesList = entry
+                        .SubjectAssignments
+                        .Select(sa => sa.Subject.Name)
+                        .ToList();
                         
                     var record = new
                     {
@@ -94,8 +99,8 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
                         Title = entry.Title,
                         Description = entry.Description,
                         Minutes = entry.MinutesSpent,
-                        Students = GetStudentNamesString(studentNamesList),
-                        Subjects = GetSubjectNames(entry)
+                        Students = GetStringFromList(studentNamesList),
+                        Subjects = GetStringFromList(subjectNamesList)
                     };
 
                     csvWriter.WriteRecord(record);

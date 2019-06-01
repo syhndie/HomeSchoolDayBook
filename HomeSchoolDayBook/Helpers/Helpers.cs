@@ -77,32 +77,6 @@ namespace HomeSchoolDayBook.Helpers
             return stringBuilder.ToString();         
         }
 
-        //delete this
-        public static string GetSubjectNames(Entry entry)
-        {
-            List<SubjectAssignment> subjectAssignments = entry.SubjectAssignments.OrderBy(sa => sa.Subject.Name).ToList();
-
-            StringBuilder subjectNames = new StringBuilder();
-
-            for (int i = 0; i < entry.SubjectAssignments.Count(); i++)
-            {
-                if (i == 0)
-                {
-                    subjectNames.Append(subjectAssignments[i].Subject.Name);
-                }
-                else if (i == entry.SubjectAssignments.Count() - 1)
-                {
-                    subjectNames.Append($" and {subjectAssignments[i].Subject.Name}");
-                }
-                else
-                {
-                    subjectNames.Append($", {subjectAssignments[i].Subject.Name}");
-                }
-            }
-
-            return subjectNames.ToString();
-        }
-
         public static string GetTimeSpentDisplay(int? totalMinutes)
         {
             if (totalMinutes == null) return null;
