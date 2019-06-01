@@ -56,7 +56,7 @@ namespace HomeSchoolDayBook.Pages.Reports
                 .Select(st => st.Name)
                 .ToList();
 
-            ReportStudentNames = GetStudentNamesString(studentNamesList);
+            ReportStudentNames = GetStringFromList(studentNamesList);
 
             EntriesInBriefVMs = _context.Entries
                 .Where(ent => ent.UserID == userId)

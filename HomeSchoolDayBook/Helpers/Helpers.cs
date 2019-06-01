@@ -59,24 +59,25 @@ namespace HomeSchoolDayBook.Helpers
             return grades;
         }
 
-        public static string GetStudentNamesString(List<string> studentNamesList)
+        public static string GetStringFromList(List<string> listOfStrings)
         {
-            studentNamesList.Sort();
+            listOfStrings.Sort();
 
-            StringBuilder reportStudentNamesStringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder();
 
-            for (int i = 0; i < studentNamesList.Count; i++)
+            for (int i = 0; i < listOfStrings.Count; i++)
             {
-                if (i == 0) reportStudentNamesStringBuilder.Append(studentNamesList[i]);
+                if (i == 0) stringBuilder.Append(listOfStrings[i]);
 
-                else if (i == studentNamesList.Count - 1) reportStudentNamesStringBuilder.Append($" and {studentNamesList[i]}");
+                else if (i == listOfStrings.Count - 1) stringBuilder.Append($" and {listOfStrings[i]}");
 
-                else reportStudentNamesStringBuilder.Append($", {studentNamesList[i]}");
+                else stringBuilder.Append($", {listOfStrings[i]}");
             }
 
-            return reportStudentNamesStringBuilder.ToString();         
+            return stringBuilder.ToString();         
         }
 
+        //delete this
         public static string GetSubjectNames(Entry entry)
         {
             List<SubjectAssignment> subjectAssignments = entry.SubjectAssignments.OrderBy(sa => sa.Subject.Name).ToList();

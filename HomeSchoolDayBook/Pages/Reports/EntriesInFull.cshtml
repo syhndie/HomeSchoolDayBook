@@ -8,16 +8,16 @@
 }
 
 <h3>Entries In Full</h3>
-<h4>@Html.DisplayFor(model => model.EntriesReportVM.StartDate) to @Html.DisplayFor(model => model.EntriesReportVM.EndDate)</h4>
-<h4>@Html.DisplayFor(model => model.EntriesReportVM.StudentNames)</h4>
+<h4>@Html.DisplayFor(model => model.StartDate) to @Html.DisplayFor(model => model.EndDate)</h4>
+<h4>@Html.DisplayFor(model => model.ReportStudentNames)</h4>
 
-@foreach (var entry in Model.EntriesReportVM.Entries)
+@foreach (var entry in Model.EntriesInFullVMs)
 {
     @if (entry.Date != lastDisplayedDate)
     {
         <div class="row">
             <div class="col-xs-12">
-                <h5>@Html.DisplayFor(model => entry.Date)</h5>
+                <h5>@Html.DisplayFor(modelItem => entry.Date)</h5>
             </div>
         </div>
         {
@@ -27,19 +27,19 @@
     <div class="row report-row">     
         <div class="col-xs-12 indented-report">
             <p>
-                <strong>@Html.DisplayFor(model => entry.Title):</strong>
-                @Html.DisplayFor(model => entry.Description)
+                <strong>@Html.DisplayFor(modelItem => entry.Title):</strong>
+                @Html.DisplayFor(modelItem => entry.Description)
                 <br />
-                <strong>@Html.DisplayNameFor(model => Model.StudentNameLookup):</strong>
-                @Html.DisplayFor(modelItem => Model.StudentNameLookup[entry.ID])
+                <strong>@Html.DisplayNameFor(modelItem => entry.Students):</strong>
+                @Html.DisplayFor(modelItem => entry.Students)
                 <br />
-                <strong>@Html.DisplayNameFor(model => Model.SubjectNameLookup):</strong>
-                @Html.DisplayFor(modelItem => Model.SubjectNameLookup[entry.ID])
+                <strong>@Html.DisplayNameFor(modelItem => entry.Subjects):</strong>
+                @Html.DisplayFor(modelItem => entry.Subjects)
                 <br />
-                <strong>@Html.DisplayNameFor(model => entry.ComputedTimeSpent):</strong>
-                @Html.DisplayFor(model => entry.ComputedTimeSpent)
+                <strong>@Html.DisplayNameFor(modelItem => entry.ComputedTimeSpent):</strong>
+                @Html.DisplayFor(modelItem => entry.ComputedTimeSpent)
                 <br />
-                <strong>@Html.DisplayNameFor(model => entry.Grades):</strong>
+                <strong>@Html.DisplayNameFor(modelItem => entry.Grades):</strong>
                 <br />
                 @foreach (var grade in entry.Grades)
                 {

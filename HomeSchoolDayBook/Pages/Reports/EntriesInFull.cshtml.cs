@@ -26,16 +26,8 @@ namespace HomeSchoolDayBook.Pages.Reports
 
         public string ReportStudentNames { get; set; }
 
-        public List<Entry> Entries { get; set; }
+        public List<EntriesInFullVM> EntriesInFullVMs { get; set; }
 
-        public EntriesReportVM EntriesReportVM { get; set; }
-
-        [Display(Name = "Students")]
-        public Dictionary<int, string> StudentNameLookup { get; set; }
-
-        [Display(Name = "Subjects")]
-        public Dictionary<int, string> SubjectNameLookup { get; set; }
-        
         public EntriesInFullModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
             _userManager = userManager;
@@ -46,32 +38,58 @@ namespace HomeSchoolDayBook.Pages.Reports
         {
             string userId = _userManager.GetUserId(User);
 
-            
+            StartDate = Convert.ToDateTime(start);
 
-            EntriesReportVM = new EntriesReportVM(start, end, studentIDs, _context, userId);
+            EndDate = Convert.ToDateTime(end);
 
-            StudentNameLookup = new Dictionary<int, string>();
+            List<int> studentIntIDs = studentIDs is null || studentIDs == ""
+                ? new List<int>() :
+                studentIDs.Split(',')
+                .Select(Int32.Parse)
+                .ToList();
 
-            foreach (Entry entry in EntriesReportVM.Entries)
+            List<string> studentNamesList = _context.Students
+                .Where(st => st.UserID == userId)
+                .Where(st => studentIntIDs.Contains(st.ID))
+                .OrderBy(st => st.Name)
+                .Select(st => st.Name)
+                .ToList();
+
+            ReportStudentNames = GetStringFromList(studentNamesList);
+
+            List<Entry> entries = _context.Entries
+                .Where(ent => ent.UserID == userId)
+                .Where(ent => StartDate <= ent.Date)
+                .Where(ent => ent.Date <= EndDate)
+                .Include(ent => ent.Enrollments)
+                    .ThenInclude(enr => enr.Student)
+                .Include(ent => ent.SubjectAssignments)
+                    .ThenInclude(sa => sa.Subject)
+                .Include(ent => ent.Grades)
+                .Where(ent => ent.Enrollments.Any(enr => studentIntIDs.Contains(enr.StudentID)))
+                .OrderBy(ent => ent.Date)
+                    .ThenBy(ent => ent.Title)
+                .ToList();
+
+            EntriesInFullVMs = new List<EntriesInFullVM>();
+
+            foreach (Entry entry in entries)
             {
-                List<string> studentNameList = entry
-                    .Enrollments
-                    .Select(enr => enr.Student.Name)
-                    .ToList();
+                List<string> studentNames = entry.Enrollments.Select(enr => enr.Student.Name).ToList();
+                List<string> subjectNames = entry.SubjectAssignments.Select(sa => sa.Subject.Name).ToList();
 
-                string studentNames = GetStudentNamesString(studentNameList);
-
-                StudentNameLookup.Add(entry.ID, studentNames);
-            }
-
-            SubjectNameLookup = new Dictionary<int, string>();
-
-            foreach (Entry entry in EntriesReportVM.Entries)
-            {
-                string subjectNames = GetSubjectNames(entry);
-
-                SubjectNameLookup.Add(entry.ID, subjectNames);
+                EntriesInFullVMs.Add(new EntriesInFullVM
+                    (
+                        entry.Date,
+                        entry.Title, 
+                        entry.Description, 
+                        GetStringFromList(studentNames), 
+                        GetStringFromList(subjectNames),
+                        entry.ComputedTimeSpent,
+                        entry.Grades.ToList())
+                    );
             }
         }
     }
 }
+ 
