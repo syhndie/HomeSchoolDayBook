@@ -5,34 +5,40 @@
     Layout = "~/Pages/Reports/_ReportsLayout.cshtml";
 }
 
-<h3>Time Spent per Day, All Subjects</h3>
+<h3>@ViewData["Title"]</h3>
 <h4>@Html.DisplayFor(model => model.StartDate) to @Html.DisplayFor(model => model.EndDate) </h4>
 
 <hr />
 
-@foreach (var student in Model.StudentTimeSpents)
-{
-    <div class="row">
-        <div class="col-xs-12">
-            <h4>@student.Student.Name</h4>
-        </div>
-    </div>
+<table class="table" id="time-spent-per-day-table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>@Html.DisplayNameFor(model => model.TimeSpentPerDayVMs[0].FormattedDate)</th>
+            <th>@Html.DisplayNameFor(model => model.TimeSpentPerDayVMs[0].ComputedTimeSpent)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ 
+            string previousStudent = "none";
+            foreach (var timeSpentPerDayVM in Model.TimeSpentPerDayVMs)
+            {
+                @:<tr>
+                    if (previousStudent == timeSpentPerDayVM.StudentName)
+                    {
+                        @:<td></td>
+                    }
+                    else
+                    {
+                        @:<td>@Html.DisplayFor(modelItem => timeSpentPerDayVM.StudentName)</td>
+                    }
 
-    @foreach (var day in student.TimePerDayLookup)
-    {
-        string formattedDate = $"{day.Key.ToShortDateString()} ({day.Key.DayOfWeek})";
+                    @:<td>@Html.DisplayFor(modelItem => timeSpentPerDayVM.FormattedDate)</td>
+                    @:<td>@Html.DisplayFor(modelItem => timeSpentPerDayVM.ComputedTimeSpent)</td>
+                @:</tr>
 
-        string formattedTimeSpent = Helpers.Helpers.GetTimeSpentDisplay(day.Value);
-    
-        <div class="row">
-            <div class="col-xs-7 indented-report">
-                @Html.DisplayFor(modelItem => formattedDate)
-            </div>
-            <div class="col-xs-5">
-                @Html.DisplayFor(modelItem => formattedTimeSpent)
-            </div>
-        </div>
-    }
-
-    <hr />
-}
+                previousStudent = timeSpentPerDayVM.StudentName;
+            }
+        }
+    </tbody>
+</table>

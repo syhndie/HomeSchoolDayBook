@@ -4,30 +4,43 @@ using System.Linq;
 using System.Threading.Tasks;
 using HomeSchoolDayBook.Data;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using static HomeSchoolDayBook.Helpers.Helpers;
 
 namespace HomeSchoolDayBook.Models.ViewModels
 {
     public class TimeSpentPerDayVM
     {
-        public Student Student { get; set; }
+        [Display(Name = "Student")]
+        public string StudentName { get; set; }
 
-        public Dictionary<DateTime, int?> TimePerDayLookup { get; set; }
+        public DateTime Date { get; set; }
 
-        public TimeSpentPerDayVM(ApplicationDbContext context, int studentID, DateTime startDate, DateTime endDate, string userId)
+        [Display(Name = "Date")]
+        public string FormattedDate
         {
-            Student = context.Students
-                .Where(st => st.UserID == userId)
-                .Where(st => st.ID == studentID)
-                .FirstOrDefault();
+            get
+            {
+                return $"{Date.ToShortDateString()} ({Date.DayOfWeek})";
+            }
+        }
+        
+        public int MinutesSpent { get; set; }
 
-            TimePerDayLookup = context.Entries
-                .Where(ent => ent.UserID == userId)
-                .Where(ent => startDate <= ent.Date && ent.Date <= endDate)
-                .Include(ent => ent.Enrollments)
-                .Where(ent => ent.Enrollments.Select(enr => enr.StudentID).Contains(studentID))
-                .Where(ent => ent.MinutesSpent >0)
-                .GroupBy(ent => ent.Date)
-                .ToDictionary(x => x.Key, x => x.Sum(y => y.MinutesSpent));
-         }
+        [Display(Name = "Time Spent")]
+        public string ComputedTimeSpent
+        {
+            get
+            {
+                return GetTimeSpentDisplay(MinutesSpent);
+            }
+        }
+
+        public TimeSpentPerDayVM(string studentName, DateTime date, int minutesSpent)
+        {
+            StudentName = studentName;
+            Date = date;
+            MinutesSpent = minutesSpent;
+        }
     }
 }
