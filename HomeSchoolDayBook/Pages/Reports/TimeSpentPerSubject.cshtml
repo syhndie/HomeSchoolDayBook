@@ -1,36 +1,45 @@
 ﻿@page
 @model HomeSchoolDayBook.Pages.Reports.TimeSpentPerSubjectModel
+
 @{
     ViewData["Title"] = "Time Spent per Subject";
     Layout = "~/Pages/Reports/_ReportsLayout.cshtml";
 }
-<h3>Time Spent per Subject</h3>
+<h3>@ViewData["Title"]</h3>
 <h4>@Html.DisplayFor(model => model.StartDate) to @Html.DisplayFor(model => model.EndDate) </h4>
 
 <hr />
 
-@foreach (var student in Model.StudentTimeSpents)
-{
-    <div class="row">
-        <div class="col-xs-12">
-            <h4>@student.Student.Name</h4>
-        </div>
-    </div>
+<table class="table" id="time-spent-per-subject-table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>@Html.DisplayNameFor(model => model.TimeSpentPerSubjectVMs[0].SubjectName)</th>
+            <th>@Html.DisplayNameFor(model => model.TimeSpentPerSubjectVMs[0].ComputedTimeSpent)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ 
+            string previousStudent = "none";
+            foreach (var studentSubject in Model.TimeSpentPerSubjectVMs)
+            {
 
-    @foreach (var subject in student.TimePerSubjectLookup.OrderBy(d => d.Key.Name))
-    {
-        string formattedSubject = subject.Key.Name;
+                @:<tr>
+                    if (previousStudent == studentSubject.StudentName)
+                    {
+                        @:<td></td>
+                    }
+                    else
+                    {
+                        @:<td>@Html.DisplayFor(modelItem => studentSubject.StudentName)</td>
+                    }
 
-        string formattedTimeSpent = Helpers.Helpers.GetTimeSpentDisplay(subject.Value);
+                    @:<td>@Html.DisplayFor(modelItem => studentSubject.SubjectName)</td>
+                    @:<td>@Html.DisplayFor(modelItem => studentSubject.ComputedTimeSpent)</td>
+                @:</tr>
 
-        <div class="row">
-            <div class="col-xs-7 indented-report">
-                @Html.DisplayFor(modelItem => formattedSubject)
-            </div>
-            <div class="col-xs-5">
-                @Html.DisplayFor(modelItem => formattedTimeSpent)
-            </div>
-        </div>
-    }
-    <hr />
-}
+                previousStudent = studentSubject.StudentName;
+            }
+        }
+    </tbody>
+</table>

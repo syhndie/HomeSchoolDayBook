@@ -4,34 +4,35 @@ using System.Linq;
 using System.Threading.Tasks;
 using HomeSchoolDayBook.Data;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using static HomeSchoolDayBook.Helpers.Helpers;
 
 namespace HomeSchoolDayBook.Models.ViewModels
 {
     public class TimeSpentPerSubjectVM
     {
-        public Student Student { get; set; }
+        [Display(Name = "Student")]
+        public string StudentName { get; set; }
 
-        public Dictionary<Subject, int?> TimePerSubjectLookup { get; set; }
+        [Display(Name = "Subject")]
+        public string SubjectName { get; set; }
 
-        public TimeSpentPerSubjectVM(ApplicationDbContext context, int studentID, DateTime startDate, DateTime endDate, string userID)
+        public int MinutesSpent { get; set; }
+
+        [Display(Name = "Time Spent")]
+        public string ComputedTimeSpent
         {
-            Student = context.Students
-                .Where(st => st.UserID == userID)
-                .Where(st => st.ID == studentID)
-                .FirstOrDefault();
-
-            TimePerSubjectLookup = context.Entries
-                .Include(ent => ent.SubjectAssignments)
-                .ThenInclude(sa => sa.Subject)
-                .Include(ent => ent.Enrollments)
-                .Where(ent => ent.UserID == userID)
-                .Where(ent => startDate <= ent.Date && ent.Date <= endDate)
-                .Where(ent => ent.Enrollments.Select(enr => enr.StudentID).Contains(studentID))
-                .Where(ent => ent.MinutesSpent > 0)
-                .Where(ent => ent.SubjectAssignments != null)
-                .SelectMany(ent => ent.SubjectAssignments.Select(sa => sa.Subject), (ent, sub) => new { sub, ent.MinutesSpent })
-                .GroupBy(a => a.sub)
-                .ToDictionary(x => x.Key, x => x.Sum(y => y.MinutesSpent));
+            get
+            {
+                return GetTimeSpentDisplay(MinutesSpent);
+            }
+        }
+        
+        public TimeSpentPerSubjectVM(string studentName, string subjectName, int minutesSpent)
+        {
+            StudentName = studentName;
+            SubjectName = subjectName;
+            MinutesSpent = minutesSpent;
         }
     }
 }
