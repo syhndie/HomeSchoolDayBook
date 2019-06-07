@@ -22,7 +22,6 @@ Reconsider the links that are on each page - decide which really need to be ther
 grades
 	add error handling to all grades pages
 	rework responsive design for all grades pages (possibly ALL pages)
-	add report of grades for individual entries by subject
 	include grades in data download as well
 	add subject grade page that is accessible by link from My Subjects
 	FIX EntriesInFull Report - it looks like ass when printed

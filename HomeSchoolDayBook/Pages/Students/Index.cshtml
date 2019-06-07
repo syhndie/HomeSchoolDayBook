@@ -41,7 +41,7 @@
                     @if (item.IsActive)
                     {
                         @Html.Raw("| ")
-                        <a asp-page="../Grades/GradeSummaries" asp-route-StudentID="@item.ID">Grades</a>
+                        <a asp-page="../Grades/GradesForSubjects" asp-route-StudentID="@item.ID">Grades</a>
                     }
                 </td>
             </tr>
