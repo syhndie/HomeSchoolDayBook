@@ -39,11 +39,8 @@
                 </td>
                 <td>
                     <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a>  
-                    @if (item.IsActive)
-                    {
-                        @Html.Raw("| ")
-                        <a asp-page="../Grades/SubjectGradeSummary" asp-route-SubjectID="@item.ID">Grades</a>
-                    }
+                    @Html.Raw("| ")
+                    <a asp-page="../Grades/SubjectGradeSummary" asp-route-SubjectID="@item.ID">Grades</a>
                 </td>
             </tr>
         }
