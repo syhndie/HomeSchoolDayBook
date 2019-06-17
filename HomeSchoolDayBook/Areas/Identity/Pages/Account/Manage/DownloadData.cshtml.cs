@@ -20,7 +20,8 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
     public class DownloadDataModel : BasePageModel
     {
         private readonly static string DateStamp = DateTime.Now.ToString("yyyyMMdd");
-        private readonly string FileName = $"HSDBData{DateStamp}.csv";
+        private readonly string EntriesFileName = $"HSDBEntries{DateStamp}.csv";
+        private readonly string GradesFileName = $"HSDBGrades{DateStamp}.csv";
 
         private readonly ApplicationDbContext _context;
         private readonly UserManager<HomeSchoolDayBookUser> _userManager;
@@ -41,7 +42,7 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
 
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostEntriesAsync()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -70,8 +71,9 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
             {
                 var columnHeader = new
                 {
-                    Title = "Title",
+                    ID = "Entry ID",
                     Date = "Date",
+                    Title = "Title",
                     Description = "Description",
                     Minutes = "Minutes Spent",
                     Students = "Students",
@@ -95,6 +97,7 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
                         
                     var record = new
                     {
+                        ID = entry.ID,
                         Date = entry.Date.ToShortDateString(),
                         Title = entry.Title,
                         Description = entry.Description,
@@ -109,7 +112,64 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
             }
 
             var bytes = Encoding.UTF8.GetBytes(stringWriter.ToString());
-            return File(bytes, "application/octet-stream", FileName);
+            return File(bytes, "application/octet-stream", EntriesFileName);
+        }
+
+        public async Task<IActionResult> OnPostGradesAsync()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                DangerMessage = "Unable to load user.";
+                return RedirectToPage();
+            }
+
+            _logger.LogInformation("User with ID '{UserId}' asked for data download.", _userManager.GetUserId(User));
+
+            string userId = _userManager.GetUserId(User);
+
+            List<Grade> grades = await _context.Grades
+               .Where(gr => gr.UserID == userId)
+               .Include(gr => gr.Student)
+               .Include(gr => gr.Subject)
+               .AsNoTracking()
+               .ToListAsync();
+
+            var stringWriter = new StringWriter();
+            var csvWriter = new CsvWriter(stringWriter);
+
+            using (csvWriter)
+            {
+                var columnHeader = new
+                {
+                    ID = "Entry ID",
+                    StudentName = "Student",
+                    SubjectName = "Subject",
+                    PointsEarned = "Points Earned",
+                    PointsAvailable = "Points Available"
+                };
+
+                csvWriter.WriteRecord(columnHeader);
+                csvWriter.NextRecord();
+
+                foreach (Grade grade in grades)
+                {
+                    var record = new
+                    {
+                        ID = grade.EntryID,
+                        StudentName = grade.Student.Name,
+                        SubjectName = grade.Subject.Name,
+                        PointsEarned = grade.PointsEarned,
+                        PointsAvailable = grade.PointsAvailable
+                    };
+
+                    csvWriter.WriteRecord(record);
+                    csvWriter.NextRecord();
+                }
+            }
+
+            var bytes = Encoding.UTF8.GetBytes(stringWriter.ToString());
+            return File(bytes, "application/octet-stream", GradesFileName);
         }
     }
 }

@@ -35,6 +35,10 @@ hr {
     margin-bottom: 0;
     margin-top: 25px;
 }
+.bottom-margins {
+    margin-bottom: 20px;
+}
+
 .notbold {
     font-weight: 400;
 }
