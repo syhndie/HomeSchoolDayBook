@@ -13,7 +13,7 @@ using static HomeSchoolDayBook.Helpers.Helpers;
 using System.IO;
 using CsvHelper;
 using System.Text;
-using System.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
 {
@@ -27,6 +27,16 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<HomeSchoolDayBookUser> _userManager;
         private readonly ILogger<DownloadDataModel> _logger;
 
+        [BindProperty]
+        [DataType(DataType.Date)]
+        [Display(Name = "From")]
+        public DateTime FromDate { get; set; }
+
+        [BindProperty]
+        [DataType(DataType.Date)]
+        [Display(Name = "To")]
+        public DateTime ToDate { get; set; }
+
         public DownloadDataModel(
             ApplicationDbContext context,
             UserManager<HomeSchoolDayBookUser> userManager,
@@ -39,7 +49,8 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
 
         public void OnGet()
         {
-
+            FromDate = DateTime.Today.AddMonths(-1);
+            ToDate = DateTime.Today;
         }
 
         public async Task<IActionResult> OnPostEntriesAsync()
@@ -54,9 +65,14 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
             _logger.LogInformation("User with ID '{UserId}' asked for data download.", _userManager.GetUserId(User));
 
             string userId = _userManager.GetUserId(User);
+
+            DateTime startDate = FromDate <= ToDate ? FromDate : ToDate;
+            DateTime endDate = startDate == FromDate ? ToDate : FromDate;
              
             List<Entry> entries = await _context.Entries
                .Where(ent => ent.UserID == userId)
+               .Where(ent => startDate <= ent.Date)
+               .Where(ent => ent.Date <= endDate)
                .Include(ent => ent.Enrollments)
                    .ThenInclude(enr => enr.Student)
                .Include(ent => ent.SubjectAssignments)
@@ -128,8 +144,13 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
 
             string userId = _userManager.GetUserId(User);
 
+            DateTime startDate = FromDate <= ToDate ? FromDate : ToDate;
+            DateTime endDate = startDate == FromDate ? ToDate : FromDate;
+
             List<Grade> grades = await _context.Grades
                .Where(gr => gr.UserID == userId)
+               .Where(gr => startDate <= gr.Entry.Date)
+               .Where(gr => gr.Entry.Date <= endDate)
                .Include(gr => gr.Student)
                .Include(gr => gr.Subject)
                .AsNoTracking()
