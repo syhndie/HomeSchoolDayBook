@@ -30,6 +30,9 @@ hr {
     }
 }*/
 /*my own classes*/
+.noleftpadding {
+    padding-left: 0;
+}
 .bottom-aligned {
     vertical-align: bottom;
     margin-bottom: 0;
