@@ -57,8 +57,8 @@ namespace HomeSchoolDayBook.Pages.Grades
             SubjectOptions = await _context
                 .Subjects
                 .Where(su => su.UserID == userId)
-                .Where(su => su.IsActive)
-                .OrderBy(su => su.Name)
+                .OrderByDescending(su => su.IsActive)
+                .ThenBy(su => su.Name)
                 .Select(su => new SelectListItem { Value = su.ID.ToString(), Text = su.Name })
                 .ToListAsync();
 

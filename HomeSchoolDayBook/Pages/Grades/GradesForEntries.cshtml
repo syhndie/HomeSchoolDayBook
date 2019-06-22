@@ -43,6 +43,17 @@
         </div>
     </div>
 </form>
+
+<a asp-page="./StudentGradeSummary"
+    asp-route-StudentID="@Model.StudentID" 
+    asp-route-FromDate="@Model.FromDate.ToShortDateString()" 
+    asp-route-ToDate="@Model.ToDate.ToShortDateString()">View All Grades for @Model.StudentName</a>
+<br />
+<a asp-page="./SubjectGradeSummary"
+    asp-route-SubjectID="@Model.SubjectID" 
+    asp-route-FromDate="@Model.FromDate.ToShortDateString()" 
+    asp-route-ToDate="@Model.ToDate.ToShortDateString()">View All Grades for @Model.SubjectName</a>
+
 <hr />
 @{
     if (Model.Grades.Count > 0)

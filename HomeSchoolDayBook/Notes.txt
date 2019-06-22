@@ -17,8 +17,4 @@ add Admin pages
                     .ToListAsync();
             }
 grades
-	add error handling to all grades pages
-	FIX EntriesInFull Report - it looks like ass when printed
 	grades for individual entries page should have a link back to where you came from
-
-add date range to download data form so users can download chunks of their data rather than all or none

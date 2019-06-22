@@ -37,6 +37,10 @@ namespace HomeSchoolDayBook.Pages.Grades
         [Display(Name = "Student")]
         public int StudentID { get; set; }
 
+        public string StudentName { get; set; }
+
+        public string SubjectName { get; set; }
+
         public List<SelectListItem> SubjectOptions { get; set; }
 
         public List<SelectListItem> StudentOptions { get; set; }
@@ -65,21 +69,32 @@ namespace HomeSchoolDayBook.Pages.Grades
 
             if (toDate == null) ToDate = DateTime.Today;
 
-            SubjectOptions = await _context
+            List<Subject> subjectList = await _context
                 .Subjects
                 .Where(su => su.UserID == userId)
                 .OrderByDescending(su => su.IsActive)
                 .ThenBy(su => su.Name)
-                .Select(su => new SelectListItem { Value = su.ID.ToString(), Text = su.Name })
                 .ToListAsync();
 
-            StudentOptions = await _context
+            SubjectOptions = subjectList
+                .Select(su => new SelectListItem { Value = su.ID.ToString(), Text = su.Name })
+                .ToList();
+
+
+            SubjectName = subjectList.FirstOrDefault(su => su.ID == subjectID).Name;
+
+            List<Student> studentList = await _context
                 .Students
                 .Where(st => st.UserID == userId)
-                .Where(st => st.IsActive)
-                .OrderBy(st => st.Name)
-                .Select(st => new SelectListItem { Value = st.ID.ToString(), Text = st.Name })
+                .OrderByDescending(st => st.IsActive)
+                .ThenBy(st => st.Name)
                 .ToListAsync();
+
+            StudentOptions = studentList
+                .Select(st => new SelectListItem { Value = st.ID.ToString(), Text = st.Name })
+                .ToList();
+
+            StudentName = studentList.FirstOrDefault(st => st.ID == studentID).Name;
 
             DateTime startDate = FromDate <= ToDate ? (DateTime)FromDate : (DateTime)ToDate;
             DateTime endDate = startDate == (DateTime)FromDate ? (DateTime)ToDate : (DateTime)FromDate;

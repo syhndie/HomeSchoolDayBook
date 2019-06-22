@@ -55,8 +55,8 @@ namespace HomeSchoolDayBook.Pages.Grades
             StudentOptions = await _context
                 .Students
                 .Where(st => st.UserID == userId)
-                .Where(st => st.IsActive)
-                .OrderBy(st => st.Name)
+                .OrderByDescending(st => st.IsActive)
+                .ThenBy(st => st.Name)
                 .Select(st => new SelectListItem { Value = st.ID.ToString(), Text = st.Name })
                 .ToListAsync();
 
