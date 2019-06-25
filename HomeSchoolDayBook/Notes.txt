@@ -16,5 +16,3 @@ add Admin pages
                 Students = await _context.Students
                     .ToListAsync();
             }
-grades
-	grades for individual entries page should have a link back to where you came from
