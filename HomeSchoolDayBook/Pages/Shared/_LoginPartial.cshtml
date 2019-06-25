@@ -1,13 +1,34 @@
 @using Microsoft.AspNetCore.Identity
 @using HomeSchoolDayBook.Areas.Identity.Data;
+@using  static HomeSchoolDayBook.Helpers.Constants;
+@using System.Linq;
 
 @inject SignInManager<HomeSchoolDayBookUser> SignInManager
 @inject UserManager<HomeSchoolDayBookUser> UserManager
 
 @if (SignInManager.IsSignedIn(User))
-{
+{   
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
+            @if (User.IsInRole(AdminRoleName))
+            {
+
+            <li>
+                <a asp-page="/Admin/Index" title="Admin">Admin Tools</a>
+            </li>
+            }
+
+
+
+
+            @*var adminList = await _userManager.GetUsersInRoleAsync(Constants.AdminRoleName);
+        if (adminList.Select(u => u.Id).Contains(userId))
+        {
+        Students = await _context.Students
+        .ToListAsync();
+        }*@
+
+
             <li>
                 <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Manage Account</a>
             </li>

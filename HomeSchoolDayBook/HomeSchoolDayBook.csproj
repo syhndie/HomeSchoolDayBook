@@ -7,13 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Pages\Admin\**" />
-    <Content Remove="Pages\Admin\**" />
-    <EmbeddedResource Remove="Pages\Admin\**" />
-    <None Remove="Pages\Admin\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Remove="Data\Migrations\20181008202005_test.cs" />
     <Compile Remove="Data\Migrations\20181008202005_test.Designer.cs" />
     <Compile Remove="Data\Migrations\20190105234951_IDentityRoles.cs" />
