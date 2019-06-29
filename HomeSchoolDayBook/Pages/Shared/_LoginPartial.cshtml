@@ -12,22 +12,10 @@
         <ul class="nav navbar-nav navbar-right">
             @if (User.IsInRole(AdminRoleName))
             {
-
-            <li>
-                <a asp-page="/Admin/Index" title="Admin">Admin Tools</a>
-            </li>
+                <li>
+                    <a asp-page="/Admin/Index" title="Admin">Admin Tools</a>
+                </li>
             }
-
-
-
-
-            @*var adminList = await _userManager.GetUsersInRoleAsync(Constants.AdminRoleName);
-        if (adminList.Select(u => u.Id).Contains(userId))
-        {
-        Students = await _context.Students
-        .ToListAsync();
-        }*@
-
 
             <li>
                 <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Manage Account</a>

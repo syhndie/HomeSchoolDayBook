@@ -8,7 +8,8 @@ namespace HomeSchoolDayBook.Helpers
 {
     public static class Constants
     {
-        public static readonly string AdminRoleName = "Admin";
+        
+        public const string AdminRoleName = "Admin";
         public static readonly string AdminName = "admin@homeschooldaybook.com";
     }
 }

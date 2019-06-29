@@ -9,10 +9,3 @@ add Admin pages
 	resend confirmation email
 	delete users and all users data
 	see all data
-	here is some related code:
-            var adminList = await _userManager.GetUsersInRoleAsync(Constants.AdminRoleName);
-            if (adminList.Select(u => u.Id).Contains(userId))
-            {
-                Students = await _context.Students
-                    .ToListAsync();
-            }

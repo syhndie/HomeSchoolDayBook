@@ -1,8 +1,48 @@
 ﻿@page
 @model HomeSchoolDayBook.Pages.Admin.IndexModel
 @{
-    ViewData["Title"] = "Admin Tools";
+    ViewData["Title"] = "All Users";
 }
 
 <h2>@ViewData["Title"]</h2>
+
+<hr />
+
+<table class="table" id="userstable">
+    <thead>
+        <tr>
+            <th></th>
+            <th>@Html.DisplayNameFor(model => model.AllUsers[0].EmailConfirmed)</th>
+            <th>@Html.DisplayNameFor(model => model.AllUsers[0].EmailConfirmsCount)</th>
+            <th>@Html.DisplayNameFor(model => model.AllUsers[0].ForgotPasswordEmailsCount)</th>
+            <th>@Html.DisplayNameFor(Model => Model.AllUsers[0].PendingEmail)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.AllUsers)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => user.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.EmailConfirmed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.EmailConfirmsCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.ForgotPasswordEmailsCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.PendingEmail)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-UserToEditId="@user.Id">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
