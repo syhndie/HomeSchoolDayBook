@@ -10,27 +10,40 @@ using Microsoft.AspNetCore.Identity;
 using HomeSchoolDayBook.Data;
 using Microsoft.AspNetCore.Authorization;
 using static HomeSchoolDayBook.Helpers.Constants;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace HomeSchoolDayBook.Pages.Admin
 {
     [Authorize(Roles = AdminRoleName)]
     public class EditModel : BasePageModel
     {
-        private readonly UserManager<HomeSchoolDayBookUser> _userManager;
-
         private readonly ApplicationDbContext _context;
 
         public HomeSchoolDayBookUser UserToEdit { get; set; }
 
-        public EditModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
+        public EditModel(ApplicationDbContext context)
         {
-            _userManager = userManager;
             _context = context;
         }
 
-        public void OnGet(string userToEditId)
+        public async Task<IActionResult> OnGetAsync(string userToEditId)
         {
-            UserToEdit = _userManager.Users.Single(u => u.Id == userToEditId);
+            UserToEdit = await _context.Users.Where(u => u.Id == userToEditId).FirstOrDefaultAsync();
+
+            if (UserToEdit == null)
+            {
+                DangerMessage = "User not found.";
+
+                return RedirectToPage("./Index");
+            }
+
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync(string userToEditId)
+        {
+            return Page();          
         }
     }
 }

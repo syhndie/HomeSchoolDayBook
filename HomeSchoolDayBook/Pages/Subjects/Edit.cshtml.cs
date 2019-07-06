@@ -40,8 +40,7 @@ namespace HomeSchoolDayBook.Pages.Subjects
                 return RedirectToPage("./Index");
             }
 
-            return Page();
-            
+            return Page();            
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
@@ -64,11 +63,11 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
             if (ModelState.IsValid && modelDidUpdate)
             {
-                List<string> otherUsedNames = _context.Subjects
+                List<string> otherUsedNames = await _context.Subjects
                     .Where(su => su.ID != id)
                     .Where(su => su.UserID == userId)
                     .Select(su => su.Name)
-                    .ToList();
+                    .ToListAsync();
 
                 if (otherUsedNames.Contains(Subject.Name))
                 {
