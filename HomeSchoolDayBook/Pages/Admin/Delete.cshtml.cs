@@ -67,6 +67,13 @@ namespace HomeSchoolDayBook.Pages.Admin
                 return RedirectToPage("./Index");
             }
 
+            if (UserToDelete.UserName == User.Identity.Name)
+            {
+                DangerMessage = "You cannot delete yourself from the application.";
+
+                return RedirectToPage("./Index");
+            }
+
             List<Entry> userEntries = await _context.Entries
                 .Where(ent => ent.UserID == userToDeleteId)
                 .Include(ent => ent.Enrollments)
