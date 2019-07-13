@@ -7,6 +7,7 @@ using HomeSchoolDayBook.Models;
 using Microsoft.AspNetCore.Identity;
 using HomeSchoolDayBook.Areas.Identity.Data;
 using HomeSchoolDayBook.Data;
+using System.ComponentModel.DataAnnotations;
 
 namespace HomeSchoolDayBook.Pages.Subjects
 {
@@ -16,7 +17,12 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
         private readonly UserManager<HomeSchoolDayBookUser> _userManager;
 
-        public Subject Subject { get; set; }
+        [BindProperty]
+        [Required]
+        public string Name { get; set; }
+
+        [BindProperty] 
+        public bool IsActive { get; set; }
 
         public EditModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
@@ -28,17 +34,20 @@ namespace HomeSchoolDayBook.Pages.Subjects
         {
             string userId = _userManager.GetUserId(User);
 
-            Subject = await _context.Subjects
+            Subject subject = await _context.Subjects
                 .Where(su => su.UserID == userId)
                 .Where(su => su.ID == id)
-                .FirstOrDefaultAsync();
+                .SingleOrDefaultAsync();
 
-            if (Subject == null)
+            if (subject == null)
             {
                 DangerMessage = "Subject not found.";
 
                 return RedirectToPage("./Index");
             }
+
+            Name = subject.Name;
+            IsActive = subject.IsActive;
 
             return Page();            
         }
@@ -47,21 +56,22 @@ namespace HomeSchoolDayBook.Pages.Subjects
         {
             string userId = _userManager.GetUserId(User);
 
-            Subject = await _context.Subjects
+            Subject subject = await _context.Subjects
                 .Where(su => su.UserID == userId)
                 .Where(su => su.ID == id)
-                .FirstOrDefaultAsync();
+                .SingleOrDefaultAsync();
 
-            if (Subject == null)
+            if (subject == null)
             {
                 DangerMessage = "Subject not found.";
 
                 return RedirectToPage("./Index");
             }
+ 
+            subject.Name = Name;
+            subject.IsActive = IsActive;           
 
-            bool modelDidUpdate = await TryUpdateModelAsync<Subject>(Subject);
-
-            if (ModelState.IsValid && modelDidUpdate)
+           if (ModelState.IsValid)
             {
                 List<string> otherUsedNames = await _context.Subjects
                     .Where(su => su.ID != id)
@@ -69,7 +79,7 @@ namespace HomeSchoolDayBook.Pages.Subjects
                     .Select(su => su.Name)
                     .ToListAsync();
 
-                if (otherUsedNames.Contains(Subject.Name))
+                if (otherUsedNames.Contains(Name))
                 {
                     DangerMessage = "This Subject name is already used.";
 
@@ -84,6 +94,5 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
             return RedirectToPage();
         }
-
     }
 }
