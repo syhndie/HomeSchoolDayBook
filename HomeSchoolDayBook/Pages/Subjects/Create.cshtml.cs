@@ -6,6 +6,7 @@ using HomeSchoolDayBook.Models;
 using Microsoft.AspNetCore.Identity;
 using HomeSchoolDayBook.Areas.Identity.Data;
 using HomeSchoolDayBook.Data;
+using System.ComponentModel.DataAnnotations;
 
 namespace HomeSchoolDayBook.Pages.Subjects
 {
@@ -15,8 +16,12 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
         private readonly ApplicationDbContext _context;
 
-        public Subject Subject { get; set; }
+        [BindProperty]
+        [Required]
+        public string Name { get; set; }
 
+        [BindProperty]
+        public bool IsActive { get; set; }
 
         public CreateModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
@@ -33,28 +38,27 @@ namespace HomeSchoolDayBook.Pages.Subjects
         {
             string userId = _userManager.GetUserId(User);
 
-            Subject = new Subject
+            Subject subject = new Subject
             {
-                UserID = userId
+                UserID = userId, Name = Name, IsActive = IsActive
             };
+            
 
-            bool modelDidUpdate = await TryUpdateModelAsync<Subject>(Subject);
-
-            if (ModelState.IsValid && modelDidUpdate)
+            if (ModelState.IsValid)
             {
                 List<string> usedNames = _context.Subjects
                     .Where(su => su.UserID == userId)
                     .Select(s => s.Name)
                     .ToList();
 
-                if (usedNames.Contains(Subject.Name))
+                if (usedNames.Contains(Name))
                 {
                     DangerMessage = "This Subject name is already used.";
 
                     return RedirectToPage();
                 }
 
-                _context.Subjects.Add(Subject);
+                _context.Subjects.Add(subject);
 
                 await _context.SaveChangesAsync();
 
