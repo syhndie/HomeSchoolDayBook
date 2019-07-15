@@ -6,6 +6,8 @@ using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using HomeSchoolDayBook.Areas.Identity.Data;
 using HomeSchoolDayBook.Data;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace HomeSchoolDayBook.Pages.Students
 {
@@ -15,7 +17,14 @@ namespace HomeSchoolDayBook.Pages.Students
 
         private readonly ApplicationDbContext _context;
 
-        public Student Student { get; set; }
+        [BindProperty]
+        [Required]
+        public string Name { get; set; }
+
+        [BindProperty]
+        [Display(Name = "Active")]
+        [DefaultValue(true)]
+        public bool IsActive { get; set; }
     
         public CreateModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
@@ -25,34 +34,32 @@ namespace HomeSchoolDayBook.Pages.Students
 
         public void OnGet()
         {
-
+            IsActive = true;
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
             string userId = _userManager.GetUserId(User);
 
-            Student = new Student
+            Student student = new Student
             {
-                UserID = userId
+                UserID = userId, Name = Name, IsActive = IsActive
             };
 
-            bool modelDidUpdate = await TryUpdateModelAsync<Student>(Student);
-
-            if (ModelState.IsValid && modelDidUpdate) 
+            if (ModelState.IsValid) 
             {
                 List<string> usedNames = _context.Students
                     .Where(st => st.UserID == userId)
                     .Select(st => st.Name)
                     .ToList();
 
-                if (usedNames.Contains(Student.Name))
+                if (usedNames.Contains(Name))
                 {
                     DangerMessage = "This Student name is already used.";
 
                     return RedirectToPage();
                 }
-                _context.Students.Add(Student);
+                _context.Students.Add(student);
 
                 await _context.SaveChangesAsync();
 

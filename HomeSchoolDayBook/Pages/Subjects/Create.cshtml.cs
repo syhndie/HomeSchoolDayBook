@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using HomeSchoolDayBook.Areas.Identity.Data;
 using HomeSchoolDayBook.Data;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace HomeSchoolDayBook.Pages.Subjects
 {
@@ -21,6 +22,8 @@ namespace HomeSchoolDayBook.Pages.Subjects
         public string Name { get; set; }
 
         [BindProperty]
+        [Display(Name = "Active")]
+        [DefaultValue(true)]
         public bool IsActive { get; set; }
 
         public CreateModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
@@ -31,7 +34,7 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
         public void OnGet()
         {
-
+            IsActive = true;
         }
 
         public async Task<IActionResult> OnPostAsync()

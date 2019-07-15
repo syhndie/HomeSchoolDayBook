@@ -22,6 +22,7 @@ namespace HomeSchoolDayBook.Pages.Students
         public string Name { get; set; }
 
         [BindProperty]
+        [Display(Name = "Active")]
         public bool IsActive { get; set; }
 
         public EditModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
