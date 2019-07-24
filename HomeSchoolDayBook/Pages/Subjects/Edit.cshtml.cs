@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HomeSchoolDayBook.Models;
+using HomeSchoolDayBook.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using HomeSchoolDayBook.Areas.Identity.Data;
 using HomeSchoolDayBook.Data;
@@ -16,7 +17,7 @@ namespace HomeSchoolDayBook.Pages.Subjects
 
         private readonly UserManager<HomeSchoolDayBookUser> _userManager;
 
-        public Subject Subject { get; set; }
+        public StudentOrSubjectEditOrCreate SubjectVM { get; set; }
 
         public EditModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
@@ -28,17 +29,23 @@ namespace HomeSchoolDayBook.Pages.Subjects
         {
             string userId = _userManager.GetUserId(User);
 
-            Subject = await _context.Subjects
+            Subject subjectToEdit = await _context.Subjects
                 .Where(su => su.UserID == userId)
                 .Where(su => su.ID == id)
-                .FirstOrDefaultAsync();
+                .SingleOrDefaultAsync();
 
-            if (Subject == null)
+            if (subjectToEdit == null)
             {
                 DangerMessage = "Subject not found.";
 
                 return RedirectToPage("./Index");
             }
+
+            SubjectVM = new StudentOrSubjectEditOrCreate()
+            {
+                Name = subjectToEdit.Name,
+                IsActive = subjectToEdit.IsActive
+            };
 
             return Page();            
         }
@@ -47,19 +54,21 @@ namespace HomeSchoolDayBook.Pages.Subjects
         {
             string userId = _userManager.GetUserId(User);
 
-            Subject = await _context.Subjects
+            Subject subjectToEdit = await _context.Subjects
                 .Where(su => su.UserID == userId)
                 .Where(su => su.ID == id)
-                .FirstOrDefaultAsync();
+                .SingleOrDefaultAsync();
 
-            if (Subject == null)
+            if (subjectToEdit == null)
             {
                 DangerMessage = "Subject not found.";
 
                 return RedirectToPage("./Index");
             }
 
-            bool modelDidUpdate = await TryUpdateModelAsync<Subject>(Subject);
+            SubjectVM = new StudentOrSubjectEditOrCreate();
+
+            bool modelDidUpdate = await TryUpdateModelAsync<StudentOrSubjectEditOrCreate>(SubjectVM);
 
             if (ModelState.IsValid && modelDidUpdate)
             {
@@ -69,12 +78,15 @@ namespace HomeSchoolDayBook.Pages.Subjects
                     .Select(su => su.Name)
                     .ToListAsync();
 
-                if (otherUsedNames.Contains(Subject.Name))
+                if (otherUsedNames.Contains(SubjectVM.Name))
                 {
                     DangerMessage = "This Subject name is already used.";
 
                     return RedirectToPage();
                 }
+
+                subjectToEdit.Name = SubjectVM.Name;
+                subjectToEdit.IsActive = SubjectVM.IsActive;
 
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
