@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HomeSchoolDayBook.Data;
 using HomeSchoolDayBook.Models;
+using HomeSchoolDayBook.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using HomeSchoolDayBook.Areas.Identity.Data;
 
@@ -16,7 +17,7 @@ namespace HomeSchoolDayBook.Pages.Students
 
         private readonly UserManager<HomeSchoolDayBookUser> _userManager;
 
-        public Student Student { get; set; }
+        public StudentOrSubjectEditOrCreate StudentVM { get; set; }
 
         public EditModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
@@ -28,17 +29,23 @@ namespace HomeSchoolDayBook.Pages.Students
         {
             string userId = _userManager.GetUserId(User);
 
-            Student = await _context.Students
+            Student studentToEdit = await _context.Students
                 .Where(st => st.UserID == userId)
                 .Where(st => st.ID == id)
-                .FirstOrDefaultAsync();
+                .SingleOrDefaultAsync();
 
-            if (Student == null)
+            if (studentToEdit == null)
             {
                 DangerMessage = "Student not found.";
 
                 return RedirectToPage("./Index");
             }
+
+            StudentVM = new StudentOrSubjectEditOrCreate
+            {
+                Name = studentToEdit.Name,
+                IsActive = studentToEdit.IsActive
+            };
 
             return Page();
         }
@@ -47,19 +54,21 @@ namespace HomeSchoolDayBook.Pages.Students
         {
             string userId = _userManager.GetUserId(User);
 
-            Student = await _context.Students
+            Student studentToEdit = await _context.Students
                 .Where(st => st.UserID == userId)
                 .Where(st => st.ID == id)
-                .FirstOrDefaultAsync();
+                .SingleOrDefaultAsync();
 
-            if (Student == null)
+            if (studentToEdit == null)
             {
                 DangerMessage = "Student not found.";
 
                 return RedirectToPage("./Index");
             }
 
-            bool modelDidUpdate = await TryUpdateModelAsync<Student>(Student);
+            StudentVM = new StudentOrSubjectEditOrCreate();
+
+            bool modelDidUpdate = await TryUpdateModelAsync<StudentOrSubjectEditOrCreate>(StudentVM);
 
             if (ModelState.IsValid && modelDidUpdate)
             {
@@ -69,12 +78,15 @@ namespace HomeSchoolDayBook.Pages.Students
                     .Select(st=> st.Name)
                     .ToList();
 
-                if (otherUsedNames.Contains(Student.Name))
+                if (otherUsedNames.Contains(StudentVM.Name))
                 {
                     DangerMessage = "This Student name is already used.";
 
                     return RedirectToPage();
                 }
+
+                studentToEdit.Name = StudentVM.Name;
+                studentToEdit.IsActive = StudentVM.IsActive;
 
                 await _context.SaveChangesAsync();
 

@@ -1,4 +1,5 @@
 ﻿using HomeSchoolDayBook.Models;
+using HomeSchoolDayBook.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace HomeSchoolDayBook.Pages.Students
 
         private readonly ApplicationDbContext _context;
 
-        public Student Student { get; set; }
+        public StudentOrSubjectEditOrCreate StudentVM { get; set; }
     
         public CreateModel(ApplicationDbContext context, UserManager<HomeSchoolDayBookUser> userManager)
         {
@@ -32,12 +33,9 @@ namespace HomeSchoolDayBook.Pages.Students
         {
             string userId = _userManager.GetUserId(User);
 
-            Student = new Student
-            {
-                UserID = userId
-            };
+            StudentVM = new StudentOrSubjectEditOrCreate();
 
-            bool modelDidUpdate = await TryUpdateModelAsync<Student>(Student);
+            bool modelDidUpdate = await TryUpdateModelAsync<StudentOrSubjectEditOrCreate>(StudentVM);
 
             if (ModelState.IsValid && modelDidUpdate) 
             {
@@ -46,13 +44,21 @@ namespace HomeSchoolDayBook.Pages.Students
                     .Select(st => st.Name)
                     .ToList();
 
-                if (usedNames.Contains(Student.Name))
+                if (usedNames.Contains(StudentVM.Name))
                 {
                     DangerMessage = "This Student name is already used.";
 
                     return RedirectToPage();
                 }
-                _context.Students.Add(Student);
+
+                Student newStudent = new Student
+                {
+                    UserID = userId,
+                    Name = StudentVM.Name,
+                    IsActive = StudentVM.IsActive
+                };
+
+                _context.Students.Add(newStudent);
 
                 await _context.SaveChangesAsync();
 
