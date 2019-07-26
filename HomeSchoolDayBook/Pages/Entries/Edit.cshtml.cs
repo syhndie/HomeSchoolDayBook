@@ -42,7 +42,7 @@ namespace HomeSchoolDayBook.Pages.Entries
                 .Include(ent => ent.Grades)
                 .Where(ent => ent.UserID == userId)
                 .Where(ent => ent.ID == id)
-                .FirstOrDefaultAsync();            
+                .SingleOrDefaultAsync();            
 
             if (entry == null)
             {
@@ -57,10 +57,20 @@ namespace HomeSchoolDayBook.Pages.Entries
         }
 
         public async Task<IActionResult> OnPostAsync(int? id, string[] selectedSubjects, string[] selectedStudents)
-        {
+        {           
             var formData = Request.Form;
 
             string userID = _userManager.GetUserId(User);
+
+            EntryCreateEditVM = new EntryCreateEditVM();
+
+            bool modelDidUpdate = await TryUpdateModelAsync<EntryCreateEditVM>(EntryCreateEditVM);
+            
+            if (!modelDidUpdate)
+            {
+                DangerMessage = "Changes did not save correctly. Please try again.";
+                return RedirectToPage();
+            }
 
             Entry editedEntry = await _context.Entries
                 .Include(ent => ent.SubjectAssignments)
@@ -70,7 +80,7 @@ namespace HomeSchoolDayBook.Pages.Entries
                 .Include(ent => ent.Grades)
                 .Where(ent => ent.UserID == userID)
                 .Where(ent => ent.ID == id)
-                .FirstOrDefaultAsync();
+                .SingleOrDefaultAsync();
 
             if (editedEntry == null)
             {
@@ -78,6 +88,16 @@ namespace HomeSchoolDayBook.Pages.Entries
 
                 return RedirectToPage("./Index");
             }
+
+            editedEntry.Title = EntryCreateEditVM.Title;
+            editedEntry.Date = EntryCreateEditVM.Date;
+            editedEntry.Description = EntryCreateEditVM.Description;
+
+            if (EntryCreateEditVM.Hours == null && EntryCreateEditVM.Minutes == null)
+            {
+                editedEntry.MinutesSpent = null;
+            }
+            else editedEntry.MinutesSpent = ((EntryCreateEditVM.Hours ?? 0) * 60) + (EntryCreateEditVM.Minutes ?? 0);
 
             editedEntry.SubjectAssignments = new List<SubjectAssignment>();
             
@@ -111,24 +131,11 @@ namespace HomeSchoolDayBook.Pages.Entries
 
             editedEntry.Grades = editedGrades;
 
-            EntryCreateEditVM = new EntryCreateEditVM(editedEntry, _context, userID);
+            await _context.SaveChangesAsync();
 
-            bool modelDidUpdate = await TryUpdateModelAsync<EntryCreateEditVM>(EntryCreateEditVM);
+            if (!allGradesValid) DangerMessage = "At least one grade was not entered correctly and was not saved.";
 
-            EntryCreateEditVM.Entry.MinutesSpent = EntryCreateEditVM.EnteredTotalMinutes;
-
-            if (ModelState.IsValid && modelDidUpdate)
-            {
-                await _context.SaveChangesAsync();
-
-                if (!allGradesValid) DangerMessage = "At least one grade was not entered correctly and was not saved.";
-
-                return RedirectToPage("./Index");
-            }
-
-            DangerMessage = "Changes did not save correctly. Please try again.";
-
-            return RedirectToPage();
+            return RedirectToPage("./Index");
         }
     }
 }

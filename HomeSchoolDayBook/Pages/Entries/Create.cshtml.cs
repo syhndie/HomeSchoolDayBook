@@ -79,20 +79,20 @@ namespace HomeSchoolDayBook.Pages.Entries
 
             EntryCreateEditVM = new EntryCreateEditVM(newEntry, _context, userId);
 
-            bool modelDidUpdate = await TryUpdateModelAsync<EntryCreateEditVM>(EntryCreateEditVM);
+            //bool modelDidUpdate = await TryUpdateModelAsync<EntryCreateEditVM>(EntryCreateEditVM);
 
-            EntryCreateEditVM.Entry.MinutesSpent = EntryCreateEditVM.EnteredTotalMinutes;
+            //EntryCreateEditVM.Entry.MinutesSpent = EntryCreateEditVM.EnteredTotalMinutes;
 
-            if (ModelState.IsValid && modelDidUpdate)
-            {
-                _context.Entries.Add(EntryCreateEditVM.Entry);
+            //if (ModelState.IsValid && modelDidUpdate)
+            //{
+            //    _context.Entries.Add(EntryCreateEditVM.Entry);
 
-                await _context.SaveChangesAsync();
+            //    await _context.SaveChangesAsync();
 
-                if (!allGradesValid) DangerMessage = "At least one grade was not entered correctly and was not saved.";
+            //    if (!allGradesValid) DangerMessage = "At least one grade was not entered correctly and was not saved.";
 
-                return RedirectToPage("./Index");
-            }
+            //    return RedirectToPage("./Index");
+            //}
 
             DangerMessage = "New Entry did not save correctly. Please try again.";
 
