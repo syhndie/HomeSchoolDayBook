@@ -11,29 +11,19 @@ namespace HomeSchoolDayBook.Models.ViewModels
 {
     public class EntryCreateEditVM
     {
-        public Entry Entry { get; set; }
+        [Required]
+        public string Title { get; set; }
 
-        public string NoStudentsMessage { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime Date { get; set; }
 
-        public string NoSubjectsMessage { get; set; }
+        public string Description { get; set; }
 
-        [Display(Name = "Hours")]
-        [Range(0, 24, ErrorMessage ="Hours must be positive and less than 24.")]
-        public double? EnteredHours { get; set; }
+        [Range(0, 24, ErrorMessage = "Hours must be positive and less than 24.")]
+        public int? Hours { get; set; }
 
-        [Display(Name = "Minutes")]
-        [Range(0, 1440, ErrorMessage ="Minutes must be positive and less than 1440")]
-        public double? EnteredMinutes { get; set; }
-
-        public int? EnteredTotalMinutes
-        {
-            get
-            {
-                if (EnteredHours == null && EnteredMinutes == null) return null;
-
-                return (int)(((EnteredHours ?? 0) * 60) + (EnteredMinutes ?? 0));
-            }
-        }
+        [Range(0, 1440, ErrorMessage = "Minutes must be positive and less than 1440")]
+        public int? Minutes { get; set; }
 
         [Display(Name = "Subjects")]
         public List<CheckBoxVM> SubjectCheckBoxes { get; set; }
@@ -41,17 +31,33 @@ namespace HomeSchoolDayBook.Models.ViewModels
         [Display(Name = "Students")]
         public List<CheckBoxVM> StudentCheckBoxes { get; set; }
 
+        public string NoSubjectsMessage
+        {
+            get
+            {
+                if (SubjectCheckBoxes != null && SubjectCheckBoxes.Count == 0) return "You have no active subjects.";
+                return "";
+            }
+        }
+
+        public string NoStudentsMessage
+        {
+            get
+            {
+                if (StudentCheckBoxes != null && StudentCheckBoxes.Count == 0) return "You have no active students.";
+                return "";
+            }
+        }
+
         public string GradesJSON { get; set; }
 
+        public EntryCreateEditVM()
+        {
+
+        }
         //constructor for Create OnGet
         public EntryCreateEditVM (ApplicationDbContext context, string userId )
         {
-            Entry = new Entry
-            {
-                Date = DateTime.Today,
-                UserID = userId
-            };
-
             SubjectCheckBoxes = context
                 .Subjects
                 .Where(su => su.UserID == userId)
@@ -59,11 +65,6 @@ namespace HomeSchoolDayBook.Models.ViewModels
                 .OrderBy(su => su.Name)
                 .Select(su => new CheckBoxVM(su.ID, su.Name, false ))
                 .ToList();
-
-            if (SubjectCheckBoxes.Count == 0)
-            {
-                NoSubjectsMessage = "You have no saved Subjects.";
-            }
 
             StudentCheckBoxes = context
                 .Students
@@ -73,22 +74,19 @@ namespace HomeSchoolDayBook.Models.ViewModels
                 .Select(st => new CheckBoxVM(st.ID, st.Name, false))
                 .ToList();
 
-            if (StudentCheckBoxes.Count == 0)
-            {
-                NoStudentsMessage = "You have no saved Students.";
-            }
-
             GradesJSON = "{}";
         }
 
-        //constructor for Create OnPost, and Edit
+        //constructor for Edit OnGet
         public EntryCreateEditVM (Entry entry, ApplicationDbContext context, string userId)
         {
-            Entry = entry;
-            EnteredHours = entry.ComputedHours;
-            EnteredMinutes = entry.ComputedMinutes;
+            Title = entry.Title;
+            Date = entry.Date;
+            Description = entry.Description;
+            Hours = entry.MinutesSpent / 60;
+            Minutes = entry.MinutesSpent % 60;
 
-            HashSet<int> entrySubjectIDs = entry
+        HashSet<int> entrySubjectIDs = entry
                 .SubjectAssignments
                 .Select(sa => sa.SubjectID)
                 .ToHashSet();
