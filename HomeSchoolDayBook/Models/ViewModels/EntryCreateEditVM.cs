@@ -58,6 +58,8 @@ namespace HomeSchoolDayBook.Models.ViewModels
         //constructor for Create OnGet
         public EntryCreateEditVM (ApplicationDbContext context, string userId )
         {
+            Date = DateTime.Today;
+
             SubjectCheckBoxes = context
                 .Subjects
                 .Where(su => su.UserID == userId)

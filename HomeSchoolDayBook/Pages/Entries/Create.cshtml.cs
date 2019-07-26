@@ -41,11 +41,31 @@ namespace HomeSchoolDayBook.Pages.Entries
 
             string userId = _userManager.GetUserId(User);
 
+            EntryCreateEditVM = new EntryCreateEditVM();
+
+            bool modelDidUpdate = await TryUpdateModelAsync<EntryCreateEditVM>(EntryCreateEditVM);
+
+            if (!modelDidUpdate)
+            {
+                DangerMessage = "Changes did not save correctly. Please try again.";
+                return RedirectToPage();
+            }
+
             Entry newEntry = new Entry
             {
                 UserID = userId,
-                SubjectAssignments = new List<SubjectAssignment>()
+                Title = EntryCreateEditVM.Title,
+                Date = EntryCreateEditVM.Date,
+                Description = EntryCreateEditVM.Description
             };
+
+            if (EntryCreateEditVM.Hours == null && EntryCreateEditVM.Minutes == null)
+            {
+                newEntry.MinutesSpent = null;
+            }
+            else newEntry.MinutesSpent = ((EntryCreateEditVM.Hours ?? 0) * 60) + (EntryCreateEditVM.Minutes ?? 0);
+
+            newEntry.SubjectAssignments = new List<SubjectAssignment>();
 
             foreach (Subject subject in _context.Subjects.Where(su =>su.UserID == userId))
             {
@@ -76,27 +96,14 @@ namespace HomeSchoolDayBook.Pages.Entries
             List<Grade> grades = GetGradesFromFormData(formData, newEntry, userId, out bool allGradesValid);
 
             newEntry.Grades = grades;
+            
+            _context.Entries.Add(newEntry);
 
-            EntryCreateEditVM = new EntryCreateEditVM(newEntry, _context, userId);
+            await _context.SaveChangesAsync();
 
-            //bool modelDidUpdate = await TryUpdateModelAsync<EntryCreateEditVM>(EntryCreateEditVM);
+            if (!allGradesValid) DangerMessage = "At least one grade was not entered correctly and was not saved.";
 
-            //EntryCreateEditVM.Entry.MinutesSpent = EntryCreateEditVM.EnteredTotalMinutes;
-
-            //if (ModelState.IsValid && modelDidUpdate)
-            //{
-            //    _context.Entries.Add(EntryCreateEditVM.Entry);
-
-            //    await _context.SaveChangesAsync();
-
-            //    if (!allGradesValid) DangerMessage = "At least one grade was not entered correctly and was not saved.";
-
-            //    return RedirectToPage("./Index");
-            //}
-
-            DangerMessage = "New Entry did not save correctly. Please try again.";
-
-            return RedirectToPage();
+            return RedirectToPage("./Index");
         }
     }
 }
