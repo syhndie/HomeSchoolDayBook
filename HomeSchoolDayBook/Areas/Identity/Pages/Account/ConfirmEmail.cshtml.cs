@@ -38,6 +38,8 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
                 DangerMessage = $"Error confirming email for user with ID '{userId}'.";
                 return RedirectToPage("./Index");
             }
+            user.EmailConfirmsCount = 0;
+            await _userManager.UpdateAsync(user);
 
             return Page();
         }
