@@ -10,8 +10,6 @@ namespace HomeSchoolDayBook.Areas.Identity.Data
     // Add profile data for application users by adding properties to the HomeSchoolDayBookUser class
     public class HomeSchoolDayBookUser : IdentityUser
     {
-
-
         ///<summary>this is not null when a user has requested to change email, but has not yet confirmed the new email address</summary>
         [Display(Name ="Pending Email")]
         public string PendingEmail { get; set; }

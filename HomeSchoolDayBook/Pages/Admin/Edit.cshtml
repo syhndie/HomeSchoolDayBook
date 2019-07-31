@@ -1,14 +1,66 @@
 ﻿@page
 @model HomeSchoolDayBook.Pages.Admin.EditModel
 @{
-    ViewData["Title"] = "Edit";
+ViewData["Title"] = "Edit";
 }
 
-<h2>@ViewData["Title"]</h2>
-
-<hr />
-
-<p>
-    @Html.DisplayFor(model => model.UserToEdit.Email)
-</p>
+<div class="row">
+    <div class="col-xs-12">
+        <h2>@ViewData["Title"]</h2>
+    </div>
+</div>
+<div class="row">
+    <hr />
+</div>
+<form method="post">
+    <div class="row">
+        <div asp-validation-summary="ModelOnly" class="text-danger">
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-xs-4">
+            <label>
+                @Html.CheckBoxFor(model => model.EmailConfirmed)
+                @Html.DisplayNameFor(model => model.EmailConfirmed)
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-sm-6 col-md-4">
+            <label asp-for="Email" class="control-label"></label>
+            <input asp-for="Email" class="form-control" autofocus />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-xs-7 col-sm-3 col-md-2">
+            <label asp-for="EmailConfirmsCount" class="control-label"></label>
+            <input type="text" asp-for="EmailConfirmsCount" class="form-control" />
+            <span asp-validation-for="EmailConfirmsCount" class="text-danger"></span>
+        </div>
+        <div class="form-group col-xs-7 col-sm-3 col-md-2">
+            <label asp-for="ForgotPasswordEmailCount" class="control-label"></label>
+            <input type="text" asp-for="ForgotPasswordEmailCount" class="form-control" />
+            <span asp-validation-for="ForgotPasswordEmailCount" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-sm-6 col-md-4">
+            <label asp-for="PendingEmail" class="control-label"></label>
+            <input asp-for="PendingEmail" class="form-control" />
+            <span asp-validation-for="PendingEmail" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-sm-6 col-md-4">
+            <label asp-for="AccountCreatedTimeStamp" class="control-label"></label>
+            <input asp-for="AccountCreatedTimeStamp" class="form-control" disabled />
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-xs-6">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+</form>
 

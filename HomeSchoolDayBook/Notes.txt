@@ -13,3 +13,6 @@ add Admin pages
 what happens when you remove subjects from an entry that had a grade for that subject (or student)?
 	the grade is deleted from the database 
 	should there be some kind of warning that this will happen?
+
+need to track and limit how many email address confirmation emails can be sent when changing to a new email address
+	handle this in the same way as initial email confirmation is handled on user registration
