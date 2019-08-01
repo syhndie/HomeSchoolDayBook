@@ -20,46 +20,47 @@ ViewData["Title"] = "Edit";
     <div class="row">
         <div class="form-group col-xs-4">
             <label>
-                @Html.CheckBoxFor(model => model.EmailConfirmed)
-                @Html.DisplayNameFor(model => model.EmailConfirmed)
+                @Html.CheckBoxFor(model => model.EditUser.EmailConfirmed)
+                @Html.DisplayNameFor(model => model.EditUser.EmailConfirmed)
             </label>
         </div>
     </div>
     <div class="row">
         <div class="form-group col-sm-6 col-md-4">
-            <label asp-for="Email" class="control-label"></label>
-            <input asp-for="Email" class="form-control" autofocus />
-            <span asp-validation-for="Email" class="text-danger"></span>
+            <label asp-for="EditUser.Email" class="control-label"></label>
+            <input asp-for="EditUser.Email" class="form-control" autofocus />
+            <span asp-validation-for="EditUser.Email" class="text-danger"></span>
         </div>
     </div>
     <div class="row">
         <div class="form-group col-xs-7 col-sm-3 col-md-2">
-            <label asp-for="EmailConfirmsCount" class="control-label"></label>
-            <input type="text" asp-for="EmailConfirmsCount" class="form-control" />
-            <span asp-validation-for="EmailConfirmsCount" class="text-danger"></span>
+            <label asp-for="EditUser.EmailConfirmsCount" class="control-label"></label>
+            <input type="text" asp-for="EditUser.EmailConfirmsCount" class="form-control" />
+            <span asp-validation-for="EditUser.EmailConfirmsCount" class="text-danger"></span>
         </div>
         <div class="form-group col-xs-7 col-sm-3 col-md-2">
-            <label asp-for="ForgotPasswordEmailCount" class="control-label"></label>
-            <input type="text" asp-for="ForgotPasswordEmailCount" class="form-control" />
-            <span asp-validation-for="ForgotPasswordEmailCount" class="text-danger"></span>
+            <label asp-for="EditUser.ForgotPasswordEmailCount" class="control-label"></label>
+            <input type="text" asp-for="EditUser.ForgotPasswordEmailCount" class="form-control" />
+            <span asp-validation-for="EditUser.ForgotPasswordEmailCount" class="text-danger"></span>
         </div>
     </div>
     <div class="row">
         <div class="form-group col-sm-6 col-md-4">
-            <label asp-for="PendingEmail" class="control-label"></label>
-            <input asp-for="PendingEmail" class="form-control" />
-            <span asp-validation-for="PendingEmail" class="text-danger"></span>
+            <label asp-for="EditUser.PendingEmail" class="control-label"></label>
+            <input asp-for="EditUser.PendingEmail" class="form-control" />
+            <span asp-validation-for="EditUser.PendingEmail" class="text-danger"></span>
         </div>
     </div>
     <div class="row">
         <div class="form-group col-sm-6 col-md-4">
-            <label asp-for="AccountCreatedTimeStamp" class="control-label"></label>
-            <input asp-for="AccountCreatedTimeStamp" class="form-control" disabled />
+            <label asp-for="EditUser.AccountCreatedTimeStamp" class="control-label"></label>
+            <input asp-for="EditUser.AccountCreatedTimeStamp" class="form-control" disabled />
         </div>
     </div>
     <div class="row">
         <div class="form-group col-xs-6">
-            <input type="submit" value="Save" class="btn btn-default" />
+            <input type="submit" value="Save" class="btn btn-default" /> |
+            <a asp-page="./Index">All Users</a>
         </div>
     </div>
 </form>
