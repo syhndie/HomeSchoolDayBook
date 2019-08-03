@@ -21,10 +21,12 @@ namespace HomeSchoolDayBook.Areas.Identity.Data
 
         /// <summary>number of emails sent to confirm email address, is reset to zero on confirmation</summary>
         [Display(Name ="Confirmation Emails Sent")]
+        [Range(0, 20)]
         public int EmailConfirmsCount { get; set; }
 
         /// <summary>number of emails sent to change password, is reset to zero on password change</summary>
         [Display(Name ="Password Reset Emails Sent")]
+        [Range(0, 20)]
         public int ForgotPasswordEmailsCount { get; set; }
     }
 }
