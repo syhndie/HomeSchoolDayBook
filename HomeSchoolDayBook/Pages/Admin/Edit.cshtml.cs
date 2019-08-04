@@ -100,8 +100,9 @@ namespace HomeSchoolDayBook.Pages.Admin
                         IdentityResult changeNameResult = await _userManager.SetUserNameAsync(userToEdit, EditUser.Email);
 
                         if (!changeEmailResult.Succeeded || !changeNameResult.Succeeded) emailKosher = false;
-                    }
-                     
+                    }                   
+
+                    userToEdit.EmailConfirmed = EditUser.EmailConfirmed;
                     userToEdit.EmailConfirmsCount = EditUser.EmailConfirmsCount;
                     userToEdit.ForgotPasswordEmailsCount = EditUser.ForgotPasswordEmailCount;
                     userToEdit.PendingEmail = EditUser.PendingEmail;
@@ -122,8 +123,6 @@ namespace HomeSchoolDayBook.Pages.Admin
                     return RedirectToPage("./Index");
                 }                
             }
-                //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                //var result = await _userManager.ConfirmEmailAsync(user, code);             
         }
     }
 }
