@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using HomeSchoolDayBook.Models;
 using HomeSchoolDayBook.Models.ViewModels;
 using HomeSchoolDayBook.Areas.Identity.Data;
@@ -12,9 +10,9 @@ using HomeSchoolDayBook.Data;
 using Microsoft.AspNetCore.Authorization;
 using static HomeSchoolDayBook.Helpers.Constants;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 using Microsoft.Extensions.Logging;
-
+using Microsoft.AspNetCore.Identity.UI.Services;
+using System.Text.Encodings.Web;
 
 namespace HomeSchoolDayBook.Pages.Admin
 {
@@ -25,19 +23,26 @@ namespace HomeSchoolDayBook.Pages.Admin
 
         private readonly ApplicationDbContext _context;
 
+        private readonly IEmailSender _emailSender;
+
         private readonly ILogger<EditModel> _logger;
 
         public EditUser EditUser { get; set; }
+        
+        public string UserToEditID { get; set; }
 
-        public EditModel(UserManager<HomeSchoolDayBookUser> userManager, ApplicationDbContext context, ILogger<EditModel> logger)
+        public EditModel(UserManager<HomeSchoolDayBookUser> userManager, ApplicationDbContext context, IEmailSender emailSender, ILogger<EditModel> logger)
         {
             _userManager = userManager;
             _context = context;
+            _emailSender = emailSender;
             _logger = logger;
         }
 
         public async Task<IActionResult> OnGetAsync(string userToEditId)
         {
+            UserToEditID = userToEditId;
+
             HomeSchoolDayBookUser userToEdit = await _userManager.Users.Where(u => u.Id == userToEditId).SingleOrDefaultAsync();
             
             if (userToEdit == null)
@@ -60,7 +65,47 @@ namespace HomeSchoolDayBook.Pages.Admin
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string userToEditId)
+        public async Task<IActionResult> OnPostResendEmailAsync(string userToEditID)
+        {
+            UserToEditID = userToEditID;
+
+            HomeSchoolDayBookUser userToEdit = await _userManager.Users.Where(u => u.Id == userToEditID).SingleOrDefaultAsync();
+
+            if (userToEdit == null)
+            {
+                DangerMessage = "User not found.";
+
+                return RedirectToPage("./Index");
+            }
+
+            if (await _userManager.IsEmailConfirmedAsync(userToEdit))
+            {
+                DangerMessage = "User email already confirmed.";
+
+                return RedirectToPage("./Index");
+            }
+
+            string code = await _userManager.GenerateEmailConfirmationTokenAsync(userToEdit);
+
+
+            //wHAT WHAT WHAT is the right way to write the path and page for this???????
+            string callbackUrl = Url.Page(
+                "/Account/ConfirmEmail",
+                pageHandler: null,
+                values: new { area = "Identity", userId = userToEdit.Id, code },
+                protocol: Request.Scheme);
+
+            await _emailSender.SendEmailAsync(
+                userToEdit.Email,
+                "Confirm your HomeSchoolDayBook account email address",
+                $"Please confirm the email you provided to HomeSchoolDayBook by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+            SuccessMessage = "Verification email sent.";
+
+            return RedirectToPage("./Index");
+        }
+      
+public async Task<IActionResult> OnPostEditAsync(string userToEditId)
         {
             if (userToEditId == null)
             {

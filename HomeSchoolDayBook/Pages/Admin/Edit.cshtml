@@ -24,6 +24,16 @@ ViewData["Title"] = "Edit";
                 @Html.DisplayNameFor(model => model.EditUser.EmailConfirmed)
             </label>
         </div>
+        @{
+            if (!Model.EditUser.EmailConfirmed)
+            {
+                <text>
+                    <div class="form-group col-xs-6">
+                        <input type="submit" value="Resend Verification Email" class="btn btn-default" asp-page-handler="ResendEmail" asp-route-UserToEditID="@Model.UserToEditID" />
+                    </div>
+                </text>
+            }
+        }
     </div>
     <div class="row">
         <div class="form-group col-sm-6 col-md-4">
@@ -58,8 +68,8 @@ ViewData["Title"] = "Edit";
         </div>
     </div>
     <div class="row">
-        <div class="form-group col-xs-6">
-            <input type="submit" value="Save" class="btn btn-default" /> |
+        <div class="form-group col-xs-6">            
+            <input type="submit" value="Save" class="btn btn-default" asp-page-handler="Edit" asp-route-UserToEditID="@Model.UserToEditID" /> |
             <a asp-page="./Index">All Users</a>
         </div>
     </div>

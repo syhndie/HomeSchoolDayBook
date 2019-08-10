@@ -4,10 +4,10 @@ check responsive design on all pages
 
 need more consistent error logging and handling
 
+enable logger
+
 add Admin pages
-	confirm email addresses manually
 	resend confirmation email
-	delete users and all users data
 	see all data
 
 what happens when you remove subjects from an entry that had a grade for that subject (or student)?
@@ -16,5 +16,3 @@ what happens when you remove subjects from an entry that had a grade for that su
 
 need to track and limit how many email address confirmation emails can be sent when changing to a new email address
 	handle this in the same way as initial email confirmation is handled on user registration
-
-on admin user edit page, set emailconfirmed to readonly/disabled, then add a button to manually confirm email if the email is not confirmed
