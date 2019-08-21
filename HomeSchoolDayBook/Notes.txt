@@ -7,7 +7,6 @@ need more consistent error logging and handling
 enable logger
 
 add Admin pages
-	resend confirmation email
 	see all data
 
 what happens when you remove subjects from an entry that had a grade for that subject (or student)?

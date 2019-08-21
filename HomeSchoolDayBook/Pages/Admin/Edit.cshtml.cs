@@ -87,8 +87,6 @@ namespace HomeSchoolDayBook.Pages.Admin
 
             string code = await _userManager.GenerateEmailConfirmationTokenAsync(userToEdit);
 
-
-            //wHAT WHAT WHAT is the right way to write the path and page for this???????
             string callbackUrl = Url.Page(
                 "/Account/ConfirmEmail",
                 pageHandler: null,
