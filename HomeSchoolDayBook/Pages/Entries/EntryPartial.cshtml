@@ -93,6 +93,8 @@
             </div>
         </div>
     </div>
+    <div class="row" id="delete-grade-warning">
+    </div>
     <div class="row">
         <div class="col-sm-6">
             <label class="control-label">Assign Grades for this Entry</label>
@@ -130,7 +132,13 @@
             gradesContainer.removeChild(gradesContainer.lastChild);
         }
 
+        var deleteGradeWarningContainer = document.getElementById("delete-grade-warning");
+        while (deleteGradeWarningContainer.hasChildNodes()) {
+            deleteGradeWarningContainer.removeChild(deleteGradeWarningContainer.lastChild);
+        }
+
         var showHeader = false;
+        
 
         for (var i = 0; i < studentCheckboxes.length; i++) {
             for (var j = 0; j < subjectCheckboxes.length; j++) {
@@ -168,8 +176,8 @@
                     pointsEarnedTextbox.className = "form-control input-grade";
                     if (savedGrades.hasOwnProperty(pointsEarnedTextboxName)) {
                         pointsEarnedTextbox.value = savedGrades[pointsEarnedTextboxName];
-                    }                     
-                   
+                    }
+
                     pointsEarnedCol.appendChild(pointsEarnedTextbox);
 
                     var pointsAvailableCol = document.createElement("div");
@@ -192,6 +200,16 @@
                     singleGradeRow.appendChild(pointsAvailableCol);
 
                     gradesContainer.appendChild(singleGradeRow);
+                }
+                else {
+                    var pointsEarnedTextboxName = "earned-student-" + studentCheckboxes[i].value + "-subject-" + subjectCheckboxes[j].value;
+                    var pointsAvailableTextboxName = "available-student-" + studentCheckboxes[i].value + "-subject-" + subjectCheckboxes[j].value;
+                    if (savedGrades.hasOwnProperty(pointsEarnedTextboxName) || savedGrades.hasOwnProperty(pointsAvailableTextboxName)) {
+                        var deleteGradeWarning = "Warning Warning Warning!!!";
+                        var deleteGradeWarningParagraph = document.createElement("p");
+                        deleteGradeWarningParagraph.innerText = deleteGradeWarning;
+                        deleteGradeWarningContainer.appendChild(deleteGradeWarningParagraph);
+                    }
                 }
             }
         }
