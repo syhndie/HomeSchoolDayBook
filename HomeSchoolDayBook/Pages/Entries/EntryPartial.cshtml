@@ -205,10 +205,13 @@
                     var pointsEarnedTextboxName = "earned-student-" + studentCheckboxes[i].value + "-subject-" + subjectCheckboxes[j].value;
                     var pointsAvailableTextboxName = "available-student-" + studentCheckboxes[i].value + "-subject-" + subjectCheckboxes[j].value;
                     if (savedGrades.hasOwnProperty(pointsEarnedTextboxName) || savedGrades.hasOwnProperty(pointsAvailableTextboxName)) {
-                        var deleteGradeWarning = "Warning Warning Warning!!!";
+                        var deleteGradeWarning = "You removed a student or subject from this entry that had at least one grade associated with it. Do not save your changes unless you want those grades to be deleted.";
+                        var deleteGradeWarningCol = document.createElement("div");
+                        deleteGradeWarningCol.className = "alert alert-danger";
                         var deleteGradeWarningParagraph = document.createElement("p");
                         deleteGradeWarningParagraph.innerText = deleteGradeWarning;
-                        deleteGradeWarningContainer.appendChild(deleteGradeWarningParagraph);
+                        deleteGradeWarningCol.appendChild(deleteGradeWarningParagraph);
+                        deleteGradeWarningContainer.appendChild(deleteGradeWarningCol);
                     }
                 }
             }
