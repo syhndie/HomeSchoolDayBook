@@ -24,6 +24,11 @@ namespace HomeSchoolDayBook.Areas.Identity.Data
         [Range(0, 20)]
         public int EmailConfirmsCount { get; set; }
 
+        /// <summary>number of emails sent to confirm email address when user is changing email address. it is reset to zero on confirmation of new address</summary>
+        [Display(Name ="New Email Address Confirmations Sent")]
+        [Range(0, 20)]
+        public int NewEmailConfirmsCount { get; set; }
+
         /// <summary>number of emails sent to change password, is reset to zero on password change</summary>
         [Display(Name ="Password Reset Emails Sent")]
         [Range(0, 20)]
