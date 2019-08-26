@@ -51,6 +51,7 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
                         IdentityResult changeEmailresult = await _userManager.ChangeEmailAsync(user, newEmail, changeEmailToken);
                         IdentityResult changeNameResult = await _userManager.SetUserNameAsync(user, newEmail);
                         user.PendingEmail = null;
+                        user.NewEmailConfirmsCount = 0;
                         await _userManager.UpdateAsync(user);
                     
                         if (changeEmailresult.Succeeded && changeNameResult.Succeeded)

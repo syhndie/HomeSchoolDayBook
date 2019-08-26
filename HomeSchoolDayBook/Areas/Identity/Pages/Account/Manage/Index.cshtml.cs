@@ -19,6 +19,8 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
         private readonly IEmailSender _emailSender;
         private readonly ILogger<IndexModel> _logger;
 
+        private const int maxAllowedEmails = 5;
+
         public IndexModel(
             HomeSchoolDayBook.Data.ApplicationDbContext context,
             UserManager<HomeSchoolDayBookUser> userManager,
@@ -96,61 +98,34 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
 
-                user.PendingEmail = newEmail;
-                await _userManager.UpdateAsync(user);
+                if (user.NewEmailConfirmsCount <= maxAllowedEmails)
+                {
+                    user.PendingEmail = newEmail;
+                    user.NewEmailConfirmsCount++;
+                    await _userManager.UpdateAsync(user);
 
-                var changeEmailToken = await _userManager.GenerateChangeEmailTokenAsync(user, newEmail);
+                    var changeEmailToken = await _userManager.GenerateChangeEmailTokenAsync(user, newEmail);
 
-                _logger.LogInformation("User requested email change");
+                    _logger.LogInformation("User requested email change");
 
-                var callbackUrl = Url.Page(
-                    "/Account/ConfirmChangedEmail",
-                    pageHandler: null,
-                    values: new { userID = user.Id, changeEmailToken, newEmail },
-                    protocol: Request.Scheme);
+                    var callbackUrl = Url.Page(
+                        "/Account/ConfirmChangedEmail",
+                        pageHandler: null,
+                        values: new { userID = user.Id, changeEmailToken, newEmail },
+                        protocol: Request.Scheme);
 
-                await _emailSender.SendEmailAsync(newEmail, "Confirm your HomeSchoolDayBook acount new email address.",
-                    $"Please confirm the new email you provided to HomeSchoolDayBook by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(newEmail, "Confirm your HomeSchoolDayBook acount new email address.",
+                        $"Please confirm the new email you provided to HomeSchoolDayBook by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                InfoMessage = "An email has been sent to the new address you provided." +
-                    "Please click on the link in that email to verify your new address." +
-                    "Once the new address has been verified, you may login with that address.";
-
-                SuccessMessage = "Your profile has been updated";
+                    InfoMessage = "An email has been sent to the new address you provided." +
+                        "Please click on the link in that email to verify your new address." +
+                        "Once the new address has been verified, you may login with that address.";
+                }
+                else DangerMessage = $"A maximum of {maxAllowedEmails} new email confirmation messages has been sent."+
+                        "If you are having trouble confirming your new email address, please contact cindy@homeschooldaybook.com.";
             }           
 
             await _signInManager.RefreshSignInAsync(user);
-            return RedirectToPage();
-        }
-
-        public async Task<IActionResult> OnPostSendVerificationEmailAsync()
-        {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                DangerMessage = "Unable to load user.";
-                return RedirectToPage();
-            }
-
-            var userId = await _userManager.GetUserIdAsync(user);
-            var email = await _userManager.GetEmailAsync(user);
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var callbackUrl = Url.Page(
-                "/Account/ConfirmEmail",
-                pageHandler: null,
-                values: new { userId, code },
-                protocol: Request.Scheme);
-            await _emailSender.SendEmailAsync(
-                email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-            SuccessMessage = "Verification email sent. Please check your email.";
             return RedirectToPage();
         }
     }

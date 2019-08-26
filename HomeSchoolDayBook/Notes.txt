@@ -8,7 +8,6 @@ enable logger
 
 allow Admins to see all users' data ????
 
-need to track and limit how many email address confirmation emails can be sent when changing to a new email address
-	handle this in the same way as initial email confirmation is handled on user registration
+admin can update NewEmailConfirmsCount user property
 
 add transcripts reports ????
