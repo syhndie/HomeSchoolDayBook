@@ -29,11 +29,15 @@ namespace HomeSchoolDayBook.Models.ViewModels
         [DataType(DataType.EmailAddress)]
         public string PendingEmail { get; set; }
 
+        /// <summary>number of emails sent to confirm new (pending) email address, is reset to zero on confirmation of new email</summary>
+        [Range(0, 20)]
+        public int NewEmailConfirmsCount { get; set; }
+
         public EditUser()
         {
 
         }
-        public EditUser(string email, DateTime accountCreated, bool emailConfirmed, int emailConfirmsCount, int forgotPasswordEmailsCount, string pendingEmail)
+        public EditUser(string email, DateTime accountCreated, bool emailConfirmed, int emailConfirmsCount, int forgotPasswordEmailsCount, string pendingEmail, int newEmailConfirmsCount)
         {
             Email = email;
             AccountCreatedTimeStamp = accountCreated;
@@ -41,6 +45,7 @@ namespace HomeSchoolDayBook.Models.ViewModels
             EmailConfirmsCount = emailConfirmsCount;
             ForgotPasswordEmailCount = forgotPasswordEmailsCount;
             PendingEmail = pendingEmail;
+            NewEmailConfirmsCount = newEmailConfirmsCount;
         }
     }
 }

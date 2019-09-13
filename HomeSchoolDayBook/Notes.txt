@@ -8,6 +8,6 @@ enable logger
 
 allow Admins to see all users' data ????
 
-admin can update NewEmailConfirmsCount user property
+Admin can send new confirmation email for pending/new email address
 
 add transcripts reports ????

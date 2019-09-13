@@ -59,7 +59,8 @@ namespace HomeSchoolDayBook.Pages.Admin
                 userToEdit.EmailConfirmed,
                 userToEdit.EmailConfirmsCount,
                 userToEdit.ForgotPasswordEmailsCount,
-                userToEdit.PendingEmail
+                userToEdit.PendingEmail,
+                userToEdit.NewEmailConfirmsCount
                 );
 
             return Page();
@@ -149,6 +150,7 @@ public async Task<IActionResult> OnPostEditAsync(string userToEditId)
                     userToEdit.EmailConfirmsCount = EditUser.EmailConfirmsCount;
                     userToEdit.ForgotPasswordEmailsCount = EditUser.ForgotPasswordEmailCount;
                     userToEdit.PendingEmail = EditUser.PendingEmail;
+                    userToEdit.NewEmailConfirmsCount = EditUser.NewEmailConfirmsCount;
 
                     IdentityResult updateUserResult = await _userManager.UpdateAsync(userToEdit);
                     
