@@ -137,8 +137,7 @@
             deleteGradeWarningContainer.removeChild(deleteGradeWarningContainer.lastChild);
         }
 
-        var showHeader = false;
-        
+        var showHeader = false;        
 
         for (var i = 0; i < studentCheckboxes.length; i++) {
             for (var j = 0; j < subjectCheckboxes.length; j++) {
@@ -202,16 +201,19 @@
                     gradesContainer.appendChild(singleGradeRow);
                 }
                 else {
-                    var pointsEarnedTextboxName = "earned-student-" + studentCheckboxes[i].value + "-subject-" + subjectCheckboxes[j].value;
-                    var pointsAvailableTextboxName = "available-student-" + studentCheckboxes[i].value + "-subject-" + subjectCheckboxes[j].value;
-                    if (savedGrades.hasOwnProperty(pointsEarnedTextboxName) || savedGrades.hasOwnProperty(pointsAvailableTextboxName)) {
-                        var deleteGradeWarning = "You removed a student or subject from this entry that had at least one grade associated with it. Do not save your changes unless you want those grades to be deleted.";
-                        var deleteGradeWarningCol = document.createElement("div");
-                        deleteGradeWarningCol.className = "alert alert-danger";
-                        var deleteGradeWarningParagraph = document.createElement("p");
-                        deleteGradeWarningParagraph.innerText = deleteGradeWarning;
-                        deleteGradeWarningCol.appendChild(deleteGradeWarningParagraph);
-                        deleteGradeWarningContainer.appendChild(deleteGradeWarningCol);
+                    if (!deleteGradeWarningContainer.hasChildNodes()) {
+                        var pointsEarnedTextboxName = "earned-student-" + studentCheckboxes[i].value + "-subject-" + subjectCheckboxes[j].value;
+                        var pointsAvailableTextboxName = "available-student-" + studentCheckboxes[i].value + "-subject-" + subjectCheckboxes[j].value;
+
+                        if (savedGrades.hasOwnProperty(pointsEarnedTextboxName) || savedGrades.hasOwnProperty(pointsAvailableTextboxName)) {
+                            var deleteGradeWarning = "You removed a student or subject from this entry that had at least one grade associated with it. Do not save your changes unless you want those grades to be deleted.";
+                            var deleteGradeWarningCol = document.createElement("div");
+                            deleteGradeWarningCol.className = "alert alert-danger";
+                            var deleteGradeWarningParagraph = document.createElement("p");
+                            deleteGradeWarningParagraph.innerText = deleteGradeWarning;
+                            deleteGradeWarningCol.appendChild(deleteGradeWarningParagraph);
+                            deleteGradeWarningContainer.appendChild(deleteGradeWarningCol);
+                        }
                     }
                 }
             }
