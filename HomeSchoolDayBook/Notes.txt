@@ -6,8 +6,6 @@ need more consistent error logging and handling
 
 enable logger
 
-allow Admins to see all users' data ????
-
 Admin can send new confirmation email for pending/new email address
 
 add transcripts reports ????

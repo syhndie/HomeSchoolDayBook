@@ -66,7 +66,7 @@ namespace HomeSchoolDayBook.Pages.Admin
             return Page();
         }
 
-        public async Task<IActionResult> OnPostResendEmailAsync(string userToEditID)
+        public async Task<IActionResult> OnPostResendEmailConfirmAsync(string userToEditID)
         {
             UserToEditID = userToEditID;
 
@@ -103,8 +103,55 @@ namespace HomeSchoolDayBook.Pages.Admin
 
             return RedirectToPage("./Index");
         }
-      
-public async Task<IActionResult> OnPostEditAsync(string userToEditId)
+
+        public async Task<IActionResult> OnPostResendNewEmailConfirmAsync(string userToEditID)
+        {
+            UserToEditID = userToEditID;
+
+            HomeSchoolDayBookUser userToEdit = await _userManager.Users.Where(u => u.Id == userToEditID).SingleOrDefaultAsync();
+
+            if (userToEdit == null)
+            {
+                DangerMessage = "User not found.";
+
+                return RedirectToPage("./Index");
+            }
+
+            if (userToEdit.PendingEmail == null)
+            {
+                DangerMessage = "This user has no pending email address.";
+
+                return RedirectToPage();
+            }
+
+            if (_context.Users.Any(u => u.Email == userToEdit.PendingEmail))
+            {
+                DangerMessage = "The new email address already exists in the database.";
+                return RedirectToPage();
+            }
+
+            string newEmail = userToEdit.PendingEmail;
+            string changeEmailToken = await _userManager.GenerateChangeEmailTokenAsync(userToEdit, newEmail);
+
+
+            var callbackUrl = Url.Page(
+                "/Account/ConfirmChangedEmail",
+                pageHandler: null,
+                values: new { area = "Identity", userID = userToEdit.Id, changeEmailToken, newEmail },
+                protocol: Request.Scheme);
+            
+
+            await _emailSender.SendEmailAsync(
+                userToEdit.PendingEmail, 
+                "Confirm your HomeSchoolDayBook account new email address.",
+                $"Please confirm the new email you provided to HomeSchoolDayBook by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+            InfoMessage = "An email has been sent to the new address";
+
+            return RedirectToPage("./Index");
+        }
+
+        public async Task<IActionResult> OnPostEditAsync(string userToEditId)
         {
             if (userToEditId == null)
             {

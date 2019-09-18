@@ -29,7 +29,7 @@ ViewData["Title"] = "Edit";
             {
                 <text>
                     <div class="form-group col-xs-6">
-                        <input type="submit" value="Resend Verification Email" class="btn btn-default" asp-page-handler="ResendEmail" asp-route-UserToEditID="@Model.UserToEditID" />
+                        <input type="submit" value="Resend Verification Email" class="btn btn-default" asp-page-handler="ResendEmailConfirm" asp-route-UserToEditID="@Model.UserToEditID" />
                     </div>
                 </text>
             }
@@ -61,7 +61,23 @@ ViewData["Title"] = "Edit";
             <span asp-validation-for="EditUser.PendingEmail" class="text-danger"></span>
         </div>
     </div>
-        <div class="row">
+
+    @{
+        if (Model.EditUser.PendingEmail != null)
+        {
+            <text>
+                <div class="row">
+                    <div class="form-group col-xs-6">
+                        <input type="submit"
+                               value="Resend New Email Verification" 
+                               class="btn btn-default" asp-page-handler="ResendNewEmailConfirm" asp-route-UserToEditID="@Model.UserToEditID" />
+                    </div>
+                </div>
+            </text>
+        }
+    }
+
+    <div class="row">
         <div class="form-group col-xs-7 col-sm-3 col-md-2">
             <label asp-for="EditUser.NewEmailConfirmsCount" class="control-label"></label>
             <input type="text" asp-for="EditUser.NewEmailConfirmsCount" class="form-control" />
@@ -75,7 +91,7 @@ ViewData["Title"] = "Edit";
         </div>
     </div>
     <div class="row">
-        <div class="form-group col-xs-6">            
+        <div class="form-group col-xs-6">
             <input type="submit" value="Save" class="btn btn-default" asp-page-handler="Edit" asp-route-UserToEditID="@Model.UserToEditID" /> |
             <a asp-page="./Index">All Users</a>
         </div>

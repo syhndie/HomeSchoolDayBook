@@ -114,7 +114,7 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
                         values: new { userID = user.Id, changeEmailToken, newEmail },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(newEmail, "Confirm your HomeSchoolDayBook acount new email address.",
+                    await _emailSender.SendEmailAsync(newEmail, "Confirm your HomeSchoolDayBook account new email address.",
                         $"Please confirm the new email you provided to HomeSchoolDayBook by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     InfoMessage = "An email has been sent to the new address you provided." +

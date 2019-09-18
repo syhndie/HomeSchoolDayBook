@@ -79,7 +79,7 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account
                         values: new { userId = user.Id, code },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your HomeSchoolDayBook acount email address",
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your HomeSchoolDayBook account email address",
                         $"Please confirm the email you provided to HomeSchoolDayBook by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     user.EmailConfirmsCount++;
