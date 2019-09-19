@@ -1,11 +1,22 @@
-﻿FIX COOKIE POLICY - are cookies being used when the user has not yet accepted cookies?
+﻿talk to Matt??? - when adding a new entry, if you type in some grades, then add or remove a student or subject, it clears the grades you entered
 
-check responsive design on all pages
+entries in brief report has overlapping columns on small sized screens and on printing
+
+grades for individual entries page has a horizontal scroll bar on small sized screens
+
+sometimes subject grades and student grades has a horizontal scroll bar on small-sized screens
+	this seems to be when you navigate to the page from the individual entries page, and you are on a small screen before you navigate
+
+tables on student grades and suject grades pages say "entries" in some places rather than "grades"
+
+need to order by entryid on data downloads (entries and grades)
+
+need to clearly state that entry download does not include grades
+
+are cookies being used when the user has not yet accepted cookies?
 
 need more consistent error logging and handling
 
-enable logger
-
-Admin can send new confirmation email for pending/new email address
+enable logger ????
 
 add transcripts reports ????

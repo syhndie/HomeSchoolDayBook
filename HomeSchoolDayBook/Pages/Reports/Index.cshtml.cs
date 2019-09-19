@@ -43,7 +43,7 @@ namespace HomeSchoolDayBook.Pages.Reports
         {
             string userId = _userManager.GetUserId(User);
 
-            FromDate = DateTime.Today.AddMonths(-1);
+            FromDate = DateTime.Today.AddMonths(-1).AddDays(1);
 
             ToDate = DateTime.Today;
 
