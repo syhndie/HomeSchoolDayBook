@@ -1,5 +1,6 @@
 ﻿@page
 @model HomeSchoolDayBook.Pages.Reports.EntriesInBriefModel
+
 @{
     ViewData["Title"] = "Entries in Brief";
     Layout = "~/Pages/Reports/_ReportsLayout.cshtml";
@@ -10,42 +11,46 @@
 <h4>@Html.DisplayFor(model => model.ReportStudentNames)</h4>
 
 <hr />
-
-<div class="row table-row">
-    <div class="col-xs-1">
-        @Html.DisplayNameFor(model => model.EntriesInBriefVMs[0].Date)
-    </div>
-    <div class="col-xs-5">
-        @Html.DisplayNameFor(model => model.EntriesInBriefVMs[0].Title)
-    </div>
-    <div class="col-xs-3">
-        @Html.DisplayNameFor(model => model.EntriesInBriefVMs[0].StudentNames)
-    </div>
-    <div class="col-xs-3">
-        @Html.DisplayNameFor(model => model.EntriesInBriefVMs[0].SubjectNames)
-    </div>
-</div>
-
-@foreach (var entry in Model.EntriesInBriefVMs)
-{
-    <div class="row table-row">
-        <div class="col-xs-1">
-            @Html.DisplayFor(modelItem => entry.Date)
-        </div>
-        <div class="col-xs-5">
-            @Html.DisplayFor(modelItem => entry.Title)
-        </div>
-        <div class="col-xs-3">
-            @foreach (string studentName in entry.StudentNames)
-            {
-                @Html.DisplayFor(viewmodeltem => studentName) <br />
-            }
-        </div>
-        <div class="col-xs-3">
-            @foreach (string subjectName in entry.SubjectNames)
-            {
-                @Html.DisplayFor(viewmodelItem => subjectName) <br />
-            }
-        </div>
-    </div>
-}
+<table class="table" id="entrytable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EntriesInBriefVMs[0].Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EntriesInBriefVMs[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EntriesInBriefVMs[0].StudentNames)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EntriesInBriefVMs[0].SubjectNames)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var entry in Model.EntriesInBriefVMs)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => entry.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => entry.Title)
+                </td>
+                <td>
+                    @foreach (string studentName in entry.StudentNames)
+                    {
+                        @Html.DisplayFor(viewmodeltem => studentName) <br />
+                    }
+                </td>
+                <td>
+                    @foreach (string subjectName in entry.SubjectNames)
+                    {
+                        @Html.DisplayFor(viewmodelItem => subjectName) <br />
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

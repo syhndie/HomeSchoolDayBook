@@ -40,7 +40,7 @@ namespace HomeSchoolDayBook.Pages.Entries
         {
             string userId = _userManager.GetUserId(User);
 
-            if (fromDate == null) FromDate = DateTime.Today.AddMonths(-1);
+            if (fromDate == null) FromDate = DateTime.Today.AddMonths(-1).AddDays(1);
 
             if (toDate == null) ToDate = DateTime.Today;
 
