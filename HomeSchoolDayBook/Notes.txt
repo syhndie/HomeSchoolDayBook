@@ -1,8 +1,14 @@
-﻿talk to Matt??? - when adding a new entry, if you type in some grades, then add or remove a student or subject, it clears the grades you entered
+﻿In the entry model, the upper range for hours is 24, and the upper range for minutes is 1,440. This seemed a logical upper limit, but if a user 
+enters over half that in EACH field (hours and minutes) then on entry edit, it is invalid, because the program converts the minutes into hours
+and adds them to the entered hours, which is too many
+	
+home page looks terrible on small screens - need to get rid of pic on smalls?
 
-entries in brief report has overlapping columns on small sized screens and on printing
-
-grades for individual entries page has a horizontal scroll bar on small sized screens
+form fields all messed up and horizontal scroll bars on small screens for
+	entries page
+	subject grades page
+	student grades page
+	grades for individual entries page
 
 sometimes subject grades and student grades has a horizontal scroll bar on small-sized screens
 	this seems to be when you navigate to the page from the individual entries page, and you are on a small screen before you navigate
@@ -20,3 +26,6 @@ need more consistent error logging and handling
 enable logger ????
 
 add transcripts reports ????
+
+when adding a new entry, if you type in some grades, then add or remove a student or subject, it clears the grades you entered
+this can be changed, but wait and see if it seems important enough to pursue

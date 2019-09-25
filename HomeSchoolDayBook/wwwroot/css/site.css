@@ -21,6 +21,12 @@ hr {
     page-break-inside: avoid;
 }
 
+img {
+    width: 100%;
+    max-width: 900px;
+    height: auto;
+}
+
 /*@page {
     margin: 10cm;
 }*/
