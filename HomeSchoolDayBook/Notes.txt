@@ -3,7 +3,6 @@ enters over half that in EACH field (hours and minutes) then on entry edit, it i
 and adds them to the entered hours, which is too many
 	
 form fields all messed up and horizontal scroll bars on small screens for
-	entries page
 	subject grades page
 	student grades page
 	grades for individual entries page
