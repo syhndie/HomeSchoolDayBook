@@ -2,8 +2,6 @@
 enters over half that in EACH field (hours and minutes) then on entry edit, it is invalid, because the program converts the minutes into hours
 and adds them to the entered hours, which is too many
 	
-home page looks terrible on small screens - need to get rid of pic on smalls?
-
 form fields all messed up and horizontal scroll bars on small screens for
 	entries page
 	subject grades page
