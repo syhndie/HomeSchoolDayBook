@@ -3,6 +3,7 @@
 @section CSS {
     <link rel="stylesheet" href="~/lib/datepicker/bootstrap-datepicker-standalone.css" />
     <link rel="stylesheet" href="~/lib/datatables/datatables.min.css" />
+    <link rel="stylesheet" href="~/lib/datatables/datatables.css" />
 }
 
 @{
@@ -21,12 +22,14 @@
             </select>
             <span asp-validation-for="StudentID" class="text-danger"></span>
         </div>
-        <div class="form-group col-md-2 col-sm-3 col-xs-5">
+    </div>
+    <div class="row">
+        <div class="form-group col-md-2 col-sm-3 col-xs-4">
             <label asp-for="FromDate" class="control-label"></label>
             <input asp-for="FromDate" type="text" class="form-control" />
             <span asp-validation-for="FromDate" class="text-danger"></span>
         </div>
-        <div class="form-group  col-md-2 col-sm-3 col-xs-5">
+        <div class="form-group  col-md-2 col-sm-3 col-xs-4">
             <label asp-for="ToDate" class="control-label"></label>
             <input asp-for="ToDate" type="text" class="form-control" />
             <span asp-validation-for="ToDate" class="text-danger"></span>
@@ -72,11 +75,11 @@
                         @Html.DisplayFor(modelItem => item.PercentEarned)
                     </td>
                     <td>
-                        <a asp-page="./GradesForEntries" 
-                        asp-route-StudentID="@Model.StudentID" 
-                        asp-route-SubjectID="@item.Subject.ID" 
-                        asp-route-FromDate="@Model.FromDate.ToShortDateString()" 
-                        asp-route-ToDate="@Model.ToDate.ToShortDateString()">View Individual Entries</a>
+                        <a asp-page="./GradesForEntries"
+                           asp-route-StudentID="@Model.StudentID"
+                           asp-route-SubjectID="@item.Subject.ID"
+                           asp-route-FromDate="@Model.FromDate.ToShortDateString()"
+                           asp-route-ToDate="@Model.ToDate.ToShortDateString()">View Individual Entries</a>
                     </td>
                 </tr>
             }
@@ -104,14 +107,15 @@
                 },
                 "order": [[0, "asc"]],
                 "columnDefs": [
-                    { className: "text-right", "targets": [1,2,3,4]
-                    }], 
+                    {
+                        className: "text-right", "targets": [1, 2, 3, 4]
+                    }],
                 columns: [
                     { data: "name" },
                     { data: "earned" },
                     { data: "available" },
                     { data: "percent" },
-                    { data: "links", "orderable": false}
+                    { data: "links", "orderable": false }
                 ]
             });
         });
