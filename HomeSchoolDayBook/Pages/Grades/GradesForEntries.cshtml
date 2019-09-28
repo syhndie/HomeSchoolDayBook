@@ -3,6 +3,7 @@
 @section CSS {
     <link rel="stylesheet" href="~/lib/datepicker/bootstrap-datepicker-standalone.css" />
     <link rel="stylesheet" href="~/lib/datatables/datatables.min.css" />
+    <link rel="stylesheet" href="~/lib/datatables/datatables.css" />
 }
 
 @{
@@ -11,8 +12,8 @@
 
 <h2>@ViewData["Title"]</h2>
 <hr />
-<form method="get" class="sidemargins" id="grade-listing-form">
-<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<form method="get" id="grade-listing-form">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row">
         <div class="form-group col-md-2 col-sm-3 col-xs-5">
             <label asp-for="StudentID" class="control-label"></label>
@@ -21,6 +22,8 @@
             </select>
             <span asp-validation-for="StudentID" class="text-danger"></span>
         </div>
+    @*</div>
+    <div class="row">*@
         <div class="form-group col-md-2 col-sm-3 col-xs-5">
             <label asp-for="SubjectID" class=" control-label"></label>
             <select asp-for="SubjectID" asp-items="Model.SubjectOptions" class="form-control">
@@ -28,44 +31,48 @@
             </select>
             <span asp-validation-for="SubjectID" class="text-danger"></span>
         </div>
-        <div class="form-group col-md-2 col-sm-3 col-xs-5">
+    </div>
+    <div class="row">
+        <div class="form-group col-md-2 col-sm-3 col-xs-4">
             <label asp-for="FromDate" class="control-label"></label>
             <input asp-for="FromDate" type="text" class="form-control" />
             <span asp-validation-for="FromDate" class="text-danger"></span>
         </div>
-        <div class="form-group col-md-2 col-sm-3 col-xs-5">
+        <div class="form-group col-md-2 col-sm-3 col-xs-4">
             <label asp-for="ToDate" class="control-label"></label>
             <input asp-for="ToDate" type="text" class="form-control" />
             <span asp-validation-for="ToDate" class="text-danger"></span>
-        </div> 
+        </div>
         <div class="form-group col-xs-2 bottom-aligned">
-            <input type="submit" value="Get Grade Listing" class="btn btn-default" /> 
+            <input type="submit" value="Get Grade Listing" class="btn btn-default" />
         </div>
     </div>
 </form>
 
 <a asp-page="./StudentGradeSummary"
-    asp-route-StudentID="@Model.StudentID" 
-    asp-route-FromDate="@Model.FromDate.ToShortDateString()" 
-    asp-route-ToDate="@Model.ToDate.ToShortDateString()">View All Grades for @Model.StudentName</a>
+   asp-route-StudentID="@Model.StudentID"
+   asp-route-FromDate="@Model.FromDate.ToShortDateString()"
+   asp-route-ToDate="@Model.ToDate.ToShortDateString()">View All Grades for @Model.StudentName</a>
 <br />
 <a asp-page="./SubjectGradeSummary"
-    asp-route-SubjectID="@Model.SubjectID" 
-    asp-route-FromDate="@Model.FromDate.ToShortDateString()" 
-    asp-route-ToDate="@Model.ToDate.ToShortDateString()">View All Grades for @Model.SubjectName</a>
+   asp-route-SubjectID="@Model.SubjectID"
+   asp-route-FromDate="@Model.FromDate.ToShortDateString()"
+   asp-route-ToDate="@Model.ToDate.ToShortDateString()">View All Grades for @Model.SubjectName</a>
 
 <hr />
 @{
     if (Model.Grades.Count > 0)
-        {
-            <h5><strong>
-                Overall Grade: 
-                @Html.DisplayFor(model => model.OverallPointsEarned) / 
+    {
+        <h5>
+            <strong>
+                Overall Grade:
+                @Html.DisplayFor(model => model.OverallPointsEarned) /
                 @Html.DisplayFor(model => model.OverallPointsAvailable) =
                 @Html.DisplayFor(model => model.OverallPercentEarned)
-            </strong></h5>
-            <hr />
-        }
+            </strong>
+        </h5>
+        <hr />
+    }
 }
 <div>
     <table class="table" id="gradelisting">
@@ -120,7 +127,7 @@
     </table>
 </div>
 @section Scripts {
-    @{  await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script src="~/lib/datepicker/bootstrap-datepicker.js"></script>
     <script src="~/lib/datatables/datatables.min.js"></script>
