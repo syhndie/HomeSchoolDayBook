@@ -1,20 +1,6 @@
 ﻿In the entry model, the upper range for hours is 24, and the upper range for minutes is 1,440. This seemed a logical upper limit, but if a user 
 enters over half that in EACH field (hours and minutes) then on entry edit, it is invalid, because the program converts the minutes into hours
 and adds them to the entered hours, which is too many
-	
-form fields all messed up and horizontal scroll bars on small screens for
-	grades for individual entries page
-
-sometimes subject grades and student grades has a horizontal scroll bar on small-sized screens
-	this seems to be when you navigate to the page from the individual entries page, and you are on a small screen before you navigate
-
-tables on student grades and suject grades pages say "entries" in some places rather than "grades"
-
-need to order by entryid on data downloads (entries and grades)
-
-need to clearly state that entry download does not include grades
-
-are cookies being used when the user has not yet accepted cookies?
 
 need more consistent error logging and handling
 
