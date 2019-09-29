@@ -19,10 +19,10 @@ namespace HomeSchoolDayBook.Models.ViewModels
 
         public string Description { get; set; }
 
-        [Range(0, 24, ErrorMessage = "Hours must be positive and less than 24.")]
+        [Range(0, int.MaxValue, ErrorMessage = "Hours must be positive.")]
         public int? Hours { get; set; }
 
-        [Range(0, 1440, ErrorMessage = "Minutes must be positive and less than 1440")]
+        [Range(0, int.MaxValue, ErrorMessage = "Minutes must be positive.")]
         public int? Minutes { get; set; }
 
         [Display(Name = "Subjects")]
