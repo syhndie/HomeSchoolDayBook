@@ -49,7 +49,7 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
 
         public void OnGet()
         {
-            FromDate = DateTime.Today.AddMonths(-1);
+            FromDate = DateTime.Today.AddMonths(-1).AddDays(1);
             ToDate = DateTime.Today;
         }
 
@@ -78,6 +78,7 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
                .Include(ent => ent.SubjectAssignments)
                    .ThenInclude(sa => sa.Subject)
                .AsNoTracking()
+               .OrderBy(ent => ent.ID)
                .ToListAsync();
 
             var stringWriter = new StringWriter();
@@ -154,6 +155,9 @@ namespace HomeSchoolDayBook.Areas.Identity.Pages.Account.Manage
                .Include(gr => gr.Student)
                .Include(gr => gr.Subject)
                .AsNoTracking()
+               .OrderBy(gr => gr.EntryID)
+               .ThenBy(gr => gr.Student.Name)
+               .ThenBy(gr => gr.Subject.Name)
                .ToListAsync();
 
             var stringWriter = new StringWriter();
